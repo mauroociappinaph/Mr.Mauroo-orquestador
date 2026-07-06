@@ -54,7 +54,7 @@ func TestMergeAgents(t *testing.T) {
 				ModelAssignments:       existingAssignments,
 				ClaudeModelAssignments: existingClaude,
 				KiroModelAssignments:   existingKiro,
-				Persona:                "gentleman",
+				Persona:                "mr-mauroo",
 			},
 			newAgents: []string{"pi"},
 			wantIDs:   []string{"opencode", "pi"},
@@ -106,12 +106,12 @@ func TestWriteAndRead(t *testing.T) {
 }
 
 // TestPersonaRoundTrip verifies the Persona field round-trips through
-// Write/Read. Both `gentle-ai install` (CLI in run.go) and the TUI app
+// Write/Read. Both `mr-mauroo-ai install` (CLI in run.go) and the TUI app
 // (internal/app/app.go) write this field after a successful install so that
-// `gentle-ai sync` regenerates the persona the user actually selected — not a
+// `mr-mauroo-ai sync` regenerates the persona the user actually selected — not a
 // hard-coded default.
 func TestPersonaRoundTrip(t *testing.T) {
-	for _, persona := range []string{"gentleman", "neutral", "custom"} {
+	for _, persona := range []string{"mr-mauroo", "neutral", "custom"} {
 		t.Run(persona, func(t *testing.T) {
 			home := t.TempDir()
 			if err := Write(home, InstallState{
@@ -148,7 +148,7 @@ func TestPersonaBackwardCompat(t *testing.T) {
 	}
 }
 
-// TestWriteCreatesStateDir verifies that Write creates the .gentle-ai directory
+// TestWriteCreatesStateDir verifies that Write creates the .mr-mauroo-ai directory
 // when it does not exist yet.
 func TestWriteCreatesStateDir(t *testing.T) {
 	home := t.TempDir()
@@ -166,7 +166,7 @@ func TestWriteCreatesStateDir(t *testing.T) {
 func TestWriteStateFilePath(t *testing.T) {
 	home := t.TempDir()
 	got := Path(home)
-	want := filepath.Join(home, ".gentle-ai", "state.json")
+	want := filepath.Join(home, ".mr-mauroo-ai", "state.json")
 	if got != want {
 		t.Errorf("Path() = %q, want %q", got, want)
 	}

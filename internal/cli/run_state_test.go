@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
 )
 
 func TestMergeExplicitAgentInstallStatePreservesExistingAssignmentsWhenFreshStateIsEmpty(t *testing.T) {
@@ -36,7 +36,7 @@ func TestMergeExplicitAgentInstallStatePreservesExistingAssignmentsWhenFreshStat
 		t.Fatalf("state.Write: %v", err)
 	}
 
-	merged, ok := mergeExplicitAgentInstallState(home, state.InstallState{InstalledAgents: []string{"codex"}, Persona: "gentleman"}, []string{"codex"})
+	merged, ok := mergeExplicitAgentInstallState(home, state.InstallState{InstalledAgents: []string{"codex"}, Persona: "mr-mauroo"}, []string{"codex"})
 	if !ok {
 		t.Fatal("mergeExplicitAgentInstallState ok = false, want true")
 	}
@@ -88,7 +88,7 @@ func TestMergeExplicitAgentInstallStatePreservesFreshAssignments(t *testing.T) {
 		CodexPhaseModelAssignments: map[string]string{
 			"sdd-apply": "gpt-5.4",
 		},
-		Persona: "gentleman",
+		Persona: "mr-mauroo",
 	}
 
 	merged, ok := mergeExplicitAgentInstallState(home, fresh, []string{"codex"})
@@ -107,8 +107,8 @@ func TestMergeExplicitAgentInstallStatePreservesFreshAssignments(t *testing.T) {
 	if merged.CodexPhaseModelAssignments["sdd-apply"] != "gpt-5.4" {
 		t.Fatalf("CodexPhaseModelAssignments not preserved: %#v", merged.CodexPhaseModelAssignments)
 	}
-	if merged.Persona != "gentleman" {
-		t.Fatalf("Persona = %q, want gentleman", merged.Persona)
+	if merged.Persona != "mr-mauroo" {
+		t.Fatalf("Persona = %q, want mr-mauroo", merged.Persona)
 	}
 }
 

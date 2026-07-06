@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/assets"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/opencode"
 )
 
 func TestResolveProfileStrategy_ExplicitWins(t *testing.T) {
@@ -828,7 +828,7 @@ func TestGenerateProfileOverlay_OrchestratorPromptSuffixed(t *testing.T) {
 	}
 
 	for _, wanted := range []string{
-		"Gentle AI",
+		"Mr.Mauroo AI",
 		"| orchestrator | anthropic/claude-haiku-3-5 |",
 	} {
 		if !strings.Contains(prompt, wanted) {

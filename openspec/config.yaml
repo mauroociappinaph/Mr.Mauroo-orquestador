@@ -27,9 +27,9 @@ rules:
     - Use hierarchical numbering (1.1, 1.2, etc.)
     - Keep tasks small enough to complete in one session
   apply:
-    - Load gentleman-bubbletea skill for TUI work (internal/tui/)
-    - Load gentleman-installer skill for installation steps
-    - Load gentleman-system skill for OS/system detection
+    - Load mr-mauroo-bubbletea skill for TUI work (internal/tui/)
+    - Load mr-mauroo-installer skill for installation steps
+    - Load mr-mauroo-system skill for OS/system detection
     - Load go-testing skill when writing tests
     - Follow existing code patterns in internal/ packages
   verify:
@@ -41,7 +41,7 @@ rules:
 
 testing:
   strict_tdd: true
-  detected: "2026-05-05"
+  detected: "2026-07-01"
 
   runner:
     command: "go test ./..."

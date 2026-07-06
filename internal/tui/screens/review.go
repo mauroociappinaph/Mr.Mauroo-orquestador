@@ -3,9 +3,9 @@ package screens
 import (
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/planner"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/styles"
 )
 
 func ReviewOptions() []string {
@@ -89,8 +89,8 @@ func reviewPersonaLabel(persona model.PersonaID) string {
 	switch persona {
 	case model.PersonaCustom:
 		return "keep existing persona unmanaged"
-	case model.PersonaGentlemanNeutralArtifacts:
-		return "Gentleman conversation, neutral artifacts"
+	case model.PersonaMrMaurooNeutralArtifacts:
+		return "Mr.Mauroo conversation, neutral artifacts"
 	default:
 		return string(persona)
 	}

@@ -16,7 +16,7 @@ This is a prompt-and-test change centered on `internal/assets`, `internal/compon
 
 **Rationale.** The observed leak is content-driven (`elegí`, `Respondé`, `¿Querés ajustar algo o continuamos?`) and can reappear through any install/sync path that reads stale embedded text. Making the contract an embedded-asset invariant keeps the source of truth where installation and sync already read from.
 
-**Alternatives considered.** Runtime filtering of generated prompts was rejected because it would be fragile, harder to explain, and could accidentally remove legitimate Gentleman direct-conversation wording.
+**Alternatives considered.** Runtime filtering of generated prompts was rejected because it would be fragile, harder to explain, and could accidentally remove legitimate Mr.Mauroo direct-conversation wording.
 
 ### ADR 2 — Keep persona voice, artifact language, and comment language as separate domains
 
@@ -24,11 +24,11 @@ This is a prompt-and-test change centered on `internal/assets`, `internal/compon
 
 | Domain | Source of behavior | Default |
 |--------|--------------------|---------|
-| Direct conversation | Active persona | Gentleman may use Rioplatense Spanish; neutral does not. |
+| Direct conversation | Active persona | Mr.Mauroo may use Rioplatense Spanish; neutral does not. |
 | Generated technical artifacts | Artifact contract | English, regardless of persona or conversation language. |
 | Public/contextual comments | Target context plus explicit user override | Match target context language; Spanish is neutral/professional unless regional signal exists. |
 
-**Rationale.** This prevents the Gentleman persona from being weakened while stopping it from crossing the artifact boundary. It also avoids over-correcting comments into always-English technical artifacts.
+**Rationale.** This prevents the Mr.Mauroo persona from being weakened while stopping it from crossing the artifact boundary. It also avoids over-correcting comments into always-English technical artifacts.
 
 ### ADR 3 — Normalize SDD assets broadly, not just OpenCode
 
@@ -38,9 +38,9 @@ This is a prompt-and-test change centered on `internal/assets`, `internal/compon
 
 ### ADR 4 — Use scoped guards with allowlists instead of a repository-wide word ban
 
-**Decision.** Ban known leak terms and regional imperatives only in persona-agnostic SDD/comment surfaces. Allow intentional Rioplatense/voseo wording in Gentleman direct-conversation persona or output-style assets and in explicit regression documentation that names prohibited leaks.
+**Decision.** Ban known leak terms and regional imperatives only in persona-agnostic SDD/comment surfaces. Allow intentional Rioplatense/voseo wording in Mr.Mauroo direct-conversation persona or output-style assets and in explicit regression documentation that names prohibited leaks.
 
-**Rationale.** A repository-wide ban would produce false positives and could erase valid persona documentation. Scoped guards protect the contract without muting Gentleman.
+**Rationale.** A repository-wide ban would produce false positives and could erase valid persona documentation. Scoped guards protect the contract without muting Mr.Mauroo.
 
 ### ADR 5 — Root and embedded `comment-writer` should share required rules, not necessarily byte-for-byte content
 
@@ -69,7 +69,7 @@ Byte-for-byte equality is optional and should only be used if current examples/f
 
 ```mermaid
 sequenceDiagram
-    participant CLI as gentle-ai install
+    participant CLI as mr-mauroo-ai install
     participant Assets as internal/assets embed FS
     participant SDD as internal/components/sdd.Inject
     participant Skills as internal/components/skills.Inject
@@ -89,7 +89,7 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant CLI as gentle-ai sync
+    participant CLI as mr-mauroo-ai sync
     participant Assets as Updated embed FS
     participant SDD as sdd.Inject
     participant Skills as skills.Inject
@@ -136,7 +136,7 @@ sequenceDiagram
 | `internal/assets/skills/_shared/*` and `internal/assets/skills/sdd-*/SKILL.md` | Candidate shared location for phase artifact-language reminders if needed, especially for shared prompt generation. |
 | `internal/components/sdd` | Tests for asset selection, OpenCode/Kilocode overlay inlining, shared prompt files, preserved prompt migration, install/sync output inspection. Runtime code changes only if existing prompt construction cannot forward the contract from assets alone. |
 | `internal/components/skills` | Tests that installed `comment-writer` comes from corrected embedded source and does not force regional Spanish. |
-| `internal/components/persona` | Tests/wording to preserve Gentleman direct conversation while proving persona does not define artifact language. |
+| `internal/components/persona` | Tests/wording to preserve Mr.Mauroo direct conversation while proving persona does not define artifact language. |
 | `internal/cli` | Install/sync integration tests covering stale content refresh and multi-component propagation. |
 | `internal/agents` / `internal/model` | No model/API change expected. Used for coverage enumeration and fallback checks. |
 | `testdata/golden` | Mechanical golden updates for generated prompt/skill outputs touched by install/sync tests. |
@@ -197,7 +197,7 @@ Follow `openspec/config.yaml` strict TDD: write failing tests first, then edit a
 1. Add asset-level guard tests in `internal/assets/assets_test.go`:
    - all persona-agnostic SDD orchestrator assets include the artifact/comment contract,
    - known leak terms are absent from persona-agnostic SDD assets,
-   - Gentleman persona/output-style assets remain allowed to mention Rioplatense/voseo for direct conversation.
+   - Mr.Mauroo persona/output-style assets remain allowed to mention Rioplatense/voseo for direct conversation.
 2. Add `comment-writer` source consistency tests for root and embedded skill files.
 3. Add OpenCode/Kilocode install tests proving neutral persona + SDD + skills output contains no banned leak terms and installs corrected `comment-writer`.
 4. Add sync tests with stale content pre-seeded in prompt/skill files.

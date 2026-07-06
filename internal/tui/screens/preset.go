@@ -3,13 +3,13 @@ package screens
 import (
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/styles"
 )
 
 func PresetOptions() []model.PresetID {
 	return []model.PresetID{
-		model.PresetFullGentleman,
+		model.PresetFullMrMauroo,
 		model.PresetEcosystemOnly,
 		model.PresetMinimal,
 		model.PresetCustom,
@@ -19,14 +19,14 @@ func PresetOptions() []model.PresetID {
 var presetDescriptions = map[model.PresetID]string{
 	model.PresetMinimal:       "Just Engram persistent memory across sessions",
 	model.PresetEcosystemOnly: "Memory + SDD + skills + docs + GGA",
-	model.PresetFullGentleman: "Dev Stack + security gates, theme, and logo",
+	model.PresetFullMrMauroo: "Dev Stack + security gates, theme, and logo",
 	model.PresetCustom:        "Choose components and skills manually; keep existing persona/settings unmanaged",
 }
 
 var presetLabels = map[model.PresetID]string{
 	model.PresetMinimal:       "Memory Only",
 	model.PresetEcosystemOnly: "Dev Stack",
-	model.PresetFullGentleman: "Dev Stack + Polish",
+	model.PresetFullMrMauroo: "Dev Stack + Polish",
 	model.PresetCustom:        "Custom",
 }
 

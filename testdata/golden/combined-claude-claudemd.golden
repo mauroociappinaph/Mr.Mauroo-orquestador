@@ -1,4 +1,4 @@
-<!-- gentle-ai:persona -->
+<!-- mr-mauroo-ai:persona -->
 ## Rules
 
 - Never add "Co-Authored-By" or AI attribution to commits. Use conventional commits only.
@@ -75,9 +75,9 @@ The `<available_skills>` block in your system prompt is authoritative — it lis
 **Self-check BEFORE every response**: does this request match any skill in `<available_skills>`? If yes, invoke it via the built-in `Skill` tool BEFORE generating your reply. This is a blocking requirement, not optional context. Skipping it is a discipline failure.
 
 Multiple skills can apply at once. Match by file context (extensions, paths) and task context (what the user is asking for).
-<!-- /gentle-ai:persona -->
+<!-- /mr-mauroo-ai:persona -->
 
-<!-- gentle-ai:sdd-orchestrator -->
+<!-- mr-mauroo-ai:sdd-orchestrator -->
 # Agent Teams Lite — Orchestrator Instructions
 
 Bind this to the Claude Code orchestrator rule only. Do NOT apply it to executor phase agents such as `sdd-apply` or `sdd-verify`.
@@ -163,20 +163,20 @@ The detailed SDD procedure is intentionally NOT embedded in this always-on paren
 `~/.claude/skills/_shared/sdd-orchestrator-workflow.md`
 
 That lazy surface contains the SDD commands, init/dispatcher guards, execution-mode gatekeeper, artifact store policy, delivery strategy, dependency graph, review workload guard, model assignments, sub-agent launch protocol, context protocol, topic keys, and recovery rules.
-<!-- /gentle-ai:sdd-orchestrator -->
+<!-- /mr-mauroo-ai:sdd-orchestrator -->
 
-<!-- gentle-ai:trigger-rules -->
+<!-- mr-mauroo-ai:trigger-rules -->
 ## Agent Trigger Rules
 
-These are organic recommendations, not enforced checkpoints. gentle-ai only renders this text; the AI orchestrator decides when to act on it.
+These are organic recommendations, not enforced checkpoints. mr-mauroo-ai only renders this text; the AI orchestrator decides when to act on it.
 
 - At **pre-commit**, always, consider running `review-readability`. (everyday event → ONE cheap advisory lens (~1x); full 4R fan-out reserved for pre-pr)
 - At **pre-push**, always, consider running `review-readability`. (everyday event → ONE cheap advisory lens (~1x); 4R fan-out reserved for pre-pr on hot paths / large diffs)
 - At **pre-pr**, when the diff touches `**/auth/**`, `**/update/**`, `**/security/**`, `**/payments/**` OR when the diff exceeds 400 changed lines, **strongly recommend** running `review-risk`, `review-resilience`, `review-readability`, and `review-reliability` in parallel. (full 4R fan-out (~4x) only on hot paths (auth/update/security/payments) or diffs exceeding 400 changed lines)
 - At **post-sdd-phase**, after the design or apply phase completes, **strongly recommend** running `judgment-day`. (adversarial verification (~4 + 3*findings cost) only at high-stakes SDD phases (design and apply))
-<!-- /gentle-ai:trigger-rules -->
+<!-- /mr-mauroo-ai:trigger-rules -->
 
-<!-- gentle-ai:engram-protocol -->
+<!-- mr-mauroo-ai:engram-protocol -->
 ## Engram Persistent Memory — Protocol
 
 You have access to Engram, a persistent memory system that survives across sessions and compactions.
@@ -278,4 +278,4 @@ If you see a compaction message or "FIRST ACTION REQUIRED":
 3. Only THEN continue working
 
 Do not skip step 1. Without it, everything done before compaction is lost from memory.
-<!-- /gentle-ai:engram-protocol -->
+<!-- /mr-mauroo-ai:engram-protocol -->

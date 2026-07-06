@@ -4,14 +4,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/planner"
 )
 
 func TestRenderDependencyTreePiOnlyEngramPlanShowsComponentAndPiInstallCopy(t *testing.T) {
 	selection := model.Selection{
 		Agents:     []model.AgentID{model.AgentPi},
-		Preset:     model.PresetFullGentleman,
+		Preset:     model.PresetFullMrMauroo,
 		Components: []model.ComponentID{model.ComponentEngram},
 	}
 	plan := planner.ResolvedPlan{
@@ -46,7 +46,7 @@ func TestRenderDependencyTreePiOnlyEngramPlanShowsComponentAndPiInstallCopy(t *t
 }
 
 func TestRenderDependencyTreeGenericEmptyPlanKeepsExistingCopy(t *testing.T) {
-	selection := model.Selection{Preset: model.PresetFullGentleman}
+	selection := model.Selection{Preset: model.PresetFullMrMauroo}
 
 	out := RenderDependencyTree(planner.ResolvedPlan{}, selection, 0)
 
@@ -61,7 +61,7 @@ func TestRenderDependencyTreeGenericEmptyPlanKeepsExistingCopy(t *testing.T) {
 func TestRenderDependencyTreeMixedPiEmptyPlanShowsPiInstallCopy(t *testing.T) {
 	selection := model.Selection{
 		Agents: []model.AgentID{model.AgentPi, model.AgentOpenCode},
-		Preset: model.PresetFullGentleman,
+		Preset: model.PresetFullMrMauroo,
 	}
 	plan := planner.ResolvedPlan{Agents: selection.Agents}
 

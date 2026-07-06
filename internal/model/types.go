@@ -21,7 +21,7 @@ const (
 	AgentHermes        AgentID = "hermes"
 )
 
-// SupportTier indicates how fully an agent supports the Gentleman AI ecosystem.
+// SupportTier indicates how fully an agent supports the Mr.Mauroo AI ecosystem.
 // All current agents receive the full SDD orchestrator, skill files, MCP config,
 // and system prompt injection. The tier is kept as metadata for display purposes.
 type SupportTier string
@@ -92,17 +92,17 @@ const (
 type PersonaID string
 
 const (
-	PersonaGentleman                 PersonaID = "gentleman"
-	PersonaGentlemanNeutralArtifacts PersonaID = "gentleman-neutral-artifacts"
-	PersonaNeutral                   PersonaID = "neutral"
-	PersonaCustom                    PersonaID = "custom"
+	PersonaMrMauroo                 PersonaID = "mr-mauroo"
+	PersonaMrMaurooNeutralArtifacts PersonaID = "mr-mauroo-neutral-artifacts"
+	PersonaNeutral                  PersonaID = "neutral"
+	PersonaCustom                   PersonaID = "custom"
 )
 
 // SystemPromptStrategy defines how an agent's system prompt file is managed.
 type SystemPromptStrategy int
 
 const (
-	// StrategyMarkdownSections uses <!-- gentle-ai:ID --> markers to inject sections
+	// StrategyMarkdownSections uses <!-- mr-mauroo-ai:ID --> markers to inject sections
 	// into an existing file without clobbering user content (Claude Code CLAUDE.md).
 	StrategyMarkdownSections SystemPromptStrategy = iota
 	// StrategyFileReplace replaces the entire system prompt file (OpenCode AGENTS.md).
@@ -140,7 +140,7 @@ const (
 type PresetID string
 
 const (
-	PresetFullGentleman PresetID = "full-gentleman"
+	PresetFullMrMauroo PresetID = "full-mr-mauroo"
 	PresetEcosystemOnly PresetID = "ecosystem-only"
 	PresetMinimal       PresetID = "minimal"
 	PresetCustom        PresetID = "custom"
@@ -192,7 +192,7 @@ type Profile struct {
 
 // TriggerEvent is the closed set of lifecycle moments the orchestrator is told
 // to recognize. These are SEMANTIC moments honored by the AI orchestrator, not
-// OS-level hooks. gentle-ai never fires them.
+// OS-level hooks. mr-mauroo-ai never fires them.
 type TriggerEvent string
 
 const (
@@ -213,7 +213,7 @@ const (
 	ModeStrong   TriggerMode = "strong"
 )
 
-// TriggerWhen is a structured, NON-evaluated condition. gentle-ai renders it to
+// TriggerWhen is a structured, NON-evaluated condition. mr-mauroo-ai renders it to
 // plain instruction text; the orchestrator interprets it. The vocabulary is
 // deliberately tiny and documented so it cannot drift per agent.
 type TriggerWhen struct {

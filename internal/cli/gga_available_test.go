@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
 )
 
 // TestGGAAvailableDetectsViaLookPath verifies that ggaAvailable returns true

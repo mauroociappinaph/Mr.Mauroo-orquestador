@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/versions"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/versions"
 )
 
 func TestValidateGoForModuleInstall(t *testing.T) {
@@ -275,8 +275,8 @@ func TestGitBashPathFallsBackToBareWhenNoGit(t *testing.T) {
 
 func TestBashScriptPathWindowsUsesForwardSlashes(t *testing.T) {
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
-	got := bashScriptPath(profile, `C:\Users\jorge\AppData\Local\Temp\gentleman-guardian-angel\install.sh`)
-	want := "C:/Users/jorge/AppData/Local/Temp/gentleman-guardian-angel/install.sh"
+	got := bashScriptPath(profile, `C:\Users\jorge\AppData\Local\Temp\mr-mauroo-guardian-angel\install.sh`)
+	want := "C:/Users/jorge/AppData/Local/Temp/mr-mauroo-guardian-angel/install.sh"
 	if got != want {
 		t.Fatalf("bashScriptPath() = %q, want %q", got, want)
 	}
@@ -589,7 +589,7 @@ func TestResolveComponentInstall(t *testing.T) {
 			name:      "engram on darwin uses brew tap and install",
 			profile:   system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
 			component: model.ComponentEngram,
-			want:      CommandSequence{{"brew", "tap", "Gentleman-Programming/homebrew-tap"}, {"brew", "install", "engram"}},
+			want:      CommandSequence{{"brew", "tap", "Mr-Mauroo-Programming/homebrew-tap"}, {"brew", "install", "engram"}},
 		},
 		// Linux and Windows engram now use DownloadLatestBinary() — resolver returns error.
 		// These cases are handled by run.go's componentApplyStep directly.
@@ -615,16 +615,16 @@ func TestResolveComponentInstall(t *testing.T) {
 			name:      "gga on darwin uses brew tap and reinstall",
 			profile:   system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
 			component: model.ComponentGGA,
-			want:      CommandSequence{{"brew", "tap", "Gentleman-Programming/homebrew-tap"}, {"brew", "reinstall", "gga"}},
+			want:      CommandSequence{{"brew", "tap", "Mr-Mauroo-Programming/homebrew-tap"}, {"brew", "reinstall", "gga"}},
 		},
 		{
 			name:      "gga on ubuntu uses git clone and install.sh",
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroUbuntu, PackageManager: "apt"},
 			component: model.ComponentGGA,
 			want: CommandSequence{
-				{"rm", "-rf", "/tmp/gentleman-guardian-angel"},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", "/tmp/gentleman-guardian-angel"},
-				{"bash", "/tmp/gentleman-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/mr-mauroo-guardian-angel"},
+				{"git", "clone", "https://github.com/Mr-Mauroo-Programming/mr-mauroo-guardian-angel.git", "/tmp/mr-mauroo-guardian-angel"},
+				{"bash", "/tmp/mr-mauroo-guardian-angel/install.sh"},
 			},
 		},
 		{
@@ -632,9 +632,9 @@ func TestResolveComponentInstall(t *testing.T) {
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroArch, PackageManager: "pacman"},
 			component: model.ComponentGGA,
 			want: CommandSequence{
-				{"rm", "-rf", "/tmp/gentleman-guardian-angel"},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", "/tmp/gentleman-guardian-angel"},
-				{"bash", "/tmp/gentleman-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/mr-mauroo-guardian-angel"},
+				{"git", "clone", "https://github.com/Mr-Mauroo-Programming/mr-mauroo-guardian-angel.git", "/tmp/mr-mauroo-guardian-angel"},
+				{"bash", "/tmp/mr-mauroo-guardian-angel/install.sh"},
 			},
 		},
 		{
@@ -642,9 +642,9 @@ func TestResolveComponentInstall(t *testing.T) {
 			profile:   system.PlatformProfile{OS: "linux", LinuxDistro: system.LinuxDistroFedora, PackageManager: "dnf"},
 			component: model.ComponentGGA,
 			want: CommandSequence{
-				{"rm", "-rf", "/tmp/gentleman-guardian-angel"},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", "/tmp/gentleman-guardian-angel"},
-				{"bash", "/tmp/gentleman-guardian-angel/install.sh"},
+				{"rm", "-rf", "/tmp/mr-mauroo-guardian-angel"},
+				{"git", "clone", "https://github.com/Mr-Mauroo-Programming/mr-mauroo-guardian-angel.git", "/tmp/mr-mauroo-guardian-angel"},
+				{"bash", "/tmp/mr-mauroo-guardian-angel/install.sh"},
 			},
 		},
 		{
@@ -658,9 +658,9 @@ func TestResolveComponentInstall(t *testing.T) {
 			profile:   system.PlatformProfile{OS: "windows", PackageManager: "winget"},
 			component: model.ComponentGGA,
 			want: CommandSequence{
-				{"powershell", "-NoProfile", "-Command", fmt.Sprintf("Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '%s'; exit 0", filepath.Join(os.TempDir(), "gentleman-guardian-angel"))},
-				{"git", "clone", "https://github.com/Gentleman-Programming/gentleman-guardian-angel.git", filepath.Join(os.TempDir(), "gentleman-guardian-angel")},
-				{gitBashPath(), bashScriptPath(system.PlatformProfile{OS: "windows"}, filepath.Join(os.TempDir(), "gentleman-guardian-angel", "install.sh"))},
+				{"powershell", "-NoProfile", "-Command", fmt.Sprintf("Remove-Item -Recurse -Force -ErrorAction SilentlyContinue '%s'; exit 0", filepath.Join(os.TempDir(), "mr-mauroo-guardian-angel"))},
+				{"git", "clone", "https://github.com/Mr-Mauroo-Programming/mr-mauroo-guardian-angel.git", filepath.Join(os.TempDir(), "mr-mauroo-guardian-angel")},
+				{gitBashPath(), bashScriptPath(system.PlatformProfile{OS: "windows"}, filepath.Join(os.TempDir(), "mr-mauroo-guardian-angel", "install.sh"))},
 			},
 		},
 		{

@@ -7,9 +7,9 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/catalog"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 type Availability string
@@ -425,10 +425,10 @@ func detectCodeGraphPackageManager(detector Detector) (string, error) {
 	if _, err := detector.LookPath("pnpm"); err == nil {
 		globalBin, binErr := codeGraphPnpmGlobalBin()
 		if binErr != nil {
-			return "", fmt.Errorf("CodeGraph installation found pnpm, but pnpm global installs are not ready. Run `pnpm setup`, restart your shell, then rerun Gentle AI: %w", binErr)
+			return "", fmt.Errorf("CodeGraph installation found pnpm, but pnpm global installs are not ready. Run `pnpm setup`, restart your shell, then rerun Mr.Mauroo AI: %w", binErr)
 		}
 		if globalBin == "" {
-			return "", fmt.Errorf("CodeGraph installation found pnpm, but `pnpm bin -g` returned an empty global binary directory. Run `pnpm setup`, restart your shell, then rerun Gentle AI")
+			return "", fmt.Errorf("CodeGraph installation found pnpm, but `pnpm bin -g` returned an empty global binary directory. Run `pnpm setup`, restart your shell, then rerun Mr.Mauroo AI")
 		}
 		return "pnpm", nil
 	}

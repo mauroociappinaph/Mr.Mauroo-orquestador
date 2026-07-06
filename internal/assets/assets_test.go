@@ -127,7 +127,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		// Claude agent files
 		"claude/engram-protocol.md",
 		"claude/output-style-neutral.md",
-		"claude/persona-gentleman.md",
+		"claude/persona-mr-mauroo.md",
 		"claude/sdd-orchestrator.md",
 		"claude/commands/sdd-apply.md",
 		"claude/commands/sdd-archive.md",
@@ -147,7 +147,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		"claude/agents/review-resilience.md",
 
 		// OpenCode agent files
-		"opencode/persona-gentleman.md",
+		"opencode/persona-mr-mauroo.md",
 		"opencode/sdd-orchestrator.md",
 		"opencode/sdd-overlay-single.json",
 		"opencode/sdd-overlay-multi.json",
@@ -194,12 +194,12 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 		"kiro/agents/review-resilience.md",
 
 		// Kimi agent files
-		"kimi/persona-gentleman.md",
-		"kimi/output-style-gentleman.md",
+		"kimi/persona-mr-mauroo.md",
+		"kimi/output-style-mr-mauroo.md",
 		"kimi/output-style-neutral.md",
 		"kimi/sdd-orchestrator.md",
 		"kimi/KIMI.md",
-		"kimi/agents/gentleman.yaml",
+		"kimi/agents/mr-mauroo.yaml",
 		"kimi/agents/sdd-init.yaml",
 		"kimi/agents/sdd-explore.yaml",
 		"kimi/agents/sdd-propose.yaml",
@@ -251,7 +251,7 @@ func TestAllEmbeddedAssetsAreReadable(t *testing.T) {
 
 		// Hermes agent files
 		"hermes/sdd-orchestrator.md",
-		"hermes/persona-gentleman.md",
+		"hermes/persona-mr-mauroo.md",
 		"hermes/persona-neutral.md",
 
 		// Foundation skills
@@ -294,7 +294,7 @@ func TestOpenCodeEmbeddedAssetLayout(t *testing.T) {
 		seen[entry.Name()] = true
 	}
 
-	for _, name := range []string{"commands", "plugins", "persona-gentleman.md", "sdd-orchestrator.md", "sdd-overlay-single.json", "sdd-overlay-multi.json"} {
+	for _, name := range []string{"commands", "plugins", "persona-mr-mauroo.md", "sdd-orchestrator.md", "sdd-overlay-single.json", "sdd-overlay-multi.json"} {
 		if !seen[name] {
 			t.Fatalf("opencode embedded assets missing %q", name)
 		}
@@ -456,7 +456,7 @@ func TestClaudeEmbeddedAssetLayout(t *testing.T) {
 		seen[entry.Name()] = true
 	}
 
-	for _, name := range []string{"agents", "commands", "engram-protocol.md", "persona-gentleman.md", "sdd-orchestrator.md"} {
+	for _, name := range []string{"agents", "commands", "engram-protocol.md", "persona-mr-mauroo.md", "sdd-orchestrator.md"} {
 		if !seen[name] {
 			t.Fatalf("claude embedded assets missing %q", name)
 		}
@@ -702,7 +702,7 @@ func TestClaudeSDDOrchestratorChainStrategy(t *testing.T) {
 		"When launching `sdd-apply`, always include the resolved `delivery_strategy`, `chain_strategy`, and any chosen PR boundary/exception in the prompt.",
 		"Claude Code's native Agent/Task mechanism",
 		"results are not persisted by OpenCode's background-agent plugin",
-		"treat `chained-pr` (registry skill `gentle-ai-chained-pr`) as a required skill match",
+		"treat `chained-pr` (registry skill `mr-mauroo-ai-chained-pr`) as a required skill match",
 	} {
 		if !strings.Contains(content, required) {
 			t.Fatalf("claude/sdd-orchestrator.md missing required SDD chain/delegation wording %q", required)
@@ -751,7 +751,7 @@ func TestNonClaudeSDDOrchestratorChainStrategyParity(t *testing.T) {
 				"sdd-tasks",
 				"sdd-apply",
 				tc.propagationScope,
-				"treat `chained-pr` (registry skill `gentle-ai-chained-pr`) as a required skill match",
+				"treat `chained-pr` (registry skill `mr-mauroo-ai-chained-pr`) as a required skill match",
 			} {
 				if !strings.Contains(content, required) {
 					t.Fatalf("%s missing required chain strategy wording %q", tc.path, required)
@@ -797,13 +797,13 @@ func TestPlatformNativeSDDOrchestratorsAvoidOpenCodePersistenceClaims(t *testing
 	}
 }
 
-func TestGentlemanLanguageInstructionsDoNotBiasEnglishSessions(t *testing.T) {
+func TestMrMaurooLanguageInstructionsDoNotBiasEnglishSessions(t *testing.T) {
 	personaPaths := []string{
-		"claude/persona-gentleman.md",
-		"generic/persona-gentleman.md",
-		"kiro/persona-gentleman.md",
-		"kimi/persona-gentleman.md",
-		"opencode/persona-gentleman.md",
+		"claude/persona-mr-mauroo.md",
+		"generic/persona-mr-mauroo.md",
+		"kiro/persona-mr-mauroo.md",
+		"kimi/persona-mr-mauroo.md",
+		"opencode/persona-mr-mauroo.md",
 	}
 
 	for _, path := range personaPaths {
@@ -833,8 +833,8 @@ func TestGentlemanLanguageInstructionsDoNotBiasEnglishSessions(t *testing.T) {
 	}
 
 	for _, path := range []string{
-		"claude/output-style-gentleman.md",
-		"kimi/output-style-gentleman.md",
+		"claude/output-style-mr-mauroo.md",
+		"kimi/output-style-mr-mauroo.md",
 	} {
 		t.Run(path, func(t *testing.T) {
 			content := MustRead(path)
@@ -923,7 +923,7 @@ func TestClaudeManagedOutputStylesAnchorReplyLanguageToLatestUserRequest(t *test
 		artifactContracts []string
 	}{
 		{
-			path: "claude/output-style-gentleman.md",
+			path: "claude/output-style-mr-mauroo.md",
 			artifactContracts: []string{
 				"Default to English. UI labels, comments, identifiers, and copy are in English",
 				"The persona styles HOW YOU TALK, not WHAT YOU BUILD.",
@@ -968,8 +968,8 @@ func TestClaudeManagedOutputStylesAnchorReplyLanguageToLatestUserRequest(t *test
 	}
 }
 
-func TestClaudeGentlemanPersonaPreventsEnglishGreetingCodeSwitching(t *testing.T) {
-	content := MustRead("claude/persona-gentleman.md")
+func TestClaudeMrMaurooPersonaPreventsEnglishGreetingCodeSwitching(t *testing.T) {
+	content := MustRead("claude/persona-mr-mauroo.md")
 
 	for _, required := range []string{
 		"If the selected reply language is English, every part of the direct reply must be English: greetings, interjections, acknowledgements, transition phrases, and the first sentence.",
@@ -978,7 +978,7 @@ func TestClaudeGentlemanPersonaPreventsEnglishGreetingCodeSwitching(t *testing.T
 		"Do not switch languages unless the user does, asks you to, or you are quoting/translating content.",
 	} {
 		if !strings.Contains(content, required) {
-			t.Fatalf("claude/persona-gentleman.md missing code-switching guardrail %q", required)
+			t.Fatalf("claude/persona-mr-mauroo.md missing code-switching guardrail %q", required)
 		}
 	}
 }
@@ -998,12 +998,12 @@ func TestPersonasContainContextualSkillLoadingDirective(t *testing.T) {
 		isClaude  bool
 		invokeMsg string // wording specific to the agent family
 	}{
-		{path: "claude/persona-gentleman.md", isClaude: true, invokeMsg: "invoke it via the built-in `Skill` tool"},
-		{path: "opencode/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
-		{path: "generic/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "claude/persona-mr-mauroo.md", isClaude: true, invokeMsg: "invoke it via the built-in `Skill` tool"},
+		{path: "opencode/persona-mr-mauroo.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "generic/persona-mr-mauroo.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
 		{path: "generic/persona-neutral.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
-		{path: "kiro/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
-		{path: "kimi/persona-gentleman.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "kiro/persona-mr-mauroo.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
+		{path: "kimi/persona-mr-mauroo.md", isClaude: false, invokeMsg: "read the matching SKILL.md"},
 	}
 
 	for _, tc := range tests {
@@ -1140,7 +1140,7 @@ func TestSDDStatusContractMatchesNativeShape(t *testing.T) {
 	content := MustRead("skills/_shared/sdd-status-contract.md")
 
 	for _, want := range []string{
-		"schemaName: gentle-ai.sdd-status",
+		"schemaName: mr-mauroo-ai.sdd-status",
 		"schemaVersion: 1",
 		"changeName: <change-name-or-null>",
 		"artifactStore: openspec",
@@ -1159,7 +1159,7 @@ func TestSDDStatusContractMatchesNativeShape(t *testing.T) {
 		"sameDomainActiveChanges: []",
 		"phaseInstructions:",
 		"blockedReasons: []",
-		"Manual fallback status MUST stay shape-compatible with native `gentle-ai.sdd-status` JSON",
+		"Manual fallback status MUST stay shape-compatible with native `mr-mauroo-ai.sdd-status` JSON",
 	} {
 		if !strings.Contains(content, want) {
 			t.Fatalf("sdd-status-contract missing native-shape field %q", want)

@@ -4,21 +4,21 @@
 
 ### Requirement: Neutral Mentor Behavior Parity
 
-The system MUST treat `neutral` as a level-neutral variant of the Gentleman mentor behavior contract. Neutral persona content MUST preserve the same senior mentor expectations as Gentleman, including concise answers, direct correction after verification, concept-first teaching, careful technical reasoning, and user-growth-oriented guidance, while MUST NOT include Rioplatense Spanish, regional slang, voseo, Gentleman branding, or any persona-specific regional voice.
+The system MUST treat `neutral` as a level-neutral variant of the Mr.Mauroo mentor behavior contract. Neutral persona content MUST preserve the same senior mentor expectations as Mr.Mauroo, including concise answers, direct correction after verification, concept-first teaching, careful technical reasoning, and user-growth-oriented guidance, while MUST NOT include Rioplatense Spanish, regional slang, voseo, Mr.Mauroo branding, or any persona-specific regional voice.
 
 #### Scenario: Neutral receives the same mentor contract without regional voice
 
 - GIVEN an agent persona asset is rendered with persona `neutral`
 - WHEN the generated instruction content is inspected
-- THEN it includes the same mentor behavior expectations as Gentleman for brevity, verification, concept-first explanation, and constructive correction
-- AND it does not include Rioplatense Spanish, regional slang, voseo, Gentleman branding, or regional persona voice instructions
+- THEN it includes the same mentor behavior expectations as Mr.Mauroo for brevity, verification, concept-first explanation, and constructive correction
+- AND it does not include Rioplatense Spanish, regional slang, voseo, Mr.Mauroo branding, or regional persona voice instructions
 
-#### Scenario: Gentleman keeps regional mentor behavior when explicitly selected
+#### Scenario: Mr.Mauroo keeps regional mentor behavior when explicitly selected
 
-- GIVEN an agent persona asset is rendered with persona `gentleman`
+- GIVEN an agent persona asset is rendered with persona `mr-mauroo`
 - WHEN the generated instruction content is inspected
-- THEN it preserves the Gentleman mentor behavior contract
-- AND it preserves the Gentleman regional voice constraints
+- THEN it preserves the Mr.Mauroo mentor behavior contract
+- AND it preserves the Mr.Mauroo regional voice constraints
 
 ---
 
@@ -65,11 +65,11 @@ Persona voice MUST govern only direct chat replies to the user. Generated techni
 - WHEN the system generates code, identifiers, comments, UI copy, documentation, commit messages, PR descriptions, SDD artifacts, or tests
 - THEN the generated artifact content defaults to English and neutral professional wording
 
-#### Scenario: Gentleman voice does not leak into artifacts
+#### Scenario: Mr.Mauroo voice does not leak into artifacts
 
-- GIVEN persona `gentleman` is active
+- GIVEN persona `mr-mauroo` is active
 - WHEN the system generates a technical artifact without an explicit request for regional language or tone
-- THEN the artifact does not include Rioplatense slang, voseo, Gentleman stylistic emphasis, or regional persona voice
+- THEN the artifact does not include Rioplatense slang, voseo, Mr.Mauroo stylistic emphasis, or regional persona voice
 - AND the artifact defaults to English unless project conventions require otherwise
 
 ---
@@ -86,11 +86,11 @@ Claude-specific neutral output-style content MUST be meaningful and MUST NOT fal
 - AND it contains brevity, one-question, no-menu, verification-first, and artifact-language constraints
 - AND it does not describe or imply an unstyled default assistant character
 
-#### Scenario: Claude explicit Gentleman output-style remains honored
+#### Scenario: Claude explicit Mr.Mauroo output-style remains honored
 
-- GIVEN Claude assets are generated with persona `gentleman`
+- GIVEN Claude assets are generated with persona `mr-mauroo`
 - WHEN the output-style content is inspected
-- THEN it preserves Gentleman-specific mentor and regional voice instructions
+- THEN it preserves Mr.Mauroo-specific mentor and regional voice instructions
 - AND it is not replaced by neutral output-style content
 
 ---
@@ -105,7 +105,7 @@ Kimi neutral output-style module content MUST be meaningful, non-empty, and sema
 - WHEN the `output-style.md` content is inspected
 - THEN it is non-empty after trimming whitespace
 - AND it includes neutral mentor behavior, interaction discipline, verification-first, and artifact-language constraints
-- AND it excludes regional Gentleman voice instructions
+- AND it excludes regional Mr.Mauroo voice instructions
 
 #### Scenario: Kimi neutral output-style rejects placeholder-only content
 
@@ -138,27 +138,27 @@ All neutral consumers that are not covered by an agent-specific override MUST re
 
 ### Requirement: Safe Persona Fallback Semantics
 
-When persisted persona state is missing, empty, unreadable, or invalid, sync and persona resolution MUST NOT silently select or reactivate `gentleman`. The fallback MUST be neutral/default-safe behavior that does not introduce Gentleman regional voice unless the user explicitly selected Gentleman.
+When persisted persona state is missing, empty, unreadable, or invalid, sync and persona resolution MUST NOT silently select or reactivate `mr-mauroo`. The fallback MUST be neutral/default-safe behavior that does not introduce Mr.Mauroo regional voice unless the user explicitly selected Mr.Mauroo.
 
-#### Scenario: Missing persisted persona does not reactivate Gentleman
+#### Scenario: Missing persisted persona does not reactivate Mr.Mauroo
 
 - GIVEN persisted persona state is absent
 - WHEN sync resolves the persona to apply
-- THEN it does not select `gentleman` implicitly
+- THEN it does not select `mr-mauroo` implicitly
 - AND it applies neutral/default-safe persona behavior without regional voice
 
-#### Scenario: Invalid persisted persona does not reactivate Gentleman
+#### Scenario: Invalid persisted persona does not reactivate Mr.Mauroo
 
 - GIVEN persisted persona state contains an unknown or invalid value
 - WHEN sync resolves the persona to apply
-- THEN it does not select `gentleman` implicitly
+- THEN it does not select `mr-mauroo` implicitly
 - AND it applies neutral/default-safe persona behavior without regional voice
 
-#### Scenario: Unreadable persisted persona does not reactivate Gentleman
+#### Scenario: Unreadable persisted persona does not reactivate Mr.Mauroo
 
 - GIVEN persisted persona state cannot be read
 - WHEN sync resolves the persona to apply
-- THEN it does not select `gentleman` implicitly
+- THEN it does not select `mr-mauroo` implicitly
 - AND it applies neutral/default-safe persona behavior without regional voice
 - AND it may surface a warning if the sync command already reports recoverable configuration issues
 
@@ -166,14 +166,14 @@ When persisted persona state is missing, empty, unreadable, or invalid, sync and
 
 ### Requirement: Explicit Persona Selection Preservation
 
-Explicit persona selections MUST remain authoritative. When the user explicitly selects Gentleman, the system MUST apply Gentleman behavior and regional voice; when the user explicitly selects neutral, the system MUST apply neutral parity behavior without regional voice.
+Explicit persona selections MUST remain authoritative. When the user explicitly selects Mr.Mauroo, the system MUST apply Mr.Mauroo behavior and regional voice; when the user explicitly selects neutral, the system MUST apply neutral parity behavior without regional voice.
 
-#### Scenario: Explicit Gentleman selection remains honored during sync
+#### Scenario: Explicit Mr.Mauroo selection remains honored during sync
 
-- GIVEN the user has explicitly selected persona `gentleman`
+- GIVEN the user has explicitly selected persona `mr-mauroo`
 - WHEN sync resolves and applies persona assets
-- THEN Gentleman persona assets are selected
-- AND Gentleman regional voice instructions remain present
+- THEN Mr.Mauroo persona assets are selected
+- AND Mr.Mauroo regional voice instructions remain present
 
 #### Scenario: Explicit neutral selection remains honored during sync
 

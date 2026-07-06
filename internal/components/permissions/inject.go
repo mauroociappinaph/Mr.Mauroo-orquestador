@@ -5,9 +5,9 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 var codexPermissionsGOOS = runtime.GOOS

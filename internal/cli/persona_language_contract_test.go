@@ -3,15 +3,15 @@ package cli
 import (
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
-func TestNormalizePersonaAcceptsGentlemanNeutralArtifacts(t *testing.T) {
-	got, err := normalizePersona("gentleman-neutral-artifacts")
+func TestNormalizePersonaAcceptsMrMaurooNeutralArtifacts(t *testing.T) {
+	got, err := normalizePersona("mr-mauroo-neutral-artifacts")
 	if err != nil {
 		t.Fatalf("normalizePersona() error = %v", err)
 	}
-	if got != model.PersonaGentlemanNeutralArtifacts {
-		t.Fatalf("normalizePersona() = %q, want %q", got, model.PersonaGentlemanNeutralArtifacts)
+	if got != model.PersonaMrMaurooNeutralArtifacts {
+		t.Fatalf("normalizePersona() = %q, want %q", got, model.PersonaMrMaurooNeutralArtifacts)
 	}
 }

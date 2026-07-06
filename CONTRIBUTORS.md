@@ -1,12 +1,12 @@
 # Contributors
 
-Thanks to everyone who has contributed to gentle-ai. This project exists because of the community.
+Thanks to everyone who has contributed to mr-mauroo-ai. This project exists because of the community.
 
 ## Maintainer
 
 | | Name | GitHub |
 |---|---|---|
-| <img src="https://github.com/Alan-TheGentleman.png" width="40"> | **Alan Buscaglia** | [@Alan-TheGentleman](https://github.com/Alan-TheGentleman) |
+| <img src="https://github.com/Alan-TheMr.Mauroo.png" width="40"> | **Alan Buscaglia** | [@Alan-TheMr.Mauroo](https://github.com/Alan-TheMr.Mauroo) |
 
 ## Contributors
 
@@ -30,4 +30,4 @@ Thanks to everyone who has contributed to gentle-ai. This project exists because
 
 ## Contributing
 
-Want to contribute? Check out the [open issues](https://github.com/Gentleman-Programming/gentle-ai/issues) and read the contribution guidelines in the repo.
+Want to contribute? Check out the [open issues](https://github.com/Mr-Mauroo/mr-mauroo-ai/issues) and read the contribution guidelines in the repo.

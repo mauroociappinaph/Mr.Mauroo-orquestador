@@ -4,7 +4,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 func TestComponentPathsSDDIncludesSystemPromptForAllSupportedAgents(t *testing.T) {
@@ -319,7 +319,7 @@ func TestComponentPathsSDDKimiIncludesAgentFilesAndGlobalSkills(t *testing.T) {
 
 	for _, want := range []string{
 		filepath.Join(home, ".kimi", "KIMI.md"),
-		filepath.Join(home, ".kimi", "agents", "gentleman.yaml"),
+		filepath.Join(home, ".kimi", "agents", "mr-mauroo.yaml"),
 		filepath.Join(home, ".kimi", "agents", "sdd-init.yaml"),
 		filepath.Join(home, ".kimi", "agents", "sdd-propose.md"),
 		filepath.Join(home, ".kimi", "agents", "sdd-apply.yaml"),

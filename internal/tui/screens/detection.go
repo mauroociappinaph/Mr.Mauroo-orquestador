@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/styles"
 )
 
 func DetectionOptions() []string {

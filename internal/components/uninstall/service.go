@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/assets"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/gga"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/sdd"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
 )
 
 type Manager interface {
@@ -142,7 +142,7 @@ func NewService(homeDir, workspaceDir, appVersion string) (*Service, error) {
 		return nil, fmt.Errorf("create adapter registry: %w", err)
 	}
 
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".mr-mauroo-ai", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return nil, fmt.Errorf("create backup root %q: %w", backupRoot, err)
 	}
@@ -283,7 +283,7 @@ func (s *Service) CompleteUninstall() (Result, error) {
 		return result, err
 	}
 
-	result.ManualActions = append(result.ManualActions, "To completely remove gentle-ai from your system, delete the executable (e.g., rm -f $(which gentle-ai))")
+	result.ManualActions = append(result.ManualActions, "To completely remove mr-mauroo-ai from your system, delete the executable (e.g., rm -f $(which mr-mauroo-ai))")
 	return result, nil
 }
 
@@ -451,7 +451,7 @@ func (s *Service) componentOperations(adapter agents.Adapter, componentID model.
 			}))
 		}
 		if adapter.SupportsOutputStyles() {
-			path := filepath.Join(adapter.OutputStyleDir(homeDir), "gentleman.md")
+			path := filepath.Join(adapter.OutputStyleDir(homeDir), "mr-mauroo.md")
 			targets = append(targets, path)
 			ops = append(ops, removeFile(path))
 			ops = append(ops, removeDirIfEmpty(adapter.OutputStyleDir(homeDir)))
@@ -460,7 +460,7 @@ func (s *Service) componentOperations(adapter agents.Adapter, componentID model.
 			targets = append(targets, path)
 			jsonPaths := []jsonPath{{"outputStyle"}}
 			if adapter.Agent() == model.AgentOpenCode {
-				jsonPaths = append(jsonPaths, jsonPath{"agent", "gentleman"})
+				jsonPaths = append(jsonPaths, jsonPath{"agent", "mr-mauroo"})
 			}
 			ops = append(ops, rewriteJSONFile(path, jsonPaths...))
 		}
@@ -507,7 +507,7 @@ func (s *Service) componentOperations(adapter agents.Adapter, componentID model.
 		}
 	case model.ComponentClaudeTheme:
 		if adapter.Agent() == model.AgentClaudeCode {
-			path := filepath.Join(homeDir, ".claude", "themes", "gentleman.json")
+			path := filepath.Join(homeDir, ".claude", "themes", "mr-mauroo.json")
 			targets = append(targets, path)
 			ops = append(ops, removeFile(path), removeDirIfEmpty(filepath.Dir(path)))
 		}
@@ -606,7 +606,7 @@ func (s *Service) componentOperations(adapter agents.Adapter, componentID model.
 			}
 			ops = append(ops, removeDirIfEmpty(pluginDir))
 
-			modelVariantsCacheDir := filepath.Join(homeDir, ".gentle-ai", "cache")
+			modelVariantsCacheDir := filepath.Join(homeDir, ".mr-mauroo-ai", "cache")
 			for _, cachePath := range modelVariantsCachePaths(modelVariantsCacheDir) {
 				targets = append(targets, cachePath)
 				ops = append(ops, removeFile(cachePath))
@@ -890,7 +890,7 @@ func removeSkillRegistryHook(raw []byte) ([]byte, bool, error) {
 			for _, hook := range hooks {
 				hookMap, ok := hook.(map[string]any)
 				cmd, _ := hookMap["command"].(string)
-				if ok && strings.Contains(cmd, "gentle-ai skill-registry refresh") {
+				if ok && strings.Contains(cmd, "mr-mauroo-ai skill-registry refresh") {
 					changed = true
 					continue
 				}

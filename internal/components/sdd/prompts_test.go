@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/communitytool"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/communitytool"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 // TestSharedPromptDir verifies the expected directory path is returned.
@@ -355,7 +355,7 @@ func TestWriteSharedPromptFilesOmitCodeGraphGuidanceByDefault(t *testing.T) {
 			t.Fatalf("ReadFile(%q) error = %v", path, err)
 		}
 		text := string(content)
-		if strings.Contains(text, "<!-- gentle-ai:codegraph-guidance -->") || strings.Contains(text, "codegraph init <project-root>") {
+		if strings.Contains(text, "<!-- mr-mauroo-ai:codegraph-guidance -->") || strings.Contains(text, "codegraph init <project-root>") {
 			t.Fatalf("%s unexpectedly contains CodeGraph guidance by default", phase)
 		}
 	}
@@ -376,10 +376,10 @@ func TestWriteSharedPromptFilesIncludeCodeGraphGuidanceWhenEnabled(t *testing.T)
 			t.Fatalf("ReadFile(%q) error = %v", path, err)
 		}
 		text := string(content)
-		if !strings.Contains(text, "<!-- gentle-ai:codegraph-guidance -->") || !strings.Contains(text, "codegraph init <project-root>") {
+		if !strings.Contains(text, "<!-- mr-mauroo-ai:codegraph-guidance -->") || !strings.Contains(text, "codegraph init <project-root>") {
 			t.Fatalf("%s missing CodeGraph guidance when enabled", phase)
 		}
-		if count := strings.Count(text, "<!-- gentle-ai:codegraph-guidance -->"); count != 1 {
+		if count := strings.Count(text, "<!-- mr-mauroo-ai:codegraph-guidance -->"); count != 1 {
 			t.Fatalf("%s has %d CodeGraph guidance sections, want 1", phase, count)
 		}
 	}
@@ -396,7 +396,7 @@ func TestInjectOpenCodeSingleModeSubagentPromptsOmitCodeGraphGuidanceByDefault(t
 	agentsMap := readOpenCodeAgents(t, filepath.Join(home, ".config", "opencode", "opencode.json"))
 	for _, agentName := range sddInstalledSubAgentsForCodeGraphTest() {
 		prompt := agentPrompt(t, agentsMap, agentName)
-		if strings.Contains(prompt, "<!-- gentle-ai:codegraph-guidance -->") || strings.Contains(prompt, "codegraph init <project-root>") {
+		if strings.Contains(prompt, "<!-- mr-mauroo-ai:codegraph-guidance -->") || strings.Contains(prompt, "codegraph init <project-root>") {
 			t.Fatalf("%s unexpectedly contains CodeGraph guidance by default", agentName)
 		}
 	}
@@ -413,10 +413,10 @@ func TestInjectOpenCodeSingleModeSubagentPromptsIncludeCodeGraphGuidanceWhenEnab
 	agentsMap := readOpenCodeAgents(t, filepath.Join(home, ".config", "opencode", "opencode.json"))
 	for _, agentName := range sddInstalledSubAgentsForCodeGraphTest() {
 		prompt := agentPrompt(t, agentsMap, agentName)
-		if !strings.Contains(prompt, "<!-- gentle-ai:codegraph-guidance -->") || !strings.Contains(prompt, "codegraph init <project-root>") {
+		if !strings.Contains(prompt, "<!-- mr-mauroo-ai:codegraph-guidance -->") || !strings.Contains(prompt, "codegraph init <project-root>") {
 			t.Fatalf("%s missing CodeGraph guidance when enabled", agentName)
 		}
-		if count := strings.Count(prompt, "<!-- gentle-ai:codegraph-guidance -->"); count != 1 {
+		if count := strings.Count(prompt, "<!-- mr-mauroo-ai:codegraph-guidance -->"); count != 1 {
 			t.Fatalf("%s has %d CodeGraph guidance sections, want 1", agentName, count)
 		}
 	}
@@ -437,7 +437,7 @@ func TestInjectOpenCodeMultiModeSubagentPromptFilesIncludeCodeGraphGuidanceWhenE
 			t.Fatalf("ReadFile(%q) error = %v", path, err)
 		}
 		text := string(content)
-		if !strings.Contains(text, "<!-- gentle-ai:codegraph-guidance -->") || !strings.Contains(text, "codegraph init <project-root>") {
+		if !strings.Contains(text, "<!-- mr-mauroo-ai:codegraph-guidance -->") || !strings.Contains(text, "codegraph init <project-root>") {
 			t.Fatalf("%s missing CodeGraph guidance when enabled", phase)
 		}
 	}
@@ -446,7 +446,7 @@ func TestInjectOpenCodeMultiModeSubagentPromptFilesIncludeCodeGraphGuidanceWhenE
 	inlineSubagents := append(sddJudgmentDaySubAgentsForCodeGraphTest(), sddReviewSubAgentsForCodeGraphTest()...)
 	for _, agentName := range inlineSubagents {
 		prompt := agentPrompt(t, agentsMap, agentName)
-		if !strings.Contains(prompt, "<!-- gentle-ai:codegraph-guidance -->") || !strings.Contains(prompt, "codegraph init <project-root>") {
+		if !strings.Contains(prompt, "<!-- mr-mauroo-ai:codegraph-guidance -->") || !strings.Contains(prompt, "codegraph init <project-root>") {
 			t.Fatalf("%s missing CodeGraph guidance in multi-mode inline prompt when enabled", agentName)
 		}
 	}
@@ -479,7 +479,7 @@ func TestInjectNativeSDDSubagentsIncludeCodeGraphGuidanceWhenEnabled(t *testing.
 					t.Fatalf("ReadFile(%q) error = %v", path, err)
 				}
 				text := string(content)
-				if !strings.Contains(text, "<!-- gentle-ai:codegraph-guidance -->") || !strings.Contains(text, "codegraph init <project-root>") {
+				if !strings.Contains(text, "<!-- mr-mauroo-ai:codegraph-guidance -->") || !strings.Contains(text, "codegraph init <project-root>") {
 					t.Fatalf("%s native subagent missing CodeGraph guidance when enabled", agentName)
 				}
 			}
@@ -507,7 +507,7 @@ func TestInjectNativeSDDSubagentsOmitCodeGraphGuidanceByDefault(t *testing.T) {
 			t.Fatalf("ReadFile(%q) error = %v", path, err)
 		}
 		text := string(content)
-		if strings.Contains(text, "<!-- gentle-ai:codegraph-guidance -->") || strings.Contains(text, "codegraph init <project-root>") {
+		if strings.Contains(text, "<!-- mr-mauroo-ai:codegraph-guidance -->") || strings.Contains(text, "codegraph init <project-root>") {
 			t.Fatalf("%s native subagent unexpectedly contains CodeGraph guidance by default", agentName)
 		}
 	}
@@ -552,7 +552,7 @@ func TestInjectKimiYAMLSubagentsRemainControlFilesWhenCodeGraphEnabled(t *testin
 				t.Fatalf("%s YAML missing %q:\n%s", fileName, want, text)
 			}
 		}
-		for _, forbidden := range []string{"  instructions: |-", "<!-- gentle-ai:codegraph-guidance -->", "codegraph init <project-root>"} {
+		for _, forbidden := range []string{"  instructions: |-", "<!-- mr-mauroo-ai:codegraph-guidance -->", "codegraph init <project-root>"} {
 			if strings.Contains(text, forbidden) {
 				t.Fatalf("%s YAML unexpectedly contains %q:\n%s", fileName, forbidden, text)
 			}
@@ -564,7 +564,7 @@ func TestInjectKimiYAMLSubagentsRemainControlFilesWhenCodeGraphEnabled(t *testin
 			t.Fatalf("ReadFile(%q) error = %v", markdownPath, err)
 		}
 		markdownText := string(markdownContent)
-		if !strings.Contains(markdownText, "<!-- gentle-ai:codegraph-guidance -->") || !strings.Contains(markdownText, "codegraph init <project-root>") {
+		if !strings.Contains(markdownText, "<!-- mr-mauroo-ai:codegraph-guidance -->") || !strings.Contains(markdownText, "codegraph init <project-root>") {
 			t.Fatalf("%s referenced Markdown prompt missing CodeGraph guidance when enabled", markdownPath)
 		}
 	}

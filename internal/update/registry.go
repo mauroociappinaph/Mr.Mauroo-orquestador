@@ -15,18 +15,19 @@ import (
 // field here; InstallMethod represents the non-brew fallback strategy.
 var Tools = []ToolInfo{
 	{
-		Name:          "gentle-ai",
-		Owner:         "Gentleman-Programming",
-		Repo:          "gentle-ai",
+		Name:          "mr-mauroo-ai",
+		Owner:         "Mr-Mauroo-Programming",
+		Repo:          "mr-mauroo-ai",
+		GoImportPath:  "github.com/mr-mauroo/mr-mauroo-ai/cmd/mr-mauroo-ai",
 		DetectCmd:     nil, // version comes from build-time ldflags (app.Version)
 		VersionPrefix: "v",
-		// gentle-ai: brew on macOS, binary release download on Linux.
+		// mr-mauroo-ai: brew on macOS, binary release download on Linux.
 		// Windows self-upgrade uses the PowerShell installer so the running binary can exit before replacement.
 		InstallMethod: InstallBinary,
 	},
 	{
 		Name:              "engram",
-		Owner:             "Gentleman-Programming",
+		Owner:             "Mr-Mauroo-Programming",
 		Repo:              "engram",
 		DetectCmd:         []string{"engram", "version"},
 		VersionPrefix:     "v",
@@ -56,8 +57,8 @@ var Tools = []ToolInfo{
 	},
 	{
 		Name:          "gga",
-		Owner:         "Gentleman-Programming",
-		Repo:          "gentleman-guardian-angel",
+		Owner:         "Mr-Mauroo-Programming",
+		Repo:          "mr-mauroo-guardian-angel",
 		DetectCmd:     []string{"gga", "--version"},
 		VersionPrefix: "v",
 		// gga: brew on macOS, install.sh script on Linux/Windows.

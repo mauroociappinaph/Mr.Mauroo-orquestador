@@ -112,4 +112,4 @@ If you're working outside a git repo, engram falls back to the directory name.
 
 ## Full Documentation
 
-For the complete source, configuration options, and contribution guide: [github.com/Gentleman-Programming/engram](https://github.com/Gentleman-Programming/engram)
+For the complete source, configuration options, and contribution guide: [github.com/Mr-Mauroo-Programming/engram](https://github.com/Mr-Mauroo-Programming/engram)

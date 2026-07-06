@@ -1,13 +1,13 @@
 <div align="center">
 
-<img width="3276" height="1280" alt="Gentle-AI neon rose banner" src="docs/assets/brand/gentle-ai-banner.png" />
+<img width="3276" height="1280" alt="Mr-Mauroo-AI neon rose banner" src="docs/assets/brand/mr-mauroo-ai-banner.png" />
 
-<h1>Gentle-AI</h1>
+<h1>Mr-Mauroo-AI</h1>
 
-<p><strong>Gentle-AI — Ecosystem, Frameworks, Workflows for AI coding agents.</strong></p>
+<p><strong>Mr-Mauroo-AI — Ecosystem, Frameworks, Workflows for AI coding agents.</strong></p>
 
 <p>
-<a href="https://github.com/Gentleman-Programming/gentle-ai/releases"><img src="https://img.shields.io/github/v/release/Gentleman-Programming/gentle-ai" alt="Release"></a>
+<a href="https://github.com/Mr-Mauroo/mr-mauroo-ai/releases"><img src="https://img.shields.io/github/v/release/Mr-Mauroo/mr-mauroo-ai" alt="Release"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 <img src="https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go&logoColor=white" alt="Go 1.24+">
 <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform">
@@ -19,7 +19,7 @@
 
 ## What It Does
 
-Gentle-AI is NOT an AI agent installer. Most agents are easy to install. It is an **ecosystem configurator** -- it takes whatever AI coding agent(s) you use and supercharges them with persistent memory, Spec-Driven Development workflows, curated coding skills, MCP servers, an AI provider switcher, a teaching-oriented persona with security-first permissions, and per-phase model assignment so each SDD step can run on a different model.
+Mr-Mauroo-AI is NOT an AI agent installer. Most agents are easy to install. It is an **ecosystem configurator** -- it takes whatever AI coding agent(s) you use and supercharges them with persistent memory, Spec-Driven Development workflows, curated coding skills, MCP servers, an AI provider switcher, a teaching-oriented persona with security-first permissions, and per-phase model assignment so each SDD step can run on a different model.
 
 **Before**: "I installed Claude Code / OpenCode / Cursor, but it's just a chatbot that writes code."
 
@@ -46,11 +46,11 @@ Gentle-AI is NOT an AI agent installer. Most agents are easy to install. It is a
 | **Pi**              | Full (package-managed subagents) | `gentle-pi` harness with persona/model commands + Engram memory |
 | **Hermes**          |         Detect-only              | YAML MCP config, SOUL.md persona; install manually first        |
 
-> **Note**: This project supersedes [Agent Teams Lite](https://github.com/Gentleman-Programming/agent-teams-lite) (now archived). Everything ATL provided is included here with better installation, automatic updates, and persistent memory.
+> **Note**: This project supersedes [Agent Teams Lite](https://github.com/Mr-Mauroo-Programming/agent-teams-lite) (now archived). Everything ATL provided is included here with better installation, automatic updates, and persistent memory.
 
 ### Delegation Triggers
 
-Gentle-AI keeps the parent/orchestrator thread thin. Once a task stops being small, delegation or an explicit SDD phase boundary is expected rather than optional.
+Mr-Mauroo-AI keeps the parent/orchestrator thread thin. Once a task stops being small, delegation or an explicit SDD phase boundary is expected rather than optional.
 
 | Trigger                                                                    | Expected behavior                                         |
 | -------------------------------------------------------------------------- | --------------------------------------------------------- |
@@ -70,33 +70,33 @@ The goal is not ceremony. The goal is to avoid accidental chaos while preserving
 ### macOS / Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Mr-Mauroo/mr-mauroo-ai/main/scripts/install.sh | bash
 ```
 
 ### Windows
 
 ```powershell
-scoop bucket add gentleman https://github.com/Gentleman-Programming/scoop-bucket
-scoop install gentle-ai
+scoop bucket add mr-mauroo https://github.com/Mr-Mauroo-Programming/scoop-bucket
+scoop install mr-mauroo-ai
 ```
 
 ### Try the beta channel (test `main` before a release)
 
-The beta channel builds Gentle AI straight from `main`, so you need **Go 1.24+** installed first. Use it to try unreleased changes and report issues early.
+The beta channel builds Mr.Mauroo AI straight from `main`, so you need **Go 1.24+** installed first. Use it to try unreleased changes and report issues early.
 
 **macOS / Linux**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash -s -- --channel beta
+curl -fsSL https://raw.githubusercontent.com/Mr-Mauroo/mr-mauroo-ai/main/scripts/install.sh | bash -s -- --channel beta
 ```
 
 **Windows (PowerShell)**
 
 ```powershell
-$env:GENTLE_AI_CHANNEL="beta"; irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex
+$env:GENTLE_AI_CHANNEL="beta"; irm https://raw.githubusercontent.com/Mr-Mauroo/mr-mauroo-ai/main/scripts/install.ps1 | iex
 ```
 
-To keep upgrading on beta later, run `GENTLE_AI_CHANNEL=beta gentle-ai upgrade`. To return to stable, reinstall via Homebrew or Scoop.
+To keep upgrading on beta later, run `GENTLE_AI_CHANNEL=beta mr-mauroo-ai upgrade`. To return to stable, reinstall via Homebrew or Scoop.
 
 ### After install: project-level setup
 
@@ -105,11 +105,11 @@ Once your agents are configured, open your AI agent in a project and run these t
 | Command                            | What it does                                                                | When to re-run                                                                 |
 | ---------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | `/sdd-init`                        | Detects stack, testing capabilities, activates Strict TDD Mode if available | When your project adds/removes test frameworks, or first time in a new project |
-| `gentle-ai skill-registry refresh` | Scans installed skills and project conventions, builds the registry         | After installing/removing skills, or first time in a new project               |
+| `mr-mauroo-ai skill-registry refresh` | Scans installed skills and project conventions, builds the registry         | After installing/removing skills, or first time in a new project               |
 
 These are **not required** for basic usage. The SDD orchestrator runs `/sdd-init` automatically if it detects no context. Startup hooks normally keep the skill registry fresh for agents that support hooks, including Codex, Claude Code, OpenCode, and Pi through `gentle-pi`. If you start Pi with `pi -ns`, startup skill loading/hooks are skipped, so run the registry refresh manually when you need updated project rules.
 
-Run `gentle-ai doctor` at any time for a read-only health check of your ecosystem (tool binaries, `state.json`, Engram reachability, disk space).
+Run `mr-mauroo-ai doctor` at any time for a read-only health check of your ecosystem (tool binaries, `state.json`, Engram reachability, disk space).
 
 ---
 
@@ -119,13 +119,13 @@ Run `gentle-ai doctor` at any time for a read-only health check of your ecosyste
 
 ```bash
 # macOS / Linux
-brew tap Gentleman-Programming/homebrew-tap
-brew trust --formula gentleman-programming/tap/gentle-ai  # one-time, for Homebrew tap trust
-brew install gentle-ai
+brew tap Mr-Mauroo-Programming/homebrew-tap
+brew trust --formula mr-mauroo-programming/tap/mr-mauroo-ai  # one-time, for Homebrew tap trust
+brew install mr-mauroo-ai
 
 # Windows
-scoop bucket add gentleman https://github.com/Gentleman-Programming/scoop-bucket
-scoop install gentle-ai
+scoop bucket add mr-mauroo https://github.com/Mr-Mauroo-Programming/scoop-bucket
+scoop install mr-mauroo-ai
 ```
 
 <details>
@@ -134,24 +134,24 @@ scoop install gentle-ai
 #### Go install (any platform with Go 1.24+)
 
 ```bash
-go install github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest
+go install github.com/mr-mauroo/mr-mauroo-ai/cmd/mr-mauroo-ai@latest
 ```
 
 #### Windows
 
-Use Scoop on Windows. It is the supported install path for keeping Gentle AI updated cleanly:
+Use Scoop on Windows. It is the supported install path for keeping Mr.Mauroo AI updated cleanly:
 
 ```powershell
-scoop bucket add gentleman https://github.com/Gentleman-Programming/scoop-bucket
-scoop install gentle-ai
+scoop bucket add mr-mauroo https://github.com/Mr-Mauroo-Programming/scoop-bucket
+scoop install mr-mauroo-ai
 ```
 
 </details>
 
-By default, `gentle-ai install` writes agent-scoped files to each selected agent's global config directory. To keep the Gentleman stack isolated to one project, run:
+By default, `mr-mauroo-ai install` writes agent-scoped files to each selected agent's global config directory. To keep the Mr.Mauroo stack isolated to one project, run:
 
 ```bash
-gentle-ai install --scope=workspace
+mr-mauroo-ai install --scope=workspace
 ```
 
 Workspace scope is not Claude-only; it applies to selected agents for agent-scoped files such as system prompts, skills, SDD agents, and persona files. Global-only integrations remain global by design.
@@ -174,10 +174,10 @@ Assign different AI models to different SDD phases -- a powerful model for desig
 
 ```bash
 # Via CLI
-gentle-ai sync --profile cheap:openrouter/qwen/qwen3-30b-a3b:free
-gentle-ai sync --profile-phase cheap:sdd-design:anthropic/claude-sonnet-4-20250514
+mr-mauroo-ai sync --profile cheap:openrouter/qwen/qwen3-30b-a3b:free
+mr-mauroo-ai sync --profile-phase cheap:sdd-design:anthropic/claude-sonnet-4-20250514
 
-# Or via TUI: gentle-ai → "OpenCode SDD Profiles" → Create
+# Or via TUI: mr-mauroo-ai → "OpenCode SDD Profiles" → Create
 ```
 
 After creating a profile, open OpenCode and press **Tab** to switch between `gentle-orchestrator` (default) and your custom profiles.
@@ -209,7 +209,7 @@ engram tui                    # Visual memory browser
 
 | Topic                                              | Description                                                                             |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [Intended Usage](docs/intended-usage.md)           | How Gentle-AI is meant to be used — the mental model                                    |
+| [Intended Usage](docs/intended-usage.md)           | How Mr-Mauroo-AI is meant to be used — the mental model                                    |
 | [OpenCode SDD Profiles](docs/opencode-profiles.md) | Create and manage per-phase model profiles for OpenCode                                 |
 | [Engram Commands](docs/engram.md)                  | CLI commands, MCP tools, project management, team sharing                               |
 | [Codebase Guide](docs/CODEBASE-GUIDE.md)           | Maintainer map for repository ownership, architecture boundaries, and review guardrails |
@@ -221,7 +221,7 @@ engram tui                    # Visual memory browser
 | [Backup & Rollback](docs/rollback.md)              | Backup retention, compression, dedup, pinning, and restore                              |
 | [Kiro IDE](docs/kiro.md)                           | Kiro-specific setup, config paths, native subagents, and SDD behavior                   |
 | [Platforms](docs/platforms.md)                     | Supported platforms, Windows notes, security verification, config paths                 |
-| [Architecture & Development](docs/architecture.md) | Codebase layout, testing, and relationship to Gentleman.Dots                            |
+| [Architecture & Development](docs/architecture.md) | Codebase layout, testing, and relationship to Mr.Mauroo.Dots                            |
 
 ---
 
@@ -234,14 +234,14 @@ This project gets better when the community builds on top of it.
 - [sub-agent-statusline](https://github.com/Joaquinvesapa/sub-agent-statusline) — optional OpenCode TUI plugin that shows sub-agent activity, status, elapsed time, and token/context usage when OpenCode exposes it.
 - [sdd-engram-plugin](https://github.com/j0k3r-dev-rgl/sdd-engram-plugin) — optional OpenCode TUI plugin to manage SDD profiles and browse Engram memories directly from OpenCode, with runtime profile activation and no restart required.
 
-When you select OpenCode in the installer, Gentle-AI asks whether to register each community plugin and offers a browser shortcut to review the repository first. Gentle-AI only ensures `~/.config/opencode/tui.json` exists and adds the plugin package names to its `plugin` array; OpenCode installs/loads those packages the next time it starts. Once OpenCode has materialized a plugin under `~/.config/opencode/node_modules/`, `gentle-ai update` can compare its local `package.json` version with the plugin's GitHub releases.
+When you select OpenCode in the installer, Mr-Mauroo-AI asks whether to register each community plugin and offers a browser shortcut to review the repository first. Mr-Mauroo-AI only ensures `~/.config/opencode/tui.json` exists and adds the plugin package names to its `plugin` array; OpenCode installs/loads those packages the next time it starts. Once OpenCode has materialized a plugin under `~/.config/opencode/node_modules/`, `mr-mauroo-ai update` can compare its local `package.json` version with the plugin's GitHub releases.
 
 ## Contributors
 
 This project exists because of the community. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for the full list.
 
-<a href="https://github.com/Gentleman-Programming/gentle-ai/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Gentleman-Programming/gentle-ai" />
+<a href="https://github.com/Mr-Mauroo/mr-mauroo-ai/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Mr-Mauroo/mr-mauroo-ai" />
 </a>
 
 ---
@@ -252,7 +252,7 @@ This project exists because of the community. See [CONTRIBUTORS.md](CONTRIBUTORS
 - **Using OpenCode?** Set up [SDD Profiles](docs/opencode-profiles.md) to assign different models per phase.
 - **Using Pi?** Read [Pi Agent](docs/pi.md) for Pi commands, persona, model assignments, and package behavior.
 - **Want to share memory across machines?** Learn `engram sync` in the [Engram reference](docs/engram.md).
-- **Ready to contribute?** Check [CONTRIBUTING.md](CONTRIBUTING.md) and the [open issues](https://github.com/Gentleman-Programming/gentle-ai/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3Aapproved%22).
+- **Ready to contribute?** Check [CONTRIBUTING.md](CONTRIBUTING.md) and the [open issues](https://github.com/Mr-Mauroo/mr-mauroo-ai/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3Aapproved%22).
 
 ---
 

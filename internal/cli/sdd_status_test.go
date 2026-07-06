@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/sddstatus"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/sddstatus"
 )
 
 func TestRunSDDStatusPrintsMarkdownForBlockedStatus(t *testing.T) {

@@ -7,7 +7,7 @@
 ## Architecture
 
 ```
-cmd/gentle-ai/             CLI entrypoint
+cmd/mr-mauroo-ai/             CLI entrypoint
 internal/
   app/                     Command dispatch + runtime wiring
   model/                   Domain types (agents, components, skills, presets, personas)
@@ -47,10 +47,10 @@ go test ./...
 RUN_FULL_E2E=1 RUN_BACKUP_TESTS=1 ./e2e/docker-test.sh
 
 # Dry-run smoke test (macOS/Linux)
-gentle-ai install --dry-run --agent claude-code --preset minimal
+mr-mauroo-ai install --dry-run --agent claude-code --preset minimal
 
 # Dry-run smoke test (Windows PowerShell)
-gentle-ai.exe install --dry-run --agent claude-code --preset minimal
+mr-mauroo-ai.exe install --dry-run --agent claude-code --preset minimal
 ```
 
 Test coverage:
@@ -64,15 +64,15 @@ Test coverage:
 
 ---
 
-## Relationship to Gentleman.Dots
+## Relationship to Mr.Mauroo.Dots
 
-| | Gentleman.Dots | AI Gentle Stack |
+| | Mr.Mauroo.Dots | AI Gentle Stack |
 |--|---------------|-----------------|
 | **Purpose** | Dev environment (editors, shells, terminals) | AI development layer (agents, memory, skills) |
 | **Installs** | Neovim, Fish/Zsh, Tmux/Zellij, Ghostty | Configures Claude Code, OpenCode, Gemini CLI, Cursor, VS Code Copilot, Codex, Windsurf, Antigravity |
 | **Overlap** | None — complementary | None — different layer |
 
-Install Gentleman.Dots first for your dev environment, then AI Gentle Stack for the AI layer on top.
+Install Mr.Mauroo.Dots first for your dev environment, then AI Gentle Stack for the AI layer on top.
 
 ---
 

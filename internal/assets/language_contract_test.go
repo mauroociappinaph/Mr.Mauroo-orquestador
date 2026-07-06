@@ -32,18 +32,18 @@ func TestManagedDirectReplyAssetsEnforceEnglishNoCodeSwitching(t *testing.T) {
 		name string
 		path string
 	}{
-		{name: "claude gentleman output style", path: "claude/output-style-gentleman.md"},
+		{name: "claude mr-mauroo output style", path: "claude/output-style-mr-mauroo.md"},
 		{name: "claude neutral output style", path: "claude/output-style-neutral.md"},
-		{name: "claude gentleman persona", path: "claude/persona-gentleman.md"},
-		{name: "generic gentleman persona", path: "generic/persona-gentleman.md"},
+		{name: "claude mr-mauroo persona", path: "claude/persona-mr-mauroo.md"},
+		{name: "generic mr-mauroo persona", path: "generic/persona-mr-mauroo.md"},
 		{name: "generic neutral persona", path: "generic/persona-neutral.md"},
-		{name: "hermes gentleman persona", path: "hermes/persona-gentleman.md"},
+		{name: "hermes mr-mauroo persona", path: "hermes/persona-mr-mauroo.md"},
 		{name: "hermes neutral persona", path: "hermes/persona-neutral.md"},
-		{name: "kiro gentleman persona", path: "kiro/persona-gentleman.md"},
-		{name: "kimi gentleman output style", path: "kimi/output-style-gentleman.md"},
+		{name: "kiro mr-mauroo persona", path: "kiro/persona-mr-mauroo.md"},
+		{name: "kimi mr-mauroo output style", path: "kimi/output-style-mr-mauroo.md"},
 		{name: "kimi neutral output style", path: "kimi/output-style-neutral.md"},
-		{name: "kimi gentleman persona", path: "kimi/persona-gentleman.md"},
-		{name: "opencode gentleman persona", path: "opencode/persona-gentleman.md"},
+		{name: "kimi mr-mauroo persona", path: "kimi/persona-mr-mauroo.md"},
+		{name: "opencode mr-mauroo persona", path: "opencode/persona-mr-mauroo.md"},
 	}
 
 	for _, tc := range tests {
@@ -231,19 +231,19 @@ func TestCommentWriterLanguageContractSources(t *testing.T) {
 	}
 }
 
-func TestGentlemanPersonaKeepsDirectConversationVoice(t *testing.T) {
+func TestMrMaurooPersonaKeepsDirectConversationVoice(t *testing.T) {
 	for _, path := range []string{
-		"claude/persona-gentleman.md",
-		"generic/persona-gentleman.md",
-		"kiro/persona-gentleman.md",
-		"kimi/persona-gentleman.md",
-		"opencode/persona-gentleman.md",
+		"claude/persona-mr-mauroo.md",
+		"generic/persona-mr-mauroo.md",
+		"kiro/persona-mr-mauroo.md",
+		"kimi/persona-mr-mauroo.md",
+		"opencode/persona-mr-mauroo.md",
 	} {
 		t.Run(path, func(t *testing.T) {
 			content := MustRead(path)
 			for _, required := range []string{"Rioplatense", "voseo", "Passionate teacher"} {
 				if !strings.Contains(content, required) {
-					t.Fatalf("%s missing Gentleman direct-conversation voice marker %q", path, required)
+					t.Fatalf("%s missing Mr.Mauroo direct-conversation voice marker %q", path, required)
 				}
 			}
 		})
@@ -275,7 +275,7 @@ func TestNeutralPersonaAssetsProvideMentorParityWithoutRegionalVoice(t *testing.
 			for _, banned := range []string{
 				"Rioplatense",
 				"voseo",
-				"Gentleman regional voice",
+				"Mr.Mauroo regional voice",
 				"When replying to the user in Spanish, use warm natural Rioplatense Spanish",
 			} {
 				if strings.Contains(content, banned) {
@@ -309,7 +309,7 @@ func TestNeutralOutputStyleAssetsProvideMeaningfulContract(t *testing.T) {
 					t.Fatalf("%s missing output-style contract %q", path, required)
 				}
 			}
-			for _, banned := range []string{"Rioplatense", "voseo", "Gentleman Output Style"} {
+			for _, banned := range []string{"Rioplatense", "voseo", "Mr.Mauroo Output Style"} {
 				if strings.Contains(content, banned) {
 					t.Fatalf("%s contains banned neutral output-style wording %q", path, banned)
 				}

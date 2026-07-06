@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/catalog"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 var updateTriggerRules = flag.Bool("update-trigger-rules", false, "update trigger-rules golden files")
@@ -27,11 +27,11 @@ func TestRenderTriggerRules_Deterministic(t *testing.T) {
 func TestRenderTriggerRules_MarkerFree(t *testing.T) {
 	rs := catalog.DefaultTriggerRuleSet()
 	out := RenderTriggerRules(rs)
-	if strings.Contains(out, "<!-- gentle-ai:") {
-		t.Error("RenderTriggerRules() output contains <!-- gentle-ai: marker (markers are added by InjectMarkdownSection)")
+	if strings.Contains(out, "<!-- mr-mauroo-ai:") {
+		t.Error("RenderTriggerRules() output contains <!-- mr-mauroo-ai: marker (markers are added by InjectMarkdownSection)")
 	}
-	if strings.Contains(out, "<!-- /gentle-ai:") {
-		t.Error("RenderTriggerRules() output contains <!-- /gentle-ai: close marker")
+	if strings.Contains(out, "<!-- /mr-mauroo-ai:") {
+		t.Error("RenderTriggerRules() output contains <!-- /mr-mauroo-ai: close marker")
 	}
 }
 

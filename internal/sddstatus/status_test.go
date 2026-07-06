@@ -29,13 +29,13 @@ func TestListActiveOpenSpecChanges(t *testing.T) {
 func TestResolveUsesEngramArtifactsWhenOpenSpecIsAbsent(t *testing.T) {
 	root := t.TempDir()
 	mkdir(t, filepath.Join(root, ".engram"))
-	write(t, filepath.Join(root, ".git", "config"), "[remote \"origin\"]\n\turl = git@github.com:Gentleman-Programming/gentle-ai.git\n")
+	write(t, filepath.Join(root, ".git", "config"), "[remote \"origin\"]\n\turl = git@github.com:Mr-Mauroo/mr-mauroo-ai.git\n")
 
 	restore := stubEngramExport(t, []engramObservation{
-		{Title: "sdd/add-auth/proposal", Content: "## Proposal\nAdd auth", Project: "gentle-ai", Scope: "project"},
-		{Title: "sdd/add-auth/spec", Content: "## Requirements\n- SHALL work", Project: "gentle-ai", Scope: "project"},
-		{Title: "sdd/add-auth/design", Content: "## Design\nUse middleware", Project: "gentle-ai", Scope: "project"},
-		{Title: "sdd/add-auth/tasks", Content: "- [ ] 1.1 Wire routes\n", Project: "gentle-ai", Scope: "project"},
+		{Title: "sdd/add-auth/proposal", Content: "## Proposal\nAdd auth", Project: "mr-mauroo-ai", Scope: "project"},
+		{Title: "sdd/add-auth/spec", Content: "## Requirements\n- SHALL work", Project: "mr-mauroo-ai", Scope: "project"},
+		{Title: "sdd/add-auth/design", Content: "## Design\nUse middleware", Project: "mr-mauroo-ai", Scope: "project"},
+		{Title: "sdd/add-auth/tasks", Content: "- [ ] 1.1 Wire routes\n", Project: "mr-mauroo-ai", Scope: "project"},
 	})
 	defer restore()
 
@@ -691,7 +691,7 @@ func TestRenderMarkdownIncludesFencedJSON(t *testing.T) {
 		"## SDD Status: add-auth",
 		"next: apply",
 		"```json",
-		`"schemaName": "gentle-ai.sdd-status"`,
+		`"schemaName": "mr-mauroo-ai.sdd-status"`,
 		"```",
 	} {
 		if !strings.Contains(markdown, want) {
@@ -717,7 +717,7 @@ func TestRenderDispatcherMarkdownIncludesRoutingContext(t *testing.T) {
 		"### Next Phase Instructions: apply",
 		"Read proposal, specs, design, and tasks before editing.",
 		"```json",
-		`"schemaName": "gentle-ai.sdd-status"`,
+		`"schemaName": "mr-mauroo-ai.sdd-status"`,
 		"```",
 	} {
 		if !strings.Contains(markdown, want) {
@@ -768,7 +768,7 @@ func TestRenderNativePhasePromptIncludesAuthorityInstructionsJSONAndBlockedGuida
 		"proposal.md is missing or partial.",
 		"Read proposal, specs, design, and tasks before editing.",
 		"```json",
-		`"schemaName": "gentle-ai.sdd-status"`,
+		`"schemaName": "mr-mauroo-ai.sdd-status"`,
 		"```",
 	} {
 		if !strings.Contains(prompt, want) {

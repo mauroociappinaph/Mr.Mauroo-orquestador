@@ -6,7 +6,7 @@ disable-model-invocation: true
 user-invocable: false
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: mr-mauroo-programming
   version: "3.0"
   delegate_only: true
 ---
@@ -265,7 +265,7 @@ disable-model-invocation: true
 user-invocable: false
 license: MIT
 metadata:
-  author: gentleman-programming
+  author: mr-mauroo-programming
   version: "3.0"
   delegate_only: true
 ---

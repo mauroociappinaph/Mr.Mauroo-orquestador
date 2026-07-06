@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/styles"
 )
 
 // BackupMaxVisible is the maximum number of backup items shown at once.

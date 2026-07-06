@@ -3,7 +3,7 @@
 > **Create interchangeable model profiles for OpenCode — switch between orchestrator configurations with a single Tab.**
 
 **Version**: 0.1.0-draft
-**Author**: Gentleman Programming
+**Author**: Mr.Mauroo Programming
 **Date**: 2026-04-03
 **Status**: Draft
 
@@ -225,7 +225,7 @@ Hoy eso es un dolor de cabeza manual. Esta feature lo resuelve.
 
 **R-PROF-22**: El contenido de estos archivos de prompt DEBE ser EXACTAMENTE el mismo que hoy se inline en el overlay JSON. El refactor es extracto sin cambio de comportamiento.
 
-**R-PROF-23**: El prompt del orchestrator (`orchestrator.md`) DEBE incluir un bloque `<!-- gentle-ai:sdd-model-assignments -->` que se inyecta dinámicamente con la tabla de modelos de ESE perfil específico.
+**R-PROF-23**: El prompt del orchestrator (`orchestrator.md`) DEBE incluir un bloque `<!-- mr-mauroo-ai:sdd-model-assignments -->` que se inyecta dinámicamente con la tabla de modelos de ESE perfil específico.
 
 **R-PROF-24**: Para el orchestrator de un perfil, el prompt DEBE referenciar los sub-agentes CON SUFIJO. Esto significa que el `orchestrator.md` compartido necesita un placeholder o que cada orchestrator de perfil tenga su propia copia con los nombres correctos. 
 
@@ -268,19 +268,19 @@ Los sub-agente prompts SÍ se comparten porque son idénticos entre perfiles (so
 
 **R-PROF-50**: El comando `sync` DEBE aceptar un flag `--profile <name>:<orchestrator-model>` que crea/actualiza un perfil durante el sync:
 ```bash
-gentle-ai sync --profile cheap:anthropic/claude-haiku-3.5-20241022
+mr-mauroo-ai sync --profile cheap:anthropic/claude-haiku-3.5-20241022
 ```
 
 **R-PROF-51**: Se DEBEN poder especificar múltiples `--profile` flags:
 ```bash
-gentle-ai sync \
+mr-mauroo-ai sync \
   --profile cheap:anthropic/claude-haiku-3.5-20241022 \
   --profile premium:anthropic/claude-opus-4-20250514
 ```
 
 **R-PROF-52**: El formato del flag es `name:provider/model`. Para asignar modelos individuales a sub-agentes vía CLI, se usa la sintaxis extendida:
 ```bash
-gentle-ai sync --profile cheap:anthropic/claude-haiku-3.5-20241022 \
+mr-mauroo-ai sync --profile cheap:anthropic/claude-haiku-3.5-20241022 \
   --profile-phase cheap:sdd-apply:anthropic/claude-sonnet-4-20250514
 ```
 
@@ -439,7 +439,7 @@ Sync Start
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                                                          │
-│  ★  Gentleman AI Ecosystem — v0.x.x                     │
+│  ★  Mr.Mauroo AI Ecosystem — v0.x.x                     │
 │     Supercharge your AI agents.                          │
 │                                                          │
 │  ▸ Install Ecosystem                                     │
@@ -703,5 +703,5 @@ El orchestrator prompt del default profile referencia sub-agentes como `sdd-appl
 4. **¿Cómo maneja OpenCode el `{file:...}` en prompts? ¿Soporta `~` expansion?**
    → Validar con OpenCode docs. Si no soporta `~`, usar path absoluto expandido durante la generación.
 
-5. **¿El `gentleman` agent (persona) también necesita variantes por perfil?**
-   → No. El `gentleman` agent es la persona general, no parte de SDD. El conductor SDD base de OpenCode es `gentle-orchestrator`.
+5. **¿El `mr-mauroo` agent (persona) también necesita variantes por perfil?**
+   → No. El `mr-mauroo` agent es la persona general, no parte de SDD. El conductor SDD base de OpenCode es `gentle-orchestrator`.

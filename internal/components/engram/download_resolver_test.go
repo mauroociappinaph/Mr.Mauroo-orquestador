@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
 )
 
 // TestResolveEngramInstallNonBrewReturnsError verifies that after the fix,

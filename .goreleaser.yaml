@@ -1,14 +1,14 @@
 version: 2
 
-project_name: gentle-ai
+project_name: mr-mauroo-ai
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - main: ./cmd/gentle-ai
-    binary: gentle-ai
+  - main: ./cmd/mr-mauroo-ai
+    binary: mr-mauroo-ai
     env:
       - CGO_ENABLED=0
     goos:
@@ -43,23 +43,23 @@ changelog:
 
 brews:
   - repository:
-      owner: Gentleman-Programming
+      owner: Mr-Mauroo-Programming
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
     directory: Formula
-    name: gentle-ai
-    homepage: "https://github.com/Gentleman-Programming/gentle-ai"
-    description: "Gentle-AI — Ecosystem, Frameworks, Workflows for AI coding agents."
+    name: mr-mauroo-ai
+    homepage: "https://github.com/Mr-Mauroo/mr-mauroo-ai"
+    description: "Mr-Mauroo-AI — Ecosystem, Frameworks, Workflows for AI coding agents."
     license: "MIT"
-    commit_msg_template: "chore: update gentle-ai formula to {{ .Tag }}"
+    commit_msg_template: "chore: update mr-mauroo-ai formula to {{ .Tag }}"
 
 scoops:
   - repository:
-      owner: Gentleman-Programming
+      owner: Mr-Mauroo-Programming
       name: scoop-bucket
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    name: gentle-ai
-    homepage: "https://github.com/Gentleman-Programming/gentle-ai"
-    description: "Gentle-AI — Ecosystem, Frameworks, Workflows for AI coding agents."
+    name: mr-mauroo-ai
+    homepage: "https://github.com/Mr-Mauroo/mr-mauroo-ai"
+    description: "Mr-Mauroo-AI — Ecosystem, Frameworks, Workflows for AI coding agents."
     license: MIT
-    commit_msg_template: "chore: update gentle-ai to {{ .Tag }}"
+    commit_msg_template: "chore: update mr-mauroo-ai to {{ .Tag }}"

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/gentleman-programming/gentle-ai/internal/sddstatus"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/sddstatus"
 )
 
-// RunSDDStatus is the CLI entry point for `gentle-ai sdd-status [change]`.
+// RunSDDStatus is the CLI entry point for `mr-mauroo-ai sdd-status [change]`.
 func RunSDDStatus(args []string, stdout io.Writer) error {
 	parsed, err := sddstatus.ParseCommandArgs(args)
 	if err != nil {
@@ -34,7 +34,7 @@ func RunSDDStatus(args []string, stdout io.Writer) error {
 	return err
 }
 
-// RunSDDContinue is the CLI entry point for `gentle-ai sdd-continue [change]`.
+// RunSDDContinue is the CLI entry point for `mr-mauroo-ai sdd-continue [change]`.
 func RunSDDContinue(args []string, stdout io.Writer) error {
 	parsed, err := sddstatus.ParseCommandArgs(args)
 	if err != nil {

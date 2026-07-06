@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 func TestProviderForAgents(t *testing.T) {
@@ -101,7 +101,7 @@ func TestBuildConfig(t *testing.T) {
 	}
 
 	// Verify header comment.
-	if !strings.HasPrefix(config, "# Gentleman Guardian Angel") {
+	if !strings.HasPrefix(config, "# Mr.Mauroo Guardian Angel") {
 		t.Error("BuildConfig() should start with a header comment")
 	}
 }

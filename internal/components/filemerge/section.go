@@ -5,12 +5,12 @@ import (
 )
 
 const (
-	markerPrefix = "<!-- gentle-ai:"
+	markerPrefix = "<!-- mr-mauroo-ai:"
 	markerSuffix = " -->"
-	closePrefix  = "<!-- /gentle-ai:"
+	closePrefix  = "<!-- /mr-mauroo-ai:"
 )
 
-// legacyPersonaFingerprints are substrings that appear in the Gentleman persona
+// legacyPersonaFingerprints are substrings that appear in the Mr.Mauroo persona
 // asset and reliably identify a stale free-text block written by an old installer
 // (or manually copied) before the marker-based injection system was in use.
 // All fingerprints must be present for the block to be considered a match.
@@ -20,13 +20,13 @@ var legacyPersonaFingerprints = []string{
 	"## Rules",
 }
 
-// StripLegacyPersonaBlock removes a free-text Gentleman persona block that was
-// written to a markdown file outside of <!-- gentle-ai: --> markers.
+// StripLegacyPersonaBlock removes a free-text Mr.Mauroo persona block that was
+// written to a markdown file outside of <!-- mr-mauroo-ai: --> markers.
 //
 // It is safe to call on any file: if no legacy block is detected, the original
 // content is returned unchanged. Stripping requires ALL fingerprints to be
 // present in the pre-marker zone (the region before the first
-// <!-- gentle-ai: --> marker). A fingerprint that exists only inside a marker
+// <!-- mr-mauroo-ai: --> marker). A fingerprint that exists only inside a marker
 // section is ignored — this prevents false positives when a user's own section
 // headers happen to match one or two of the fingerprint strings while the
 // remaining fingerprints live inside a managed marker block.
@@ -122,10 +122,10 @@ func removeLineStartMarkers(content, marker string) string {
 }
 
 // StripLegacyATLBlock removes the legacy Agent Teams Lite block that was
-// written by the standalone ATL installer before gentle-ai superseded it.
+// written by the standalone ATL installer before mr-mauroo-ai superseded it.
 // The block is wrapped in <!-- BEGIN:agent-teams-lite --> / <!-- END:agent-teams-lite -->
 // HTML comment markers. Its content is now provided by the canonical
-// <!-- gentle-ai:sdd-orchestrator --> section, so keeping both wastes ~150
+// <!-- mr-mauroo-ai:sdd-orchestrator --> section, so keeping both wastes ~150
 // lines of context per conversation.
 //
 // Safe to call on any file: returns content unchanged if no ATL block is found.
@@ -253,7 +253,7 @@ func stripOrphanMarkers(content, open, close string) string {
 }
 
 // InjectMarkdownSection replaces or appends a marked section in a markdown file.
-// Markers use HTML comments: <!-- gentle-ai:SECTION_ID --> ... <!-- /gentle-ai:SECTION_ID -->
+// Markers use HTML comments: <!-- mr-mauroo-ai:SECTION_ID --> ... <!-- /mr-mauroo-ai:SECTION_ID -->
 // If the section already exists, its content is replaced.
 // If it doesn't exist, it's appended at the end.
 // Content outside markers is never touched.

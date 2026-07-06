@@ -3,8 +3,8 @@ package planner
 import (
 	"fmt"
 
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/catalog"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 type dependencyResolver struct {

@@ -13,28 +13,28 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	codexagent "github.com/gentleman-programming/gentle-ai/internal/agents/codex"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/kimi"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/communitytool"
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/mcp"
-	"github.com/gentleman-programming/gentle-ai/internal/components/opencodeplugin"
-	"github.com/gentleman-programming/gentle-ai/internal/components/permissions"
-	"github.com/gentleman-programming/gentle-ai/internal/components/persona"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/components/theme"
-	"github.com/gentleman-programming/gentle-ai/internal/installcmd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	codexagent "github.com/mr-mauroo/mr-mauroo-ai/internal/agents/codex"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents/kimi"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/assets"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/communitytool"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/engram"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/gga"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/mcp"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/opencodeplugin"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/permissions"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/persona"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/sdd"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/skills"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/theme"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/installcmd"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/pipeline"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/planner"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/verify"
 )
 
 type InstallResult struct {
@@ -76,9 +76,9 @@ var (
 		return engram.DownloadLatestBinary(profile, false)
 	}
 
-	// AppVersion is the gentle-ai version that will be written into backup manifests.
+	// AppVersion is the mr-mauroo-ai version that will be written into backup manifests.
 	// It is set by app.go before any CLI operation so that every backup created during
-	// an install or sync records which version of gentle-ai made it.
+	// an install or sync records which version of mr-mauroo-ai made it.
 	// Default "dev" matches the ldflags default in app.Version.
 	AppVersion = "dev"
 )
@@ -174,7 +174,7 @@ func RunInstall(args []string, detection system.DetectionResult) (InstallResult,
 		agentIDs = append(agentIDs, string(a))
 	}
 
-	// When the user ran `gentle-ai install --agent X` (explicit agent flag),
+	// When the user ran `mr-mauroo-ai install --agent X` (explicit agent flag),
 	// merge into the existing state so that previously installed agents and
 	// model assignments are preserved. A full install (no --agent flag) keeps
 	// overwrite semantics so the TUI selection is the source of truth.
@@ -334,7 +334,7 @@ func goInstallBinDirFromGoEnv() (string, error) {
 	return "", fmt.Errorf("go env returned empty GOBIN and GOPATH")
 }
 
-const engramBetaGoInstallPackage = "github.com/Gentleman-Programming/engram/cmd/engram@main"
+const engramBetaGoInstallPackage = "github.com/Mr-Mauroo-Programming/engram/cmd/engram@main"
 
 func installBetaEngramFromMain() (string, error) {
 	if err := runCommand("go", "install", engramBetaGoInstallPackage); err != nil {
@@ -420,7 +420,7 @@ type runtimeState struct {
 }
 
 func newInstallRuntime(homeDir string, scope InstallScope, channel InstallChannel, selection model.Selection, resolved planner.ResolvedPlan, profile system.PlatformProfile) (*installRuntime, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".mr-mauroo-ai", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return nil, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}
@@ -518,7 +518,7 @@ type prepareBackupStep struct {
 	source      backup.BackupSource
 	description string
 
-	// appVersion is the gentle-ai version that created this backup.
+	// appVersion is the mr-mauroo-ai version that created this backup.
 	// When set, it is written into the manifest as CreatedByVersion.
 	appVersion string
 }
@@ -1028,7 +1028,7 @@ func windowsGoCandidates() []string {
 // It is used by both the CLI and TUI paths.
 // scope controls where agent config files are written (ScopeGlobal writes to homeDir, ScopeWorkspace writes to cwd).
 func BuildRealStagePlan(homeDir string, scope InstallScope, selection model.Selection, resolved planner.ResolvedPlan, profile system.PlatformProfile) (pipeline.StagePlan, error) {
-	backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+	backupRoot := filepath.Join(homeDir, ".mr-mauroo-ai", "backups")
 	if err := os.MkdirAll(backupRoot, 0o755); err != nil {
 		return pipeline.StagePlan{}, fmt.Errorf("create backup root directory %q: %w", backupRoot, err)
 	}
@@ -1206,7 +1206,7 @@ func componentPathsWithWorkspaceScoped(homeDir, workspaceDir string, scope Insta
 			case model.StrategyTOMLFile:
 				if p := adapter.MCPConfigPath(targetDir, "engram"); p != "" {
 					paths = append(paths, p)
-					// Track the gentle-ai SDD profile files written alongside
+					// Track the mr-mauroo-ai SDD profile files written alongside
 					// the Codex config.toml so they are removed on uninstall.
 					codexHomeDir := filepath.Dir(p)
 					paths = append(paths, codexagent.SddProfilePaths(codexHomeDir)...)
@@ -1328,7 +1328,7 @@ func componentPathsWithWorkspaceScoped(homeDir, workspaceDir string, scope Insta
 			}
 		case model.ComponentClaudeTheme:
 			if adapter.Agent() == model.AgentClaudeCode {
-				paths = append(paths, filepath.Join(homeDir, ".claude", "themes", "gentleman.json"))
+				paths = append(paths, filepath.Join(homeDir, ".claude", "themes", "mr-mauroo.json"))
 			}
 		case model.ComponentOpenCodeGentleLogo:
 			paths = append(paths,
@@ -1589,7 +1589,7 @@ func engramHealthChecks() []verify.Check {
 // when Antigravity and Gemini CLI are selected together. These agents
 // intentionally share ~/.gemini/GEMINI.md because Antigravity uses a
 // Gemini-compatible prompt surface; the last synced SDD orchestrator owns the
-// shared gentle-ai:sdd-orchestrator section.
+// shared mr-mauroo-ai:sdd-orchestrator section.
 func antigravityCollisionCheck(agents []model.AgentID) []verify.Check {
 	hasAntigravitySurface := false
 	hasGemini := false
@@ -1612,7 +1612,7 @@ func antigravityCollisionCheck(agents []model.AgentID) []verify.Check {
 			Run: func(context.Context) error {
 				return fmt.Errorf(
 					"Antigravity and Gemini CLI write rules to ~/.gemini/GEMINI.md\n" +
-						"Antigravity intentionally uses the Gemini-compatible global prompt surface; the last synced SDD orchestrator owns the shared gentle-ai:sdd-orchestrator section.\n" +
+						"Antigravity intentionally uses the Gemini-compatible global prompt surface; the last synced SDD orchestrator owns the shared mr-mauroo-ai:sdd-orchestrator section.\n" +
 						"Prefer Antigravity for new installs; keep Gemini CLI selected only when you intentionally want that legacy prompt to be the active one.",
 				)
 			},
@@ -1719,7 +1719,7 @@ func claudeAliasesToStrings(m map[string]model.ClaudeModelAlias) map[string]stri
 	out := make(map[string]string, len(m))
 	for k, v := range m {
 		// Claude Code owns the main session/orchestrator model; do not persist it
-		// as a Gentle AI model assignment.
+		// as a Mr.Mauroo AI model assignment.
 		if k == "orchestrator" {
 			continue
 		}

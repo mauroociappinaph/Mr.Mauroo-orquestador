@@ -3,7 +3,7 @@ package skills
 import (
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 func TestSkillsForPresetMinimalReturnsSDDOnly(t *testing.T) {
@@ -55,7 +55,7 @@ func TestSkillsForPresetEcosystemIncludesFrameworks(t *testing.T) {
 }
 
 func TestSkillsForPresetFullIncludesAll(t *testing.T) {
-	skills := SkillsForPreset(model.PresetFullGentleman)
+	skills := SkillsForPreset(model.PresetFullMrMauroo)
 	all := AllSkillIDs()
 
 	if len(skills) != len(all) {
@@ -107,7 +107,7 @@ func TestRequestedBundledSkillsAreInPresetSkillSets(t *testing.T) {
 		model.SkillImprover,
 	}
 
-	for _, preset := range []model.PresetID{model.PresetEcosystemOnly, model.PresetFullGentleman} {
+	for _, preset := range []model.PresetID{model.PresetEcosystemOnly, model.PresetFullMrMauroo} {
 		t.Run(string(preset), func(t *testing.T) {
 			skillSet := make(map[model.SkillID]struct{})
 			for _, skill := range SkillsForPreset(preset) {

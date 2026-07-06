@@ -12,10 +12,10 @@ import (
 
 	"github.com/mattn/go-isatty"
 
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update/upgrade"
 )
 
 // selfUpdateNowFn returns the current time; injected for test determinism.
@@ -69,7 +69,7 @@ func defaultPromptForUpdate(stdout io.Writer, stdin io.Reader, currentVersion, l
 // selfUpdateTimeout is the maximum time allowed for the update check + upgrade.
 const selfUpdateTimeout = 7 * time.Second
 
-// selfUpdate checks for and applies a gentle-ai update before normal dispatch.
+// selfUpdate checks for and applies a mr-mauroo-ai update before normal dispatch.
 // Returns nil on success or skip; errors are non-fatal (caller logs and continues).
 //
 // Guard evaluation order (per spec):
@@ -103,21 +103,21 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 		homeDir = "" // fall back to always-check on home dir failure
 	}
 
-	// Check for updates (only gentle-ai), gated by the 6h cooldown.
+	// Check for updates (only mr-mauroo-ai), gated by the 6h cooldown.
 	// When the cache is fresh (elapsed < UpdateCheckTTL), this returns nil
 	// and no network request is made. The underlying check is always
 	// updateCheckFiltered, kept as a package-level var for other tests.
 	results := update.CheckAllWithCooldown(ctx, version, profile, homeDir, update.UpdateCheckTTL,
 		selfUpdateNowFn,
 		func(c context.Context, ver string, prof system.PlatformProfile) []update.UpdateResult {
-			return updateCheckFiltered(c, ver, prof, []string{"gentle-ai"})
+			return updateCheckFiltered(c, ver, prof, []string{"mr-mauroo-ai"})
 		},
 	)
 
-	// Find the gentle-ai result.
+	// Find the mr-mauroo-ai result.
 	var target *update.UpdateResult
 	for i := range results {
-		if results[i].Tool.Name == "gentle-ai" {
+		if results[i].Tool.Name == "mr-mauroo-ai" {
 			target = &results[i]
 			break
 		}
@@ -155,7 +155,7 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 	// Check if upgrade succeeded.
 	var succeeded bool
 	for _, r := range report.Results {
-		if r.ToolName == "gentle-ai" && r.Status == upgrade.UpgradeSucceeded {
+		if r.ToolName == "mr-mauroo-ai" && r.Status == upgrade.UpgradeSucceeded {
 			succeeded = true
 			break
 		}
@@ -191,7 +191,7 @@ func selfUpdate(ctx context.Context, version string, profile system.PlatformProf
 
 func gentleAIUpgradeSucceeded(report upgrade.UpgradeReport) (string, bool) {
 	for _, r := range report.Results {
-		if r.ToolName == "gentle-ai" && r.Status == upgrade.UpgradeSucceeded {
+		if r.ToolName == "mr-mauroo-ai" && r.Status == upgrade.UpgradeSucceeded {
 			return strings.TrimPrefix(r.NewVersion, "v"), true
 		}
 	}
@@ -205,6 +205,6 @@ func restartAfterGentleAIUpgrade(latestVersion string, stdout io.Writer) error {
 	// PendingSync=true and completing the deferred sync. This sidesteps the
 	// Windows binary-lock issue and gives a consistent single path across all OSes.
 	// Tradeoff: Unix loses seamless re-exec restart; mitigated by clear copy below.
-	_, _ = fmt.Fprintf(stdout, "Updated to v%s — restart gentle-ai to continue.\n", latestVersion)
+	_, _ = fmt.Fprintf(stdout, "Updated to v%s — restart mr-mauroo-ai to continue.\n", latestVersion)
 	return nil
 }

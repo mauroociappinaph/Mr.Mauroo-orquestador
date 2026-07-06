@@ -7,9 +7,9 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 const (
@@ -426,7 +426,7 @@ func hasCodeGraphGuidance(path string) bool {
 		return false
 	}
 	content := strings.ToLower(string(data))
-	return strings.Contains(content, "gentle-ai:"+codeGraphGuidanceSectionID) ||
+	return strings.Contains(content, "mr-mauroo-ai:"+codeGraphGuidanceSectionID) ||
 		(strings.Contains(content, "codegraph") && strings.Contains(content, "codegraph init <project-root>"))
 }
 

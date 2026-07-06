@@ -7,9 +7,9 @@ import (
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/screens"
 )
 
 var updateTUIGoldens = flag.Bool("update", false, "update TUI golden files")
@@ -30,11 +30,11 @@ func TestPresetSelectionNextScreenFlowMatrix(t *testing.T) {
 		golden     string
 	}{
 		{
-			name:       "full gentleman with opencode enters SDD mode before plugins",
+			name:       "full mr-mauroo with opencode enters SDD mode before plugins",
 			agents:     []model.AgentID{model.AgentOpenCode},
-			preset:     model.PresetFullGentleman,
+			preset:     model.PresetFullMrMauroo,
 			wantScreen: ScreenSDDMode,
-			golden:     "preset-full-gentleman-opencode-next.golden",
+			golden:     "preset-full-mr-mauroo-opencode-next.golden",
 		},
 		{
 			name:       "ecosystem only with opencode enters SDD mode before plugins",
@@ -58,11 +58,11 @@ func TestPresetSelectionNextScreenFlowMatrix(t *testing.T) {
 			golden:     "preset-custom-opencode-next.golden",
 		},
 		{
-			name:       "full gentleman without opencode enters strict TDD",
+			name:       "full mr-mauroo without opencode enters strict TDD",
 			agents:     []model.AgentID{model.AgentCursor},
-			preset:     model.PresetFullGentleman,
+			preset:     model.PresetFullMrMauroo,
 			wantScreen: ScreenStrictTDD,
-			golden:     "preset-full-gentleman-no-opencode-next.golden",
+			golden:     "preset-full-mr-mauroo-no-opencode-next.golden",
 		},
 		{
 			name:       "ecosystem only without opencode enters strict TDD",
@@ -223,7 +223,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenAgents
 				m.Selection.Agents = []model.AgentID{model.AgentPi}
-				m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+				m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 				m.Cursor = len(screens.AgentOptions())
 				return m
 			},
@@ -266,7 +266,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenPreset
 				m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
-				m.Cursor = presetCursor(t, model.PresetFullGentleman)
+				m.Cursor = presetCursor(t, model.PresetFullMrMauroo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -285,7 +285,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenPreset
 				m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
-				m.Cursor = presetCursor(t, model.PresetFullGentleman)
+				m.Cursor = presetCursor(t, model.PresetFullMrMauroo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -315,7 +315,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenPreset
 				m.Selection.Agents = []model.AgentID{model.AgentCursor}
-				m.Cursor = presetCursor(t, model.PresetFullGentleman)
+				m.Cursor = presetCursor(t, model.PresetFullMrMauroo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -394,7 +394,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 					model.AgentCodex,
 					model.AgentOpenCode,
 				}
-				m.Cursor = presetCursor(t, model.PresetFullGentleman)
+				m.Cursor = presetCursor(t, model.PresetFullMrMauroo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -441,7 +441,7 @@ func TestInstallNavigationRoundTrips(t *testing.T) {
 					model.AgentCodex,
 					model.AgentOpenCode,
 				}
-				m.Cursor = presetCursor(t, model.PresetFullGentleman)
+				m.Cursor = presetCursor(t, model.PresetFullMrMauroo)
 				return m
 			},
 			forwardActions: []flowAction{
@@ -511,7 +511,7 @@ func TestPiOnlyDependencyTreeBackRowReturnsToAgentSelection(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenAgents
 	m.Selection.Agents = []model.AgentID{model.AgentPi}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.Cursor = len(screens.AgentOptions())
 
 	state := applyFlowAction(t, m, flowAction{key: tea.KeyMsg{Type: tea.KeyEnter}})

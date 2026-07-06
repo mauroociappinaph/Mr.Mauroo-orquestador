@@ -16,7 +16,7 @@
 **Focused coverage remediation**: ✅ Passed
 ```text
 go test -count=1 -coverprofile=/private/tmp/persona-reverify.cover ./internal/components/persona
-ok   github.com/gentleman-programming/gentle-ai/internal/components/persona 3.293s coverage: 81.0% of statements
+ok   github.com/mr-mauroo/mr-mauroo-ai/internal/components/persona 3.293s coverage: 81.0% of statements
 
 go tool cover -func=/private/tmp/persona-reverify.cover | tail -20
 internal/components/persona/inject.go:546: mergeJSONFileToleratingMalformed 100.0%
@@ -28,17 +28,17 @@ total:                                           80.9% of statements
 **Focused package tests**: ✅ Passed
 ```text
 go test -count=1 ./internal/cli ./internal/components/persona ./internal/assets
-ok   github.com/gentleman-programming/gentle-ai/internal/cli 28.186s
-ok   github.com/gentleman-programming/gentle-ai/internal/components/persona 3.279s
-ok   github.com/gentleman-programming/gentle-ai/internal/assets 0.099s
+ok   github.com/mr-mauroo/mr-mauroo-ai/internal/cli 28.186s
+ok   github.com/mr-mauroo/mr-mauroo-ai/internal/components/persona 3.279s
+ok   github.com/mr-mauroo/mr-mauroo-ai/internal/assets 0.099s
 ```
 
 **Focused changed-area coverage**: ✅ Passed
 ```text
 go test -count=1 -coverprofile=/private/tmp/level-neutral-final.cover ./internal/assets ./internal/components/persona ./internal/cli
-ok   github.com/gentleman-programming/gentle-ai/internal/assets 0.161s coverage: 63.6% of statements
-ok   github.com/gentleman-programming/gentle-ai/internal/components/persona 6.584s coverage: 81.0% of statements
-ok   github.com/gentleman-programming/gentle-ai/internal/cli 76.389s coverage: 80.2% of statements
+ok   github.com/mr-mauroo/mr-mauroo-ai/internal/assets 0.161s coverage: 63.6% of statements
+ok   github.com/mr-mauroo/mr-mauroo-ai/internal/components/persona 6.584s coverage: 81.0% of statements
+ok   github.com/mr-mauroo/mr-mauroo-ai/internal/cli 76.389s coverage: 80.2% of statements
 
 go tool cover -func=/private/tmp/level-neutral-final.cover | grep -E 'applyResolvedPersona|injectInternal|mergeJSONFileToleratingMalformed|removeJSONKeyIfValue|total:'
 internal/cli/sync.go:781: applyResolvedPersona 85.7%
@@ -105,23 +105,23 @@ go vet ./...
 | Requirement | Scenario | Test / Evidence | Result |
 |-------------|----------|-----------------|--------|
 | Neutral Mentor Behavior Parity | Neutral receives mentor contract without regional voice | `TestNeutralPersonaAssetsProvideMentorParityWithoutRegionalVoice`; asset inspection | ✅ COMPLIANT |
-| Neutral Mentor Behavior Parity | Gentleman keeps regional mentor behavior when explicitly selected | Existing Gentleman language contract tests; unchanged Gentleman assets | ✅ COMPLIANT |
+| Neutral Mentor Behavior Parity | Mr.Mauroo keeps regional mentor behavior when explicitly selected | Existing Mr.Mauroo language contract tests; unchanged Mr.Mauroo assets | ✅ COMPLIANT |
 | Neutral Interaction Discipline | Neutral defaults to brief replies | Neutral persona and output-style asset tests require minimum useful response | ✅ COMPLIANT |
 | Neutral Interaction Discipline | Neutral asks one question and stops | Neutral persona and output-style asset tests require one question and STOP/wait | ✅ COMPLIANT |
 | Neutral Interaction Discipline | Neutral avoids unnecessary menus | Neutral persona and output-style asset tests require no option menus by default | ✅ COMPLIANT |
 | Neutral Interaction Discipline | Neutral verifies before agreeing/correcting | Neutral persona and output-style asset tests require verification-first wording | ✅ COMPLIANT |
 | Artifact Language Independence | Neutral keeps generated artifacts in English | Neutral asset tests require generated technical artifacts default to English | ✅ COMPLIANT |
-| Artifact Language Independence | Gentleman voice does not leak into artifacts | Existing language contract plus unchanged Gentleman artifact-scope rules | ✅ COMPLIANT |
+| Artifact Language Independence | Mr.Mauroo voice does not leak into artifacts | Existing language contract plus unchanged Mr.Mauroo artifact-scope rules | ✅ COMPLIANT |
 | Claude Neutral Output Style Contract | Claude neutral output-style is not default assistant behavior | `TestNeutralOutputStyleAssetsProvideMeaningfulContract`; `TestInjectClaudeNeutralWritesNeutralOutputStyleAndSettings` | ✅ COMPLIANT |
-| Claude Neutral Output Style Contract | Claude explicit Gentleman output-style remains honored | Existing Claude Gentleman output-style tests passed | ✅ COMPLIANT |
+| Claude Neutral Output Style Contract | Claude explicit Mr.Mauroo output-style remains honored | Existing Claude Mr.Mauroo output-style tests passed | ✅ COMPLIANT |
 | Kimi Neutral Output Style Content | Kimi neutral output-style is meaningful | `TestInjectKimiNeutralWritesMeaningfulOutputStyle`; asset contract tests | ✅ COMPLIANT |
 | Kimi Neutral Output Style Content | Placeholder-only content rejected by construction | Embedded `kimi/output-style-neutral.md` is non-empty and contract-bearing; tests fail on empty content | ✅ COMPLIANT |
 | Generic Neutral Asset Parity | Non-agent-specific consumers receive generic neutral parity | Generic neutral asset contract tests and golden verification | ✅ COMPLIANT |
 | Generic Neutral Asset Parity | Agent-specific neutral assets do not weaken generic behavior | Hermes neutral and output-style assets preserve required markers | ✅ COMPLIANT |
-| Safe Persona Fallback Semantics | Missing persisted persona does not reactivate Gentleman | `TestRunSyncFallsBackToNeutralWhenStateLacksPersona`; `TestRunSyncDryRunFallsBackToNeutralWhenStateLacksPersona` | ✅ COMPLIANT |
-| Safe Persona Fallback Semantics | Invalid persisted persona does not reactivate Gentleman | `TestRunSyncWithSelection_UnknownPersistedPersonaFallsBackToNeutral` | ✅ COMPLIANT |
-| Safe Persona Fallback Semantics | Unreadable persisted persona does not reactivate Gentleman | `applyResolvedPersona` neutral fallback and RunSync fallback tests; unreadable/missing read path falls through to neutral | ✅ COMPLIANT |
-| Explicit Persona Selection Preservation | Explicit Gentleman selection remains honored during sync | Explicit selection preservation tests and unchanged Gentleman injection path | ✅ COMPLIANT |
+| Safe Persona Fallback Semantics | Missing persisted persona does not reactivate Mr.Mauroo | `TestRunSyncFallsBackToNeutralWhenStateLacksPersona`; `TestRunSyncDryRunFallsBackToNeutralWhenStateLacksPersona` | ✅ COMPLIANT |
+| Safe Persona Fallback Semantics | Invalid persisted persona does not reactivate Mr.Mauroo | `TestRunSyncWithSelection_UnknownPersistedPersonaFallsBackToNeutral` | ✅ COMPLIANT |
+| Safe Persona Fallback Semantics | Unreadable persisted persona does not reactivate Mr.Mauroo | `applyResolvedPersona` neutral fallback and RunSync fallback tests; unreadable/missing read path falls through to neutral | ✅ COMPLIANT |
+| Explicit Persona Selection Preservation | Explicit Mr.Mauroo selection remains honored during sync | Explicit selection preservation tests and unchanged Mr.Mauroo injection path | ✅ COMPLIANT |
 | Explicit Persona Selection Preservation | Explicit neutral selection remains honored during sync | Neutral selection tests and injection tests | ✅ COMPLIANT |
 | Explicit Persona Selection Preservation | Fallback does not override an explicit selection | `TestRunSyncWithSelection_ExplicitPersonaWinsOverState` | ✅ COMPLIANT |
 
@@ -132,19 +132,19 @@ go vet ./...
 |------------|--------|-------|
 | Neutral mentor parity without regional voice | ✅ Implemented | Generic and Hermes neutral assets include brevity, one-question, no-menu, verification, concepts-first, and artifact language boundaries without regional wording. |
 | Claude/Kimi output-style semantics | ✅ Implemented | New Claude and Kimi neutral output-style assets are meaningful and wired. |
-| Managed output-style planning/remediation | ✅ Implemented | Sync/install planning declares `gentleman.md` for Gentleman and `neutral.md` for Neutral, plus settings. |
+| Managed output-style planning/remediation | ✅ Implemented | Sync/install planning declares `mr-mauroo.md` for Mr.Mauroo and `neutral.md` for Neutral, plus settings. |
 | Kiro wrapping and JSON cleanup remediation | ✅ Implemented | Added focused tests cover Kiro frontmatter, malformed JSON tolerance, valid merge, managed cleanup, user-value preservation, and read-error propagation. |
-| OpenCode/Kilocode cleanup clobber risk | ✅ Implemented | Sync cleanup removes only `agent.gentleman`, preserves sibling `agent` entries, and tolerates malformed JSON. |
+| OpenCode/Kilocode cleanup clobber risk | ✅ Implemented | Sync cleanup removes only `agent.mr-mauroo`, preserves sibling `agent` entries, and tolerates malformed JSON. |
 | Safe sync fallback | ✅ Implemented | `applyResolvedPersona` preserves explicit persona, honors valid persisted persona, and falls back to `model.PersonaNeutral` otherwise. |
-| Gentleman explicit behavior | ✅ Preserved | Gentleman path still writes `gentleman.md`, selects `outputStyle: Gentleman`, and uses regional assets. |
+| Mr.Mauroo explicit behavior | ✅ Preserved | Mr.Mauroo path still writes `mr-mauroo.md`, selects `outputStyle: Mr.Mauroo`, and uses regional assets. |
 
 ### Coherence (Design)
 | Decision | Followed? | Notes |
 |----------|-----------|-------|
 | Neutral output-style twin | ✅ Yes | Claude and Kimi neutral output-style assets added and wired. |
 | Asset strategy | ✅ Yes | Generic/Hermes neutral assets updated; no unnecessary per-agent neutral persona duplication added. |
-| Sync fallback | ✅ Yes | Missing/invalid/unreadable persisted persona no longer defaults to Gentleman. |
-| OpenCode/Kilocode residuals | ✅ Yes | Sync cleanup removes only `agent.gentleman` and preserves sibling settings. |
+| Sync fallback | ✅ Yes | Missing/invalid/unreadable persisted persona no longer defaults to Mr.Mauroo. |
+| OpenCode/Kilocode residuals | ✅ Yes | Sync cleanup removes only `agent.mr-mauroo` and preserves sibling settings. |
 
 ### Issues Found
 **CRITICAL**: None.  

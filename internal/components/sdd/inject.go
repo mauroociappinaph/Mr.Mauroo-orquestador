@@ -8,13 +8,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/assets"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/catalog"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/skills"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/opencode"
 )
 
 type InjectionResult struct {
@@ -39,7 +39,7 @@ type InjectOptions struct {
 	WorkspaceDir string
 
 	// StrictTDD enables Strict TDD mode. When true, a
-	// <!-- gentle-ai:strict-tdd-mode --> marker section is injected into
+	// <!-- mr-mauroo-ai:strict-tdd-mode --> marker section is injected into
 	// the agent's system prompt so agents know Strict TDD is active.
 	StrictTDD bool
 
@@ -163,7 +163,7 @@ type bootstrapper interface {
 //  3. Weak marker (package.json only) — record as candidate but keep walking
 //     upward, since a monorepo marker may exist higher up.
 //
-// Walking upward means users can run gentle-ai from any subdirectory of their
+// Walking upward means users can run mr-mauroo-ai from any subdirectory of their
 // project (e.g. repo/packages/app) and still detect the correct workspace root.
 // In a JS/TS monorepo, every package has package.json, so we must not stop at
 // the first one — we keep walking to find the highest ancestor with package.json
@@ -284,7 +284,7 @@ func Inject(homeDir string, adapter agents.Adapter, sddMode model.SDDModeID, opt
 	}
 
 	// sectionTriggerRules is the section ID used for marker-based injection.
-	// openMarker("trigger-rules") produces <!-- gentle-ai:trigger-rules -->.
+	// openMarker("trigger-rules") produces <!-- mr-mauroo-ai:trigger-rules -->.
 	// No new marker constant is needed — filemerge derives it from the section ID string.
 	const sectionTriggerRules = "trigger-rules"
 
@@ -614,7 +614,7 @@ func Inject(homeDir string, adapter agents.Adapter, sddMode model.SDDModeID, opt
 
 	// 3b. Write native workflow files (Windsurf Hybrid-First, and any future
 	// agent that implements the workflowInjector optional interface).
-	// findProjectRoot walks upward from WorkspaceDir so gentle-ai can be
+	// findProjectRoot walks upward from WorkspaceDir so mr-mauroo-ai can be
 	// invoked from any subdirectory (e.g. repo/internal/foo) and still inject
 	// workflows at the real project root. Skips silently if no root is found
 	// (e.g. running from home dir without a project).
@@ -869,7 +869,7 @@ func inlineOpenCodeSDDPrompts(overlayBytes []byte, homeDir, settingsPath string,
 			}
 		}
 		if existingPrompt == "" {
-			existingPrompt, err = readMisnamedOpenCodeGentlemanSDDPrompt(settingsPath)
+			existingPrompt, err = readMisnamedOpenCodeMrMaurooSDDPrompt(settingsPath)
 			if err != nil {
 				return nil, err
 			}
@@ -1027,7 +1027,7 @@ func ensurePreservedOpenCodeDelegationHardGates(prompt string) string {
 
 	delegation := `
 
-<!-- gentle-ai:delegation-hard-gates-migration -->
+<!-- mr-mauroo-ai:delegation-hard-gates-migration -->
 ### Mandatory Delegation Triggers (Non-Skippable)
 
 These gates are non-skippable hard gates, not recommendations. They are TOTALMENTE obligatorio: do not skip them, do not weaken them, and do not replace delegation-required gates with inline execution. Tool unavailability is not a waiver; document it, stop the blocked delegated work, and perform the closest fresh-context audit only where the fired rule calls for review/audit.
@@ -1056,7 +1056,7 @@ Do not pass these rules to child agents as permission to spawn more agents; chil
 | Large PR, hot path, or >400 changed lines | full 4R: ` + "`review-risk`" + `, ` + "`review-resilience`" + `, ` + "`review-readability`" + `, ` + "`review-reliability`" + ` |
 
 If multiple rows match, run the narrow set that covers the risk. Example: shell integration that mutates live state should use ` + "`review-reliability`" + ` plus ` + "`review-resilience`" + `, not ` + "`review-readability`" + ` by default.
-<!-- /gentle-ai:delegation-hard-gates-migration -->
+<!-- /mr-mauroo-ai:delegation-hard-gates-migration -->
 `
 
 	if strings.Contains(prompt, "Mandatory Delegation Triggers") &&
@@ -1083,8 +1083,8 @@ If multiple rows match, run the narrow set that covers the risk. Example: shell 
 		return prompt
 	}
 
-	start := "<!-- gentle-ai:delegation-hard-gates-migration -->"
-	end := "<!-- /gentle-ai:delegation-hard-gates-migration -->"
+	start := "<!-- mr-mauroo-ai:delegation-hard-gates-migration -->"
+	end := "<!-- /mr-mauroo-ai:delegation-hard-gates-migration -->"
 	if startIdx := strings.Index(prompt, start); startIdx >= 0 {
 		if relEndIdx := strings.Index(prompt[startIdx:], end); relEndIdx >= 0 {
 			endIdx := startIdx + relEndIdx + len(end)
@@ -1098,7 +1098,7 @@ If multiple rows match, run the narrow set that covers the risk. Example: shell 
 func ensurePreservedOpenCodeOrchestratorPreflight(prompt string) string {
 	preflight := `
 
-<!-- gentle-ai:sdd-session-preflight-migration -->
+<!-- mr-mauroo-ai:sdd-session-preflight-migration -->
 ### SDD Session Preflight (HARD GATE)
 
 Before executing ANY SDD command or natural-language SDD request, ensure this session has an explicit ` + "`SDD Session Preflight`" + ` decision block.
@@ -1136,7 +1136,7 @@ Hard gate rules:
 - In ` + "`interactive`" + ` mode, pause after each delegated phase returns, summarize the phase, then ask before launching the next phase via the ` + "`question`" + ` tool, and STOP. Use the ` + "`question`" + ` tool for this between-phase decision: present the proceed/adjust/stop options through a single ` + "`question`" + ` tool call; do NOT render the options as a plain markdown bullet list or plain chat text. Match the user's language and active persona for the question labels; for Spanish neutral fallback frame it as: "¿Quiere ajustar algo o continuamos?". Do not run /sdd-ff phases back-to-back unless execution mode is ` + "`auto`" + `.
 - Interactive approval is phase-scoped. Words like "continue", "dale", or "go on" approve only the immediate next phase, not the rest of the SDD pipeline. Do not treat a generated artifact as approved until the user has had a chance to review or explicitly delegate that review.
 - Before the ` + "`sdd-propose`" + ` phase in interactive mode, offer the user a proposal question round instead of silently deciding whether the proposal is clear enough. Ask 3–5 concrete product questions to improve the PRD/proposal by uncovering business rules, implications, impact, edge cases, product tradeoffs, and decision gaps; then summarize assumptions and ask whether the user wants corrections or a second question round. Do not ask about test commands, PR shape, changed-line budget, or other harness mechanics at proposal time unless the user explicitly asks to discuss delivery.
-<!-- /gentle-ai:sdd-session-preflight-migration -->
+<!-- /mr-mauroo-ai:sdd-session-preflight-migration -->
 `
 
 	if strings.Contains(prompt, "### SDD Session Preflight (HARD GATE)") &&
@@ -1157,8 +1157,8 @@ Hard gate rules:
 		return prompt
 	}
 
-	start := "<!-- gentle-ai:sdd-session-preflight-migration -->"
-	end := "<!-- /gentle-ai:sdd-session-preflight-migration -->"
+	start := "<!-- mr-mauroo-ai:sdd-session-preflight-migration -->"
+	end := "<!-- /mr-mauroo-ai:sdd-session-preflight-migration -->"
 	if startIdx := strings.Index(prompt, start); startIdx >= 0 {
 		if relEndIdx := strings.Index(prompt[startIdx:], end); relEndIdx >= 0 {
 			endIdx := startIdx + relEndIdx + len(end)
@@ -1221,7 +1221,7 @@ func readOpenCodeAgentPrompt(settingsPath, agentKey string) (string, error) {
 	return prompt, nil
 }
 
-func readMisnamedOpenCodeGentlemanSDDPrompt(settingsPath string) (string, error) {
+func readMisnamedOpenCodeMrMaurooSDDPrompt(settingsPath string) (string, error) {
 	if strings.TrimSpace(settingsPath) == "" {
 		return "", nil
 	}
@@ -1246,7 +1246,7 @@ func readMisnamedOpenCodeGentlemanSDDPrompt(settingsPath string) (string, error)
 	if !ok {
 		return "", nil
 	}
-	agentRaw, ok := agentsMap["gentleman"]
+	agentRaw, ok := agentsMap["mr-mauroo"]
 	if !ok || !looksLikeOpenCodeSDDConductor(agentRaw) {
 		return "", nil
 	}
@@ -1291,7 +1291,7 @@ func ensureCodexSkillRegistryHook(hooksPath string) (bool, error) {
 		return false, err
 	}
 
-	const command = `gentle-ai skill-registry refresh --quiet --no-gitignore --cwd "$PWD" || true`
+	const command = `mr-mauroo-ai skill-registry refresh --quiet --no-gitignore --cwd "$PWD" || true`
 	if claudeHookExists(root, command) {
 		return false, nil
 	}
@@ -1349,7 +1349,7 @@ func ensureClaudeSkillRegistryHook(settingsPath string) (bool, error) {
 		return false, err
 	}
 
-	const command = `gentle-ai skill-registry refresh --quiet --no-gitignore --cwd "${CLAUDE_PROJECT_DIR:-$PWD}" || true`
+	const command = `mr-mauroo-ai skill-registry refresh --quiet --no-gitignore --cwd "${CLAUDE_PROJECT_DIR:-$PWD}" || true`
 	if claudeHookExists(root, command) {
 		return false, nil
 	}
@@ -1428,7 +1428,7 @@ func claudeHookListContains(hookEntries []any, command string) bool {
 	return false
 }
 
-// installOpenCodePlugins copies the OpenCode-compatible plugins that gentle-ai
+// installOpenCodePlugins copies the OpenCode-compatible plugins that mr-mauroo-ai
 // still manages by default. Native OpenCode subagents replace the legacy
 // background-agents plugin, so that legacy cleanup is scoped to OpenCode only.
 func installOpenCodePlugins(homeDir string, adapter agents.Adapter) (InjectionResult, error) {
@@ -1564,7 +1564,7 @@ func openCodeSettingsHasShare(settingsPath string) bool {
 // base OpenCode SDD conductor agents. The base SDD coordinator is now the
 // gentle-orchestrator primary agent; named profile agents such as
 // sdd-orchestrator-cheap intentionally remain untouched because they are
-// generated profile-specific coordinators. The old OpenCode "gentleman" agent
+// generated profile-specific coordinators. The old OpenCode "mr-mauroo" agent
 // key is revoked and is removed during sync; if it clearly contains the old SDD
 // conductor prompt and no gentle-orchestrator exists yet, its prompt is migrated
 // before the revoked key is deleted.
@@ -1588,13 +1588,13 @@ func migrateLegacyOpenCodeSDDOrchestrator(baseJSON []byte) ([]byte, error) {
 	}
 
 	legacy, hasLegacy := agentsMap["sdd-orchestrator"]
-	revokedGentleman, hasRevokedGentleman := agentsMap["gentleman"]
-	gentlemanLooksLikeConductor := hasRevokedGentleman && looksLikeOpenCodeSDDConductor(revokedGentleman)
-	if !hasLegacy && !hasRevokedGentleman {
+	revokedMrMauroo, hasRevokedMrMauroo := agentsMap["mr-mauroo"]
+	mrMaurooLooksLikeConductor := hasRevokedMrMauroo && looksLikeOpenCodeSDDConductor(revokedMrMauroo)
+	if !hasLegacy && !hasRevokedMrMauroo {
 		return baseJSON, nil
 	}
-	if !hasLegacy && gentlemanLooksLikeConductor {
-		legacy = revokedGentleman
+	if !hasLegacy && mrMaurooLooksLikeConductor {
+		legacy = revokedMrMauroo
 		hasLegacy = true
 	}
 
@@ -1602,8 +1602,8 @@ func migrateLegacyOpenCodeSDDOrchestrator(baseJSON []byte) ([]byte, error) {
 		agentsMap["gentle-orchestrator"] = legacy
 	}
 	delete(agentsMap, "sdd-orchestrator")
-	if hasRevokedGentleman {
-		delete(agentsMap, "gentleman")
+	if hasRevokedMrMauroo {
+		delete(agentsMap, "mr-mauroo")
 	}
 
 	encoded, err := json.MarshalIndent(root, "", "  ")
@@ -1872,7 +1872,7 @@ func injectFileAppend(homeDir string, adapter agents.Adapter, opts InjectOptions
 }
 
 func hasLegacyBareOrchestrator(content string) bool {
-	markedIdx := strings.Index(content, "<!-- gentle-ai:sdd-orchestrator -->")
+	markedIdx := strings.Index(content, "<!-- mr-mauroo-ai:sdd-orchestrator -->")
 	if markedIdx >= 0 {
 		prefix := content[:markedIdx]
 		if strings.Contains(prefix, "# Agent Teams Lite — Orchestrator Instructions") {
@@ -1910,10 +1910,10 @@ func hasLegacyBareOrchestrator(content string) bool {
 //
 // Strategy:
 //   - start at the first known orchestrator heading
-//   - end at the next managed marker ("<!-- gentle-ai:") if present, else EOF
+//   - end at the next managed marker ("<!-- mr-mauroo-ai:") if present, else EOF
 //   - preserve content before/after and normalize surrounding blank lines
 func stripBareOrchestratorForFilePrompt(content string) string {
-	if markedIdx := strings.Index(content, "<!-- gentle-ai:sdd-orchestrator -->"); markedIdx >= 0 {
+	if markedIdx := strings.Index(content, "<!-- mr-mauroo-ai:sdd-orchestrator -->"); markedIdx >= 0 {
 		prefix := content[:markedIdx]
 		if start := strings.Index(prefix, "# Agent Teams Lite — Orchestrator Instructions"); start >= 0 {
 			before := strings.TrimRight(content[:start], "\n")
@@ -1944,7 +1944,7 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 	}
 
 	end := len(content)
-	if rel := strings.Index(content[start:], "<!-- gentle-ai:"); rel >= 0 {
+	if rel := strings.Index(content[start:], "<!-- mr-mauroo-ai:"); rel >= 0 {
 		end = start + rel
 	}
 
@@ -1972,8 +1972,8 @@ func stripBareOrchestratorForFilePrompt(content string) string {
 }
 
 const instructionsFrontmatter = "---\n" +
-	"name: Gentle AI Persona\n" +
-	"description: Gentleman persona with SDD orchestration and Engram protocol\n" +
+	"name: Mr.Mauroo AI Persona\n" +
+	"description: Mr.Mauroo persona with SDD orchestration and Engram protocol\n" +
 	"applyTo: \"**\"\n" +
 	"---\n"
 
@@ -2061,7 +2061,7 @@ func injectMarkdownSections(homeDir string, adapter agents.Adapter, legacyAssign
 	// If bare (un-marked) orchestrator content exists but the HTML markers are
 	// not present, strip the bare block first. This migrates legacy files to the
 	// canonical marker-based state without duplicating the section.
-	if hasSDDOrchestrator(existing) && !strings.Contains(existing, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if hasSDDOrchestrator(existing) && !strings.Contains(existing, "<!-- mr-mauroo-ai:sdd-orchestrator -->") {
 		existing = stripBareOrchestratorSection(existing)
 	}
 
@@ -2139,8 +2139,8 @@ func injectClaudeModelAssignments(content string, assignments map[string]model.C
 }
 
 func injectClaudePhaseAssignments(content string, legacyAssignments map[string]model.ClaudeModelAlias, phaseAssignments map[string]model.ClaudePhaseAssignment) (string, error) {
-	const openMarker = "<!-- gentle-ai:sdd-model-assignments -->"
-	const closeMarker = "<!-- /gentle-ai:sdd-model-assignments -->"
+	const openMarker = "<!-- mr-mauroo-ai:sdd-model-assignments -->"
+	const closeMarker = "<!-- /mr-mauroo-ai:sdd-model-assignments -->"
 
 	start := strings.Index(content, openMarker)
 	end := strings.Index(content, closeMarker)
@@ -2213,7 +2213,7 @@ func renderClaudeModelAssignmentsSection(assignments map[string]model.ClaudePhas
 	var b strings.Builder
 	b.WriteString("## Model Assignments\n\n")
 	b.WriteString("Read this table at session start (or before first SDD/Judgment-Day delegation), cache it for the session, and use the mapped alias only for SDD/Judgment-Day phase agents. If an SDD/Judgment-Day phase is missing, use the `default` fallback row. If you do not have access to the assigned model (for example, no Opus access), substitute `sonnet` and continue.\n\n")
-	b.WriteString("The Claude Code session model is controlled by Claude Code itself; Gentle AI does not configure the main orchestrator model. This table applies only to Agent tool calls for SDD/Judgment-Day phase sub-agents, not generic delegation.\n\n")
+	b.WriteString("The Claude Code session model is controlled by Claude Code itself; Mr.Mauroo AI does not configure the main orchestrator model. This table applies only to Agent tool calls for SDD/Judgment-Day phase sub-agents, not generic delegation.\n\n")
 	b.WriteString("**Mandatory phase model gate:** Agent tool calls for SDD/Judgment-Day phase agents MUST include `model`. Generic/non-SDD delegation MUST NOT use this table; omit `model` unless the user explicitly requested an override. Before each SDD/Judgment-Day Agent call, resolve the target phase to an alias from this table.\n\n")
 	b.WriteString("| Phase | Default Model | Effort | Reason |\n")
 	b.WriteString("|-------|---------------|--------|--------|\n")

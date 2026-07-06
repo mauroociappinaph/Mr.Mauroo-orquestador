@@ -8,18 +8,18 @@
 
 | Component | ID | Description |
 |-----------|-----|-------------|
-| Engram | `engram` | Persistent cross-session memory via MCP — auto-detection of project name, full-text search, git sync, project consolidation. See [engram repo](https://github.com/Gentleman-Programming/engram) |
+| Engram | `engram` | Persistent cross-session memory via MCP — auto-detection of project name, full-text search, git sync, project consolidation. See [engram repo](https://github.com/Mr-Mauroo-Programming/engram) |
 | SDD | `sdd` | Spec-Driven Development workflow (10 phases, including `sdd-onboard`) — the agent handles SDD organically when the task warrants it, or when you ask; you don't need to learn the commands |
 | Skills | `skills` | Curated coding skill library |
 | Context7 | `context7` | MCP server for live framework/library documentation |
-| Persona | `persona` | Managed Gentleman/neutral persona injection, or unmanaged custom persona mode |
+| Persona | `persona` | Managed Mr.Mauroo/neutral persona injection, or unmanaged custom persona mode |
 | Permissions | `permissions` | Security-first defaults and guardrails. Applied to Claude Code and OpenCode (the two adapters with permissions overlay support). Default sensitive-paths deny list: `~/.ssh/*`, `~/.ssh/**/*`, `**/*.pem`, `**/*.key`, `**/.env*`, `~/.credentials/*`, `~/.aws/credentials`, `~/.config/gh/hosts.yml`, `~/Library/Keychains/*`, `**/secrets/*`, `**/*.p12`, `**/*.pfx` |
-| GGA | `gga` | Gentleman Guardian Angel — AI provider switcher |
-| Theme | `theme` | Gentleman Kanagawa theme overlay |
+| GGA | `gga` | Mr.Mauroo Guardian Angel — AI provider switcher |
+| Theme | `theme` | Mr.Mauroo Kanagawa theme overlay |
 
 ## GGA Behavior
 
-`gentle-ai install --component gga` installs/provisions the `gga` binary globally on your machine.
+`mr-mauroo-ai install --component gga` installs/provisions the `gga` binary globally on your machine.
 
 It does **not** run project-level hook setup automatically (`gga init` / `gga install`) because that should be an explicit decision per repository.
 
@@ -34,7 +34,7 @@ gga install
 
 ## Skills
 
-### Included Skills (installed by gentle-ai)
+### Included Skills (installed by mr-mauroo-ai)
 
 20 skill files organized by category, embedded in the binary and injected into your agent's configuration:
 
@@ -68,11 +68,11 @@ gga install
 | Comment Writer | `comment-writer` | Draft warm, direct collaboration comments and review replies |
 | Work Unit Commits | `work-unit-commits` | Split implementation into reviewable work units |
 
-These foundation skills are installed by default with both the `full-gentleman` (Dev Stack + Polish) and `ecosystem-only` (Dev Stack) presets.
+These foundation skills are installed by default with both the `full-mr-mauroo` (Dev Stack + Polish) and `ecosystem-only` (Dev Stack) presets.
 
 ### Coding Skills (separate repository)
 
-For framework-specific skills (React 19, Angular, TypeScript, Tailwind 4, Zod 4, Playwright, etc.), see [Gentleman-Programming/Gentleman-Skills](https://github.com/Gentleman-Programming/Gentleman-Skills). These are maintained by the community and installed separately by cloning the repo and copying skills to your agent's skills directory.
+For framework-specific skills (React 19, Angular, TypeScript, Tailwind 4, Zod 4, Playwright, etc.), see [Mr-Mauroo-Programming/Mr.Mauroo-Skills](https://github.com/Mr-Mauroo-Programming/Mr.Mauroo-Skills). These are maintained by the community and installed separately by cloning the repo and copying skills to your agent's skills directory.
 
 ---
 
@@ -80,7 +80,7 @@ For framework-specific skills (React 19, Angular, TypeScript, Tailwind 4, Zod 4,
 
 | Preset | ID | What's Included |
 |--------|-----|-----------------|
-| Dev Stack + Polish | `full-gentleman` | All components (Engram + SDD + Skills + Context7 + GGA + Permissions + Theme) + all skills |
+| Dev Stack + Polish | `full-mr-mauroo` | All components (Engram + SDD + Skills + Context7 + GGA + Permissions + Theme) + all skills |
 | Dev Stack | `ecosystem-only` | Core components (Engram + SDD + Skills + Context7 + GGA) + all skills |
 | Memory Only | `minimal` | Engram + SDD skills only |
 | Custom | `custom` | You choose components and skills manually while keeping any existing persona/settings unmanaged |

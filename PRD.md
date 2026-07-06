@@ -1,9 +1,9 @@
-# PRD: Gentleman AI Installer
+# PRD: Mr.Mauroo AI Installer
 
-> **One command. Any agent. Any OS. The Gentleman AI ecosystem — configured and ready.**
+> **One command. Any agent. Any OS. The Mr.Mauroo AI ecosystem — configured and ready.**
 
 **Version**: 0.1.0-draft
-**Author**: Gentleman Programming
+**Author**: Mr.Mauroo Programming
 **Date**: 2026-02-27
 **Status**: Draft
 
@@ -30,15 +30,15 @@ Most developers either:
 - Spend DAYS manually configuring one agent, then can't replicate it on another machine or tool
 - Never set up memory, MCP, or skills because the setup is fragmented across 5 different repos
 
-**This installer eliminates that gap entirely.** You pick your agent(s), you pick your config level, and the entire Gentleman AI ecosystem gets injected into your tools — ready to go. From zero to championship-level AI development in minutes.
+**This installer eliminates that gap entirely.** You pick your agent(s), you pick your config level, and the entire Mr.Mauroo AI ecosystem gets injected into your tools — ready to go. From zero to championship-level AI development in minutes.
 
 ---
 
 ## 2. Vision
 
-**The Gentleman AI ecosystem — installable by anyone, on any agent, on any OS, in one command.**
+**The Mr.Mauroo AI ecosystem — installable by anyone, on any agent, on any OS, in one command.**
 
-This is NOT an "AI agent installer." Most agents are already easy to install (`npm i -g @anthropic-ai/claude-code`, `brew install opencode`, etc.). This is an **ecosystem configurator**: it takes whatever AI agent(s) you use and supercharges them with the Gentleman stack:
+This is NOT an "AI agent installer." Most agents are already easy to install (`npm i -g @anthropic-ai/claude-code`, `brew install opencode`, etc.). This is an **ecosystem configurator**: it takes whatever AI agent(s) you use and supercharges them with the Mr.Mauroo stack:
 
 - **Engram** — persistent cross-session memory
 - **SDD** — Spec-Driven Development workflow (plan before you code)
@@ -48,7 +48,7 @@ This is NOT an "AI agent installer." Most agents are already easy to install (`n
 
 **Before**: "I installed Claude Code / OpenCode / Cursor / whatever, but it's just a chatbot that writes code."
 
-**After**: `curl -sL get.gentleman.ai/ai | sh` → Pick your agent(s) → Pick your config → Your agent now has memory, skills, workflow, MCP tools, and a persona that actually teaches you. Same ecosystem regardless of which tool you use.
+**After**: `curl -sL get.mr-mauroo.ai/ai | sh` → Pick your agent(s) → Pick your config → Your agent now has memory, skills, workflow, MCP tools, and a persona that actually teaches you. Same ecosystem regardless of which tool you use.
 
 ---
 
@@ -203,7 +203,7 @@ Node.js is the most critical dependency — multiple agents depend on it, and di
 
 ### 6.1 AI Coding Agents
 
-The installer supports configuring the Gentleman ecosystem into ANY AI coding agent. The user selects which ones they use (or want to use). **The primary job is CONFIGURATION, not installation** — most agents have their own install methods. The installer CAN install agents that are missing, but the core value is injecting the ecosystem.
+The installer supports configuring the Mr.Mauroo ecosystem into ANY AI coding agent. The user selects which ones they use (or want to use). **The primary job is CONFIGURATION, not installation** — most agents have their own install methods. The installer CAN install agents that are missing, but the core value is injecting the ecosystem.
 
 #### Terminal-Based Agents (CLI)
 
@@ -285,9 +285,9 @@ The full SDD Agent Team skill set (9 skills):
 - R-SDD-01: SDD skills MUST be installed to the correct path for each selected agent (Claude Code: `~/.claude/skills/`, OpenCode: `~/.config/opencode/skills/`, Cursor: `~/.cursor/skills/`)
 - R-SDD-02: The SDD orchestrator configuration MUST be injected into the agent's global config (CLAUDE.md, opencode.json agents, .cursorrules)
 - R-SDD-03: OpenCode slash commands for SDD phases MUST be installed when OpenCode is selected, enabling the agent to invoke SDD organically when it detects a substantial change
-- R-SDD-04: The installer MUST pull SDD skills from the latest release of `Gentleman-Programming/sdd-agent-team`
+- R-SDD-04: The installer MUST pull SDD skills from the latest release of `Mr-Mauroo-Programming/sdd-agent-team`
 
-### 6.4 GGA — Gentleman Guardian Angel (AI Code Review)
+### 6.4 GGA — Mr.Mauroo Guardian Angel (AI Code Review)
 
 GGA is a zero-dependency, pure Bash CLI tool that performs **AI-powered code review on every git commit**. It acts as a pre-commit git hook: staged files are sent to any AI provider, validated against team coding standards (defined in `AGENTS.md`), and the commit is allowed or blocked based on the AI's verdict.
 
@@ -363,13 +363,13 @@ Beyond SDD, additional coding skills that encode best practices:
 
 ### 6.7 Agent Configuration (Persona, Theme, Permissions)
 
-#### Persona Selection — "Your own Gentleman!"
+#### Persona Selection — "Your own Mr.Mauroo!"
 
-The Gentleman persona is the heart of this ecosystem, but it's **100% optional**. The user chooses their experience:
+The Mr.Mauroo persona is the heart of this ecosystem, but it's **100% optional**. The user chooses their experience:
 
 | Persona Option | Description | What it Configures |
 |---------------|-------------|-------------------|
-| **Gentleman Mode** | "Your own Gentleman!" — The Senior Architect mentor who teaches, challenges, and pushes you to understand concepts before code. Rioplatense Spanish for Spanish input, direct English otherwise. Uses Tony Stark/Jarvis analogies. | Full persona in CLAUDE.md / opencode agents / .cursorrules, custom thinking verbs, teaching-first behavior |
+| **Mr.Mauroo Mode** | "Your own Mr.Mauroo!" — The Senior Architect mentor who teaches, challenges, and pushes you to understand concepts before code. Rioplatense Spanish for Spanish input, direct English otherwise. Uses Tony Stark/Jarvis analogies. | Full persona in CLAUDE.md / opencode agents / .cursorrules, custom thinking verbs, teaching-first behavior |
 | **Neutral Mode** | Professional, helpful, no personality overlay. The agent stays with its default behavior. | Security permissions only, no persona injection |
 | **Custom Persona** | Bring your own! User provides a persona description or selects from community presets. | User-provided text injected into agent instructions |
 
@@ -377,21 +377,21 @@ The Gentleman persona is the heart of this ecosystem, but it's **100% optional**
 
 | Config Aspect | What Gets Configured |
 |---------------|---------------------|
-| Theme | Gentleman dark theme (navy/steel/gold) or default |
+| Theme | Mr.Mauroo dark theme (navy/steel/gold) or default |
 | Permissions | Security-first defaults: deny .env, ask on destructive git ops, allow standard tools |
 | Editor mode | vim / emacs / default |
 | Statusline | Custom statusline with model info, git status, context usage (Claude Code) |
-| Thinking verbs | Custom spinner text — Rioplatense phrases like "Tomando un Cafecito mientras Pienso" (only with Gentleman persona) |
+| Thinking verbs | Custom spinner text — Rioplatense phrases like "Tomando un Cafecito mientras Pienso" (only with Mr.Mauroo persona) |
 | Keybindings | Vim-style or default |
 
 **Requirements:**
 - R-CONFIG-01: The persona selection MUST be a first-class step in the installation flow, presented clearly with personality descriptions
-- R-CONFIG-02: Selecting "Gentleman Mode" MUST display the tagline "Your own Gentleman!" and a brief preview of how the agent will behave
+- R-CONFIG-02: Selecting "Mr.Mauroo Mode" MUST display the tagline "Your own Mr.Mauroo!" and a brief preview of how the agent will behave
 - R-CONFIG-03: The installer MUST offer a "Custom" mode where the user can pick individual config aspects
 - R-CONFIG-04: Permission defaults MUST follow the security-first model: block .env access, require confirmation for destructive git operations — REGARDLESS of persona choice (security is not optional)
 - R-CONFIG-05: The installer MUST NOT overwrite existing agent configurations without explicit user consent
-- R-CONFIG-06: The installer SHOULD offer to backup existing configs before making changes (same pattern as Gentleman.Dots)
-- R-CONFIG-07: Thinking verbs and Rioplatense expressions MUST only be configured when Gentleman persona is selected
+- R-CONFIG-06: The installer SHOULD offer to backup existing configs before making changes (same pattern as Mr.Mauroo.Dots)
+- R-CONFIG-07: Thinking verbs and Rioplatense expressions MUST only be configured when Mr.Mauroo persona is selected
 - R-CONFIG-08: The installer SHOULD support community-contributed personas in the future (out of scope for v1, but architecture must allow it)
 
 ---
@@ -401,7 +401,7 @@ The Gentleman persona is the heart of this ecosystem, but it's **100% optional**
 ### 7.1 Installation Flow
 
 ```
-curl -sL get.gentleman.ai/ai | sh
+curl -sL get.mr-mauroo.ai/ai | sh
                   │
                   ▼
      ┌─────────────────────┐
@@ -412,7 +412,7 @@ curl -sL get.gentleman.ai/ai | sh
                 ▼
      ┌─────────────────────────────────┐
      │   TUI: Welcome                   │
-     │   "Gentleman AI Ecosystem"       │
+     │   "Mr.Mauroo AI Ecosystem"       │
      │   Supercharge your AI agents.    │
      └──────────┬──────────────────────┘
                 │
@@ -441,7 +441,7 @@ curl -sL get.gentleman.ai/ai | sh
      ┌─────────────────────────────────┐
      │  Choose your Persona             │
      │                                  │
-     │  ★ "Your own Gentleman!"         │  ← Senior Architect mentor, teaches,
+     │  ★ "Your own Mr.Mauroo!"         │  ← Senior Architect mentor, teaches,
      │     The mentor who pushes you     │     challenges, Rioplatense Spanish
      │     to understand before coding.  │
      │                                  │
@@ -481,13 +481,13 @@ curl -sL get.gentleman.ai/ai | sh
      │  Review & Confirm                │
      │                                  │
      │  Agents: Claude Code, OpenCode   │
-     │  Persona: Gentleman              │
+     │  Persona: Mr.Mauroo              │
      │  Memory: Engram ✓                │
      │  Workflow: SDD (9 skills) ✓      │
      │  Code Review: GGA (claude) ✓     │
      │  Coding Skills: 15 skills ✓      │
      │  MCP: Context7, Notion ✓         │
-     │  Theme: Gentleman Dark ✓         │
+     │  Theme: Mr.Mauroo Dark ✓         │
      │                                  │
      │  [Install]  [Back]               │
      └──────────┬──────────────────────┘
@@ -532,9 +532,9 @@ curl -sL get.gentleman.ai/ai | sh
 For CI, automation, and team provisioning:
 
 ```bash
-gentle-ai install \
+mr-mauroo-ai install \
   --agents claude-code,opencode \
-  --preset gentleman \
+  --preset mr-mauroo \
   --skills full-stack \
   --mcp context7,notion \
   --non-interactive
@@ -542,7 +542,7 @@ gentle-ai install \
 
 **Requirements:**
 - R-UX-01: The installer MUST support both interactive TUI and non-interactive CLI modes
-- R-UX-02: The TUI MUST use the Bubbletea framework with Lipgloss styling (consistent with Gentleman.Dots)
+- R-UX-02: The TUI MUST use the Bubbletea framework with Lipgloss styling (consistent with Mr.Mauroo.Dots)
 - R-UX-03: Installation progress MUST stream real-time logs to the TUI
 - R-UX-04: The installer MUST show a summary of all changes before applying them
 - R-UX-05: The installer MUST show clear "Next Steps" after completion (API key setup, first commands to try)
@@ -556,7 +556,7 @@ gentle-ai install \
 | Welcome | Branding, version, what this tool does |
 | System Detection | Show detected OS, existing tools, existing configs, installed dependencies |
 | Agent Selection | Multi-select AI agents to install/configure |
-| Persona Selection | "Your own Gentleman!" / Neutral / Custom |
+| Persona Selection | "Your own Mr.Mauroo!" / Neutral / Custom |
 | Preset Selection | Dev Stack + Polish / Dev Stack / Memory Only / Custom |
 | MCP Server Selection | Which MCP integrations to enable (Custom mode) |
 | Skills Selection | Which coding skills to install (Custom mode) |
@@ -573,7 +573,7 @@ gentle-ai install \
 
 ### 8.0 Ecosystem Architecture — How Everything Connects
 
-This section describes how all Gentleman ecosystem components interact with each other, both at **install time** (what the installer does) and at **runtime** (what the developer experiences daily).
+This section describes how all Mr.Mauroo ecosystem components interact with each other, both at **install time** (what the installer does) and at **runtime** (what the developer experiences daily).
 
 #### 8.0.1 The Big Picture
 
@@ -581,7 +581,7 @@ This section describes how all Gentleman ecosystem components interact with each
 graph TB
     subgraph INSTALLER["🔧 GENTLEMAN AI INSTALLER (one-time setup)"]
         direction TB
-        GAI[gentle-ai binary]
+        GAI[mr-mauroo-ai binary]
         GAI --> DEP_ENGINE[Dependency Engine]
         GAI --> AGENT_ENGINE[Agent Configurator]
         GAI --> ECO_ENGINE[Ecosystem Injector]
@@ -611,7 +611,7 @@ graph TB
         GGA_COMP[🛡️ GGA<br/>Guardian Angel Code Review]
         SKILLS[📚 Coding Skills<br/>React, TS, Tailwind, etc.]
         MCP[🔌 MCP Servers<br/>Context7, Notion, Jira]
-        PERSONA[🎭 Persona & Config<br/>Gentleman / Neutral / Custom]
+        PERSONA[🎭 Persona & Config<br/>Mr.Mauroo / Neutral / Custom]
     end
 
     subgraph RUNTIME["🏃 DAILY DEVELOPMENT (after install)"]
@@ -727,7 +727,7 @@ graph LR
 
 ```mermaid
 flowchart TD
-    START([gentle-ai install]) --> DETECT
+    START([mr-mauroo-ai install]) --> DETECT
 
     subgraph PHASE_1["Phase 1: System Detection"]
         DETECT[Detect OS / Arch / WSL / Termux]
@@ -748,7 +748,7 @@ flowchart TD
     REVIEW --> BACKUP
 
     subgraph PHASE_3["Phase 3: Backup"]
-        BACKUP[Backup existing configs<br/>~/.gentle-ai-backup-TIMESTAMP/]
+        BACKUP[Backup existing configs<br/>~/.mr-mauroo-ai-backup-TIMESTAMP/]
     end
 
     BACKUP --> DEP_INSTALL
@@ -812,9 +812,9 @@ flowchart TD
 ```mermaid
 graph TD
     subgraph SOURCES["Source Repositories (fetched at install time)"]
-        REPO_SDD[Gentleman-Programming/<br/>sdd-agent-team]
-        REPO_ENGRAM[Gentleman-Programming/<br/>engram]
-        REPO_GGA[Gentleman-Programming/<br/>gentleman-guardian-angel]
+        REPO_SDD[Mr-Mauroo-Programming/<br/>sdd-agent-team]
+        REPO_ENGRAM[Mr-Mauroo-Programming/<br/>engram]
+        REPO_GGA[Mr-Mauroo-Programming/<br/>mr-mauroo-guardian-angel]
         REPO_SKILLS[Skills Registry<br/>30+ skill files]
     end
 
@@ -1047,18 +1047,18 @@ graph TB
 
 | Layer | Technology | Rationale |
 |-------|-----------|-----------|
-| Language | Go | Same as Gentleman.Dots + Engram. Single binary, cross-compile, no runtime deps |
-| TUI | Bubbletea + Lipgloss | Proven in Gentleman.Dots. Elm architecture, excellent terminal support |
-| Distribution | Homebrew tap + direct binary download + curl installer | Same as Gentleman.Dots |
+| Language | Go | Same as Mr.Mauroo.Dots + Engram. Single binary, cross-compile, no runtime deps |
+| TUI | Bubbletea + Lipgloss | Proven in Mr.Mauroo.Dots. Elm architecture, excellent terminal support |
+| Distribution | Homebrew tap + direct binary download + curl installer | Same as Mr.Mauroo.Dots |
 | Skills source | Git clone from repos at install time | Always latest version |
 | Config format | JSON, YAML, TOML, Markdown | Match each agent's native format |
 
 ### 8.2 Package Structure (Proposed)
 
 ```
-gentle-ai/
+mr-mauroo-ai/
 ├── cmd/
-│   └── gentle-ai/
+│   └── mr-mauroo-ai/
 │       └── main.go                 # CLI entrypoint
 ├── internal/
 │   ├── system/
@@ -1081,7 +1081,7 @@ gentle-ai/
 │   │   ├── skills.go               # Skills library install
 │   │   └── config.go               # Persona, theme, permissions, etc.
 │   ├── presets/
-│   │   ├── gentleman.go            # Dev Stack + Polish preset definition (`full-gentleman`)
+│   │   ├── mr-mauroo.go            # Dev Stack + Polish preset definition (`full-mr-mauroo`)
 │   │   ├── minimal.go              # Memory Only preset definition (`minimal`)
 │   │   └── preset.go               # Preset interface
 │   ├── backup/
@@ -1170,7 +1170,7 @@ Persona is selected separately on the Persona screen and applied independently o
 
 | Preset | Display Label | What's Included | Description |
 |--------|--------------|-----------------|-------------|
-| `full-gentleman` | Dev Stack + Polish | All agents detected + Engram + SDD + all skills + MCP + theme | The complete experience. Everything configured, dark theme, the works. |
+| `full-mr-mauroo` | Dev Stack + Polish | All agents detected + Engram + SDD + all skills + MCP + theme | The complete experience. Everything configured, dark theme, the works. |
 | `ecosystem-only` | Dev Stack | Engram + SDD + skills + MCP for selected agents | All the tools and workflow. For developers who want the ecosystem without opinionated defaults. |
 | `minimal` | Memory Only | Engram + basic skills for selected agents | Just memory and essential skills. Quick and lean. |
 | `custom` | Custom | User picks each component | Full control over every aspect. |
@@ -1183,11 +1183,11 @@ Persona is selected separately on the Persona screen and applied independently o
 
 | Method | Command | Priority |
 |--------|---------|----------|
-| curl (recommended) | `curl -sL get.gentleman.ai/ai \| sh` | P0 |
-| Homebrew | `brew install Gentleman-Programming/tap/gentle-ai` | P0 |
-| Go install | `go install github.com/Gentleman-Programming/gentle-ai/cmd/gentle-ai@latest` | P1 |
+| curl (recommended) | `curl -sL get.mr-mauroo.ai/ai \| sh` | P0 |
+| Homebrew | `brew install Mr-Mauroo-Programming/tap/mr-mauroo-ai` | P0 |
+| Go install | `go install github.com/Mr-Mauroo/mr-mauroo-ai/cmd/mr-mauroo-ai@latest` | P1 |
 | Direct binary | Download from GitHub Releases | P1 |
-| winget (Windows) | `winget install gentle-ai` | P2 |
+| winget (Windows) | `winget install mr-mauroo-ai` | P2 |
 
 ### 9.2 Cross-Compilation Targets
 
@@ -1215,9 +1215,9 @@ Persona is selected separately on the Persona screen and applied independently o
 ### 10.1 Self-Update
 
 **Requirements:**
-- R-UPDATE-01: The installer MUST support `gentle-ai update` to check for and install newer versions of itself
-- R-UPDATE-02: The installer MUST support `gentle-ai update --skills` to pull latest skill versions for all configured agents
-- R-UPDATE-03: The installer MUST support `gentle-ai update --engram` to update Engram to the latest version
+- R-UPDATE-01: The installer MUST support `mr-mauroo-ai update` to check for and install newer versions of itself
+- R-UPDATE-02: The installer MUST support `mr-mauroo-ai update --skills` to pull latest skill versions for all configured agents
+- R-UPDATE-03: The installer MUST support `mr-mauroo-ai update --engram` to update Engram to the latest version
 - R-UPDATE-04: The installer SHOULD check for updates on launch and notify (not auto-update)
 
 ### 10.2 Config Sync
@@ -1234,17 +1234,17 @@ Persona is selected separately on the Persona screen and applied independently o
 
 ### 11.1 What the User Gets After Installation
 
-When the installer completes with "Dev Stack + Polish" (`full-gentleman`) preset + Claude Code + OpenCode:
+When the installer completes with "Dev Stack + Polish" (`full-mr-mauroo`) preset + Claude Code + OpenCode:
 
 **Claude Code:**
-- `~/.claude/CLAUDE.md` — Gentleman persona with SDD orchestrator
-- `~/.claude/settings.json` — Security-first permissions, Gentleman theme, vim mode, custom statusline, thinking verbs
+- `~/.claude/CLAUDE.md` — Mr.Mauroo persona with SDD orchestrator
+- `~/.claude/settings.json` — Security-first permissions, Mr.Mauroo theme, vim mode, custom statusline, thinking verbs
 - `~/.claude/skills/` — All selected skills (SDD + coding skills)
 - `~/.claude/plugins/` — Engram plugin installed and active
 - `~/.claude.json` — Context7 MCP server configured
 
 **OpenCode:**
-- `~/.config/opencode/opencode.json` — Agents (gentleman, sdd-orchestrator), MCP servers (engram, context7), Engram plugin, Gentleman theme
+- `~/.config/opencode/opencode.json` — Agents (mr-mauroo, sdd-orchestrator), MCP servers (engram, context7), Engram plugin, Mr.Mauroo theme
 - `~/.config/opencode/skills/` — All selected skills mirrored
 - `~/.config/opencode/commands/` — SDD slash commands
 - `~/.config/opencode/plugins/` — Engram TypeScript plugin
@@ -1296,7 +1296,7 @@ The completion screen MUST show:
 ### 12.3 Reliability
 - R-REL-01: Every installation step MUST be idempotent (safe to re-run)
 - R-REL-02: If a step fails, the installer MUST continue with remaining steps and report failures at the end
-- R-REL-03: The installer MUST support `gentle-ai repair` to re-run failed steps
+- R-REL-03: The installer MUST support `mr-mauroo-ai repair` to re-run failed steps
 - R-REL-04: The backup system MUST create timestamped snapshots before any config modification
 
 ### 12.4 Extensibility
@@ -1312,20 +1312,20 @@ The completion screen MUST show:
 
 ---
 
-## 13. Relationship to Gentleman.Dots
+## 13. Relationship to Mr.Mauroo.Dots
 
-| Aspect | Gentleman.Dots | Gentleman AI Installer |
+| Aspect | Mr.Mauroo.Dots | Mr.Mauroo AI Installer |
 |--------|---------------|----------------------|
 | Purpose | Dev environment (editors, shells, terminals) | AI development layer (agents, memory, skills) |
 | What it installs | Neovim, Fish/Zsh/Nushell, Tmux/Zellij, Ghostty/Kitty/etc. | Claude Code, OpenCode, Engram, SDD, MCP servers, skills |
 | Overlap | None — complementary tools | None — different layer |
-| Can use together | Yes — install Gentleman.Dots first for dev env, then Gentleman AI for AI layer | Same |
+| Can use together | Yes — install Mr.Mauroo.Dots first for dev env, then Mr.Mauroo AI for AI layer | Same |
 | Shared patterns | Go + Bubbletea + Lipgloss, multi-OS detection, backup system | Same architecture, consistent UX |
 
 **Requirements:**
-- R-DOTS-01: The installer SHOULD detect if Gentleman.Dots is already installed and acknowledge it ("Great, you already have Gentleman.Dots! This installer adds the AI layer on top.")
-- R-DOTS-02: The installer MUST work independently — Gentleman.Dots is NOT a prerequisite
-- R-DOTS-03: The two installers SHOULD share the same Gentleman visual identity (theme, branding)
+- R-DOTS-01: The installer SHOULD detect if Mr.Mauroo.Dots is already installed and acknowledge it ("Great, you already have Mr.Mauroo.Dots! This installer adds the AI layer on top.")
+- R-DOTS-02: The installer MUST work independently — Mr.Mauroo.Dots is NOT a prerequisite
+- R-DOTS-03: The two installers SHOULD share the same Mr.Mauroo visual identity (theme, branding)
 
 ---
 
@@ -1338,9 +1338,9 @@ These are NOT requirements for v1 but should inform architectural decisions:
 3. **AI agent health dashboard** — TUI screen showing status of all installed agents, Engram memory stats, MCP server connectivity
 4. **Auto-detection of project stack** — When entering a project directory, suggest relevant skills to install
 5. **Migration tool** — Import settings from one agent to another (e.g., Cursor user switching to Claude Code)
-6. **Gentleman.Dots integration** — Combined installer that does BOTH dev environment + AI layer in one flow
+6. **Mr.Mauroo.Dots integration** — Combined installer that does BOTH dev environment + AI layer in one flow
 7. **Remote provisioning** — SSH-based installation on remote servers/VMs
-8. **Nix flake** — Declarative alternative to imperative installation (see Gentleman.Dots2 experiment)
+8. **Nix flake** — Declarative alternative to imperative installation (see Mr.Mauroo.Dots2 experiment)
 
 ---
 
@@ -1358,11 +1358,11 @@ These are NOT requirements for v1 but should inform architectural decisions:
 
 ## 16. Open Questions
 
-1. **Naming**: `gentle-ai`, `gentle-ai`, `gai`, or something else? Should it be part of the `Gentleman-Programming` org or standalone?
+1. **Naming**: `mr-mauroo-ai`, `mr-mauroo-ai`, `gai`, or something else? Should it be part of the `Mr-Mauroo-Programming` org or standalone?
 2. **Skills registry**: Should skills be embedded in the binary, fetched from GitHub at install time, or pulled from a dedicated registry service?
 3. **Windows native**: How much effort to invest in native Windows (not WSL) support for v1? Most AI coding tools have limited Windows support anyway.
 4. **Config format**: Should the installer's own config (what was installed, preferences) be stored as JSON, YAML, or TOML? Where?
-5. **Gentleman.Dots convergence**: Should this eventually merge with Gentleman.Dots into a single unified installer with two modes (dev env + AI)?
+5. **Mr.Mauroo.Dots convergence**: Should this eventually merge with Mr.Mauroo.Dots into a single unified installer with two modes (dev env + AI)?
 6. **Version pinning**: Should the installer pin specific versions of tools/skills, or always install latest?
 
 ---
@@ -1386,30 +1386,30 @@ These are NOT requirements for v1 but should inform architectural decisions:
 
 ```bash
 # Dev Stack + Polish preset with Claude Code + OpenCode
-gentle-ai install --preset gentleman --agents claude-code,opencode
+mr-mauroo-ai install --preset mr-mauroo --agents claude-code,opencode
 
 # Memory Only setup, just Claude Code with basic security
-gentle-ai install --preset minimal --agents claude-code
+mr-mauroo-ai install --preset minimal --agents claude-code
 
 # Team provisioning from shared profile
-gentle-ai install --profile ./team-ai-config.yaml
+mr-mauroo-ai install --profile ./team-ai-config.yaml
 
 # Update all skills to latest
-gentle-ai update --skills
+mr-mauroo-ai update --skills
 
 # Update Engram
-gentle-ai update --engram
+mr-mauroo-ai update --engram
 
 # Backup current configs
-gentle-ai backup
+mr-mauroo-ai backup
 
 # Restore from backup
-gentle-ai restore --list
-gentle-ai restore --id 2026-02-27-143022
+mr-mauroo-ai restore --list
+mr-mauroo-ai restore --id 2026-02-27-143022
 
 # Repair failed installation
-gentle-ai repair
+mr-mauroo-ai repair
 
 # Show what's installed
-gentle-ai status
+mr-mauroo-ai status
 ```

@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 // ProfileAssignment holds the resolved model and reasoning_effort for a
@@ -52,7 +52,7 @@ func readProfileFileOrEmpty(path string) (string, error) {
 	return string(data), nil
 }
 
-// SddProfilePaths returns the absolute paths of all gentle-ai SDD profile
+// SddProfilePaths returns the absolute paths of all mr-mauroo-ai SDD profile
 // files that WriteCodexProfiles would write into codexHomeDir. Useful for
 // uninstall path tracking without re-running the write.
 func SddProfilePaths(codexHomeDir string) []string {
@@ -64,7 +64,7 @@ func SddProfilePaths(codexHomeDir string) []string {
 	return paths
 }
 
-// WriteCodexProfiles writes the three gentle-ai SDD profile files into the
+// WriteCodexProfiles writes the three mr-mauroo-ai SDD profile files into the
 // given Codex home directory (~/.codex). Each profile file contains both a
 // model key and a model_reasoning_effort key set to the resolved tier values.
 //

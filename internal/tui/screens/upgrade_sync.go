@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/styles"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update/upgrade"
 )
 
 // RenderUpgradeSync handles all states of the combined upgrade+sync screen.
@@ -81,7 +81,7 @@ func renderUpgradeSyncConfirm(results []update.UpdateResult, updateCheckDone boo
 
 	b.WriteString("  " + styles.WarningStyle.Render("1.") + " " + styles.HeadingStyle.Render("Upgrade tools"))
 	b.WriteString("\n")
-	b.WriteString("     " + styles.SubtextStyle.Render("Updates gentle-ai, engram, and gga to latest versions"))
+	b.WriteString("     " + styles.SubtextStyle.Render("Updates mr-mauroo-ai, engram, and gga to latest versions"))
 	b.WriteString("\n\n")
 
 	b.WriteString("  " + styles.WarningStyle.Render("2.") + " " + styles.HeadingStyle.Render("Sync configurations"))
@@ -186,9 +186,9 @@ func renderUpgradeSyncResult(report *upgrade.UpgradeReport, syncFiles []string, 
 	b.WriteString("\n\n")
 
 	if reportUpgradedGentleAI(report) {
-		b.WriteString("  " + styles.WarningStyle.Render("⚠ Sync skipped because gentle-ai was upgraded."))
+		b.WriteString("  " + styles.WarningStyle.Render("⚠ Sync skipped because mr-mauroo-ai was upgraded."))
 		b.WriteString("\n")
-		b.WriteString("  " + styles.SubtextStyle.Render("Restart gentle-ai, then run sync with the new binary."))
+		b.WriteString("  " + styles.SubtextStyle.Render("Restart mr-mauroo-ai, then run sync with the new binary."))
 	} else if syncErr != nil {
 		b.WriteString("  " + styles.ErrorStyle.Render("✗ Sync failed: "+syncErr.Error()))
 	} else if len(syncFiles) == 0 {

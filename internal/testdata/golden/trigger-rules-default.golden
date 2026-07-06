@@ -1,6 +1,6 @@
 ## Agent Trigger Rules
 
-These are organic recommendations, not enforced checkpoints. gentle-ai only renders this text; the AI orchestrator decides when to act on it.
+These are organic recommendations, not enforced checkpoints. mr-mauroo-ai only renders this text; the AI orchestrator decides when to act on it.
 
 - At **pre-commit**, always, consider running `review-readability`. (everyday event → ONE cheap advisory lens (~1x); full 4R fan-out reserved for pre-pr)
 - At **pre-push**, always, consider running `review-readability`. (everyday event → ONE cheap advisory lens (~1x); 4R fan-out reserved for pre-pr on hot paths / large diffs)

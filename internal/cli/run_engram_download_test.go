@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/engram"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
 )
 
 // TestRunInstallLinuxEngramUsesDownloadNotGoInstall verifies that after the fix,
@@ -539,7 +539,7 @@ func TestRunInstallBetaEngramUsesMainGoInstallAndInstalledBinary(t *testing.T) {
 	foundGoInstall := false
 	foundSetupWithBetaBinary := false
 	for _, cmd := range commands {
-		if cmd == "go install github.com/Gentleman-Programming/engram/cmd/engram@main" {
+		if cmd == "go install github.com/Mr-Mauroo-Programming/engram/cmd/engram@main" {
 			foundGoInstall = true
 		}
 		if strings.HasPrefix(cmd, betaEngram+" setup ") {

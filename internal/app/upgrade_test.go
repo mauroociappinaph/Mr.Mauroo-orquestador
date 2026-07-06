@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update/upgrade"
 )
 
 // renderUpgradeReportForTest is a test helper that wraps upgrade.RenderUpgradeReport.
@@ -20,7 +20,7 @@ func renderUpgradeReportForTest(results []upgrade.ToolUpgradeResult, dryRun bool
 
 // --- TestRunArgs_UpgradeDryRunFlag ---
 
-// TestRunArgs_UpgradeDryRun verifies that `gentle-ai upgrade --dry-run` runs without
+// TestRunArgs_UpgradeDryRun verifies that `mr-mauroo-ai upgrade --dry-run` runs without
 // error, outputs relevant messaging, and does NOT attempt any real installation.
 // The environment has no tools installed, so no upgrades are available.
 func TestRunArgs_UpgradeDryRun(t *testing.T) {
@@ -52,7 +52,7 @@ func TestRunArgs_UpgradeDryRun(t *testing.T) {
 	}
 }
 
-// TestRunArgs_UpgradeNoArgs runs `gentle-ai upgrade` without flags.
+// TestRunArgs_UpgradeNoArgs runs `mr-mauroo-ai upgrade` without flags.
 // With no updates available in the test environment, it should exit cleanly.
 func TestRunArgs_UpgradeNoArgs(t *testing.T) {
 	var buf bytes.Buffer
@@ -69,7 +69,7 @@ func TestRunArgs_UpgradeNoArgs(t *testing.T) {
 	}
 }
 
-// TestRunArgs_UpgradeToolFilter verifies that `gentle-ai upgrade engram` filters
+// TestRunArgs_UpgradeToolFilter verifies that `mr-mauroo-ai upgrade engram` filters
 // to only check/upgrade engram.
 func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	var buf bytes.Buffer
@@ -83,10 +83,10 @@ func TestRunArgs_UpgradeToolFilter(t *testing.T) {
 	}
 
 	out := buf.String()
-	// Output should only mention engram or no-upgrades, not gentle-ai or gga.
+	// Output should only mention engram or no-upgrades, not mr-mauroo-ai or gga.
 	// This is a soft check since the tool may not be installed.
-	if strings.Contains(out, "gentle-ai") && !strings.Contains(out, "engram") {
-		t.Errorf("filtering to engram should not show gentle-ai in output; got: %s", out)
+	if strings.Contains(out, "mr-mauroo-ai") && !strings.Contains(out, "engram") {
+		t.Errorf("filtering to engram should not show mr-mauroo-ai in output; got: %s", out)
 	}
 }
 
@@ -169,28 +169,28 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 			name: "dev-build skipped shows skipped status not failure",
 			results: []upgrade.ToolUpgradeResult{
 				{
-					ToolName:   "gentle-ai",
+					ToolName:   "mr-mauroo-ai",
 					OldVersion: "dev",
 					NewVersion: "1.0.0",
 					Status:     upgrade.UpgradeSkipped,
 					ManualHint: "source build — upgrade manually or install a release binary",
 				},
 			},
-			wantContains:   []string{"gentle-ai", "[--]", "source build"},
+			wantContains:   []string{"mr-mauroo-ai", "[--]", "source build"},
 			wantNotContain: []string{"[!!]", "FAILED"},
 		},
 		{
 			name: "manual fallback shows hint not failure",
 			results: []upgrade.ToolUpgradeResult{
 				{
-					ToolName:   "gentle-ai",
+					ToolName:   "mr-mauroo-ai",
 					OldVersion: "1.0.0",
 					NewVersion: "1.5.0",
 					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Gentleman-Programming/gentle-ai/releases",
+					ManualHint: "Download from https://github.com/Mr-Mauroo/mr-mauroo-ai/releases",
 				},
 			},
-			wantContains:   []string{"gentle-ai", "manual update required", "github.com", "[--]"},
+			wantContains:   []string{"mr-mauroo-ai", "manual update required", "github.com", "[--]"},
 			wantNotContain: []string{"[!!]", "FAILED"},
 		},
 		{
@@ -231,7 +231,7 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 					Status:     upgrade.UpgradeSucceeded,
 				},
 				{
-					ToolName:   "gentle-ai",
+					ToolName:   "mr-mauroo-ai",
 					OldVersion: "dev",
 					NewVersion: "1.5.0",
 					Status:     upgrade.UpgradeSkipped,
@@ -242,10 +242,10 @@ func TestRenderUpgradeReport_PerToolSemantics_Deterministic(t *testing.T) {
 					OldVersion: "1.0.0",
 					NewVersion: "2.0.0",
 					Status:     upgrade.UpgradeSkipped,
-					ManualHint: "Download from https://github.com/Gentleman-Programming/gga/releases",
+					ManualHint: "Download from https://github.com/Mr-Mauroo/mr-mauroo-guardian-angel/releases",
 				},
 			},
-			wantContains:   []string{"engram", "[ok]", "gentle-ai", "[--]", "gga", "1 succeeded", "2 skipped"},
+			wantContains:   []string{"engram", "[ok]", "mr-mauroo-ai", "[--]", "gga", "1 succeeded", "2 skipped"},
 			wantNotContain: []string{"FAILED", "[!!]"},
 		},
 	}

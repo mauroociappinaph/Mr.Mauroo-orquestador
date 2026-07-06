@@ -30,7 +30,7 @@ func ResolveInstallChannel(flagValue string) (InstallChannel, error) {
 	case ChannelBeta, "nightly":
 		return ChannelBeta, nil
 	default:
-		return "", fmt.Errorf("unsupported Gentle AI channel %q (use stable, beta, or nightly)", raw)
+		return "", fmt.Errorf("unsupported Mr.Mauroo AI channel %q (use stable, beta, or nightly)", raw)
 	}
 }
 

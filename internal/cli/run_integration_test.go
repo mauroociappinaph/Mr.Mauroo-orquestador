@@ -11,13 +11,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents/kimi"
-	"github.com/gentleman-programming/gentle-ai/internal/agents/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/installcmd"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/versions"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents/kimi"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents/opencode"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/installcmd"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/versions"
 )
 
 // missingBinaryLookPath simulates all installable binaries (engram, gga) as
@@ -1211,7 +1211,7 @@ func TestRunInstallGGASkipsInstallWhenAlreadyOnPath(t *testing.T) {
 
 	// No brew/git clone commands for GGA should have been recorded.
 	for _, cmd := range recorder.get() {
-		if strings.Contains(cmd, "gga") || strings.Contains(cmd, "gentleman-guardian-angel") {
+		if strings.Contains(cmd, "gga") || strings.Contains(cmd, "mr-mauroo-guardian-angel") {
 			t.Fatalf("expected gga install to be skipped, but got command: %s", cmd)
 		}
 	}
@@ -1262,10 +1262,10 @@ func TestRunInstallGGALinuxIncludesTempCleanupBeforeClone(t *testing.T) {
 	cleanupIdx := -1
 	cloneIdx := -1
 	for i, cmd := range commands {
-		if strings.Contains(cmd, "rm -rf /tmp/gentleman-guardian-angel") {
+		if strings.Contains(cmd, "rm -rf /tmp/mr-mauroo-guardian-angel") {
 			cleanupIdx = i
 		}
-		if strings.Contains(cmd, "git clone https://github.com/Gentleman-Programming/gentleman-guardian-angel.git /tmp/gentleman-guardian-angel") {
+		if strings.Contains(cmd, "git clone https://github.com/Mr-Mauroo-Programming/mr-mauroo-guardian-angel.git /tmp/mr-mauroo-guardian-angel") {
 			cloneIdx = i
 		}
 	}
@@ -1735,10 +1735,10 @@ func TestRunInstallUpgradeIdempotency(t *testing.T) {
 			orchestratorCount, content)
 	}
 
-	// 3. No duplicate gentle-ai marker blocks — each section's open marker
+	// 3. No duplicate mr-mauroo-ai marker blocks — each section's open marker
 	// must appear exactly once.
 	for _, sectionID := range []string{"sdd-orchestrator", "engram-protocol"} {
-		openMarker := "<!-- gentle-ai:" + sectionID + " -->"
+		openMarker := "<!-- mr-mauroo-ai:" + sectionID + " -->"
 		count := strings.Count(content, openMarker)
 		if count != 1 {
 			t.Errorf("CLAUDE.md contains %d occurrences of marker %q, want exactly 1:\n%s",
@@ -2014,7 +2014,7 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 			"--component", "persona",
 			"--component", "engram",
 			"--component", "sdd",
-			"--persona", "gentleman",
+			"--persona", "mr-mauroo",
 		},
 		system.DetectionResult{},
 	)
@@ -2031,7 +2031,7 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 
 	// Persona content must be present
 	if !strings.Contains(text, "Senior Architect") {
-		t.Error("AGENTS.md missing Gentleman persona content (persona not written)")
+		t.Error("AGENTS.md missing Mr.Mauroo persona content (persona not written)")
 	}
 
 	// For OpenCode, the SDD orchestrator goes into opencode.json (agent overlay),
@@ -2041,21 +2041,21 @@ func TestOpenCodePersonaBeforeSDDPreservesAllSections(t *testing.T) {
 	// the engram section. We verify persona + engram coexist.
 
 	// Engram protocol section must be present
-	if !strings.Contains(text, "<!-- gentle-ai:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- mr-mauroo-ai:engram-protocol -->") {
 		t.Error("AGENTS.md missing engram-protocol open marker (issue #121 regression: persona may have overwritten engram section)")
 	}
-	if !strings.Contains(text, "<!-- /gentle-ai:engram-protocol -->") {
+	if !strings.Contains(text, "<!-- /mr-mauroo-ai:engram-protocol -->") {
 		t.Error("AGENTS.md missing engram-protocol close marker")
 	}
 
 	// Engram section must not be duplicated
-	marker := "<!-- gentle-ai:engram-protocol -->"
+	marker := "<!-- mr-mauroo-ai:engram-protocol -->"
 	if count := strings.Count(text, marker); count != 1 {
 		t.Errorf("AGENTS.md contains %d occurrences of %q, want exactly 1 (no duplicates)", count, marker)
 	}
 
 	// AGENTS.md must NOT have sdd-orchestrator markers — OpenCode uses opencode.json overlay
-	if strings.Contains(text, "<!-- gentle-ai:sdd-orchestrator -->") {
+	if strings.Contains(text, "<!-- mr-mauroo-ai:sdd-orchestrator -->") {
 		t.Error("AGENTS.md should NOT have sdd-orchestrator marker — OpenCode uses opencode.json agent overlay")
 	}
 

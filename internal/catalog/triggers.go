@@ -3,7 +3,7 @@ package catalog
 import (
 	"fmt"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 // defaultLargeChangedLineThreshold is the minimum number of changed lines in a

@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/communitytool"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/communitytool"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/planner"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
 )
 
 func TestInstallRuntimeStagePlanAddsCommunityToolStepsInSelectionOrder(t *testing.T) {
@@ -64,9 +64,9 @@ func TestCodeGraphGuidanceMarkdownForSDDOnlyWhenSelectedOrConfigured(t *testing.
 			setupHome: func(t *testing.T, home string) {
 				mustWriteFile(t, filepath.Join(home, ".claude", "CLAUDE.md"), []byte(strings.Join([]string{
 					"existing Claude guidance",
-					"<!-- gentle-ai:codegraph-guidance -->",
+					"<!-- mr-mauroo-ai:codegraph-guidance -->",
 					"CodeGraph guidance with `codegraph init <project-root>`",
-					"<!-- /gentle-ai:codegraph-guidance -->",
+					"<!-- /mr-mauroo-ai:codegraph-guidance -->",
 				}, "\n")))
 			},
 			lookPath: func(string) (string, error) { return "/bin/codegraph", nil },
@@ -156,9 +156,9 @@ func TestComponentApplyStepInjectsCodeGraphGuidanceWhenCodeGraphConfigured(t *te
 	}, "\n")))
 	mustWriteFile(t, filepath.Join(home, ".codex", "AGENTS.md"), []byte(strings.Join([]string{
 		"existing Codex guidance",
-		"<!-- gentle-ai:codegraph-guidance -->",
+		"<!-- mr-mauroo-ai:codegraph-guidance -->",
 		"CodeGraph guidance with `codegraph init <project-root>`",
-		"<!-- /gentle-ai:codegraph-guidance -->",
+		"<!-- /mr-mauroo-ai:codegraph-guidance -->",
 	}, "\n")))
 
 	step := componentApplyStep{
@@ -277,7 +277,7 @@ func assertOpenCodeSharedPromptCodeGraphGuidance(t *testing.T, home string, want
 		t.Fatalf("ReadFile(%q) error = %v", promptPath, err)
 	}
 	text := string(content)
-	hasGuidance := strings.Contains(text, "<!-- gentle-ai:codegraph-guidance -->") && strings.Contains(text, "codegraph init <project-root>")
+	hasGuidance := strings.Contains(text, "<!-- mr-mauroo-ai:codegraph-guidance -->") && strings.Contains(text, "codegraph init <project-root>")
 	if hasGuidance != want {
 		t.Fatalf("CodeGraph guidance present = %v, want %v in %s", hasGuidance, want, promptPath)
 	}

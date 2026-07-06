@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const stateDir = ".gentle-ai"
+const stateDir = ".mr-mauroo-ai"
 const stateFile = "state.json"
 
 // ModelAssignmentState is the JSON-serialisable form of a provider+model pair
@@ -34,7 +34,7 @@ type InstallState struct {
 
 	// ClaudeModelAssignments maps SDD phase names (e.g. "sdd-explore") to a
 	// Claude model alias ("fable", "opus", "sonnet", "haiku"). Persisted so that
-	// `gentle-ai sync` preserves the user's model choices instead of falling
+	// `mr-mauroo-ai sync` preserves the user's model choices instead of falling
 	// back to the "balanced" preset every time.
 	ClaudeModelAssignments map[string]string `json:"claude_model_assignments,omitempty"`
 
@@ -48,13 +48,13 @@ type InstallState struct {
 	KiroModelAssignments map[string]string `json:"kiro_model_assignments,omitempty"`
 
 	// CodexModelAssignments maps SDD phase names to a Codex reasoning_effort value
-	// (low|medium|high|xhigh). Persisted so that `gentle-ai sync` preserves the
+	// (low|medium|high|xhigh). Persisted so that `mr-mauroo-ai sync` preserves the
 	// user's per-phase effort preset instead of falling back to Recommended.
 	CodexModelAssignments map[string]string `json:"codexModelAssignments,omitempty"`
 
 	// CodexCarrilModelAssignments maps the three carril profile names
 	// (sdd-strong|sdd-mid|sdd-cheap) to OpenAI subscription model IDs
-	// (e.g. "gpt-5.5", "gpt-5.4-mini"). Persisted so that `gentle-ai sync`
+	// (e.g. "gpt-5.5", "gpt-5.4-mini"). Persisted so that `mr-mauroo-ai sync`
 	// regenerates profile files with the user's chosen model per tier.
 	// Absent/empty = resolve to DefaultCarrilModels at runtime (backward-compat).
 	CodexCarrilModelAssignments map[string]string `json:"codexCarrilModelAssignments,omitempty"`
@@ -69,11 +69,11 @@ type InstallState struct {
 	// ModelAssignments maps sub-agent names to provider/model pairs (OpenCode).
 	ModelAssignments map[string]ModelAssignmentState `json:"model_assignments,omitempty"`
 
-	// Persona records the persona the user installed ("gentleman", "neutral",
-	// "custom"). Persisted so that `gentle-ai sync` regenerates the same persona
-	// the user originally chose instead of defaulting to Gentleman every time.
+	// Persona records the persona the user installed ("mr-mauroo", "neutral",
+	// "custom"). Persisted so that `mr-mauroo-ai sync` regenerates the same persona
+	// the user originally chose instead of defaulting to Mr.Mauroo every time.
 	// Empty for state files written before persona persistence was added —
-	// callers fall back to PersonaGentleman in that case.
+	// callers fall back to PersonaMrMauroo in that case.
 	Persona string `json:"persona,omitempty"`
 
 	// LastUpdateCheck records the last time a successful remote update check was
@@ -83,7 +83,7 @@ type InstallState struct {
 	// state files that lack the field entirely).
 	LastUpdateCheck *time.Time `json:"last_update_check,omitempty"`
 
-	// PendingSync is set to true when a gentle-ai self-upgrade succeeded and
+	// PendingSync is set to true when a mr-mauroo-ai self-upgrade succeeded and
 	// the process is about to exit (restart required). The next launch reads
 	// this flag and runs sync automatically before entering the normal flow,
 	// then clears the flag on success. On sync failure the flag is left set
@@ -155,7 +155,7 @@ func MergeAgents(existing InstallState, newAgents []string) InstallState {
 }
 
 // Write persists the full install state to disk under the given home directory.
-// It creates the .gentle-ai directory if it does not already exist.
+// It creates the .mr-mauroo-ai directory if it does not already exist.
 func Write(homeDir string, s InstallState) error {
 	dir := filepath.Join(homeDir, stateDir)
 	if err := os.MkdirAll(dir, 0o755); err != nil {

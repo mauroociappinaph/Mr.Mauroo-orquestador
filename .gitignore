@@ -1,5 +1,5 @@
 # Binaries
-/gentle-ai
+/mr-mauroo-ai
 *.exe
 *.dll
 *.so
@@ -24,8 +24,8 @@ Thumbs.db
 
 # Docker
 *.tar
-cmd/gentle-ai/main
-cmd/gentle-ai/gentle-ai
+cmd/mr-mauroo-ai/main
+cmd/mr-mauroo-ai/mr-mauroo-ai
 dist/
 
 # Agent tooling metadata (generated per-user, not product code)

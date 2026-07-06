@@ -5,7 +5,7 @@ Use non-interactive mode for CI, scripts, or reproducible local setup.
 ## Command
 
 ```bash
-go run ./cmd/gentle-ai install [flags]
+go run ./cmd/mr-mauroo-ai install [flags]
 ```
 
 ## Supported flags
@@ -45,12 +45,12 @@ The `--dry-run` output includes a `Platform decision` line showing `os`, `distro
 macOS (or any supported platform — same flags, platform is auto-detected):
 
 ```bash
-go run ./cmd/gentle-ai install \
+go run ./cmd/mr-mauroo-ai install \
   --agent claude-code,opencode \
   --component engram,sdd,skills \
   --skill sdd-apply \
-  --persona gentleman \
-  --preset full-gentleman \
+  --persona mr-mauroo \
+  --preset full-mr-mauroo \
   --dry-run
 ```
 

@@ -5,9 +5,9 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/gentleman-programming/gentle-ai/internal/tui/styles"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/styles"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update/upgrade"
 )
 
 // spinnerFrames are the unicode spinner animation frames used across screens.
@@ -185,7 +185,7 @@ func renderUpgradeResult(b *strings.Builder, report *upgrade.UpgradeReport, widt
 
 	if reportUpgradedGentleAI(report) {
 		b.WriteString("\n")
-		b.WriteString(styles.WarningStyle.Render("⚠ gentle-ai was upgraded. Restart gentle-ai before running sync or continuing."))
+		b.WriteString(styles.WarningStyle.Render("⚠ mr-mauroo-ai was upgraded. Restart mr-mauroo-ai before running sync or continuing."))
 	}
 
 	b.WriteString("\n\n")
@@ -228,7 +228,7 @@ func reportUpgradedGentleAI(report *upgrade.UpgradeReport) bool {
 		return false
 	}
 	for _, result := range report.Results {
-		if result.ToolName == "gentle-ai" && result.Status == upgrade.UpgradeSucceeded {
+		if result.ToolName == "mr-mauroo-ai" && result.Status == upgrade.UpgradeSucceeded {
 			return true
 		}
 	}

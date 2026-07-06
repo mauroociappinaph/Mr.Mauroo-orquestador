@@ -8,11 +8,11 @@
 
 | Persona   | ID          | Description                                                                       |
 | --------- | ----------- | --------------------------------------------------------------------------------- |
-| Gentleman | `gentleman` | Teaching-oriented mentor persona — pushes back on bad practices, explains the why |
+| Mr.Mauroo | `mr-mauroo` | Teaching-oriented mentor persona — pushes back on bad practices, explains the why |
 | Neutral   | `neutral`   | Same teacher, same philosophy, no regional language — warm and professional       |
-| Custom    | `custom`    | Keep your existing persona/config unmanaged — gentle-ai does not inject a persona |
+| Custom    | `custom`    | Keep your existing persona/config unmanaged — mr-mauroo-ai does not inject a persona |
 
-`custom` is a compatibility/ownership choice, not a persona editor. Use it when you already have your own persona instructions and want gentle-ai to leave them alone.
+`custom` is a compatibility/ownership choice, not a persona editor. Use it when you already have your own persona instructions and want mr-mauroo-ai to leave them alone.
 
 ---
 
@@ -21,7 +21,7 @@
 Just run it — the Bubbletea TUI guides you through agent selection, components, skills, presets, and managed uninstall flows:
 
 ```bash
-gentle-ai
+mr-mauroo-ai
 ```
 
 The uninstall flow is also available from the TUI menu. It lets you:
@@ -30,7 +30,7 @@ The uninstall flow is also available from the TUI menu. It lets you:
 - select which managed components to remove (for example `sdd`, `persona`, or `context7`)
 - confirm the exact uninstall scope before applying changes
 
-Before any managed file is modified, `gentle-ai` creates a backup snapshot so the configuration can be restored later if needed.
+Before any managed file is modified, `mr-mauroo-ai` creates a backup snapshot so the configuration can be restored later if needed.
 
 ---
 
@@ -38,35 +38,35 @@ Before any managed file is modified, `gentle-ai` creates a backup snapshot so th
 
 ### install
 
-First-time setup — detects your tools, configures agents, injects all components. When installing a single agent with `--agent X`, gentle-ai **merges** the new agent into the existing `installed_agents` list in `state.json` and **preserves** any existing `model_assignments` — it does not overwrite the full state.
+First-time setup — detects your tools, configures agents, injects all components. When installing a single agent with `--agent X`, mr-mauroo-ai **merges** the new agent into the existing `installed_agents` list in `state.json` and **preserves** any existing `model_assignments` — it does not overwrite the full state.
 
 ```bash
 # Full ecosystem for multiple agents
-gentle-ai install \
+mr-mauroo-ai install \
   --agent claude-code,opencode,gemini-cli \
-  --preset full-gentleman
+  --preset full-mr-mauroo
 
 # Minimal setup for Cursor
-gentle-ai install \
+mr-mauroo-ai install \
   --agent cursor \
   --preset minimal
 
 # OpenClaw setup after installing OpenClaw manually
-gentle-ai install \
+mr-mauroo-ai install \
   --agent openclaw \
-  --preset full-gentleman
+  --preset full-mr-mauroo
 
 # Pick specific components and skills
-gentle-ai install \
+mr-mauroo-ai install \
   --agent claude-code \
   --component engram,sdd,skills,context7,persona,permissions \
   --skill go-testing,skill-creator,branch-pr,issue-creation \
-  --persona gentleman
+  --persona mr-mauroo
 
 # Dry-run first (preview plan without applying changes)
-gentle-ai install --dry-run \
+mr-mauroo-ai install --dry-run \
   --agent claude-code,opencode \
-  --preset full-gentleman
+  --preset full-mr-mauroo
 ```
 
 ### skill-registry refresh
@@ -74,9 +74,9 @@ gentle-ai install --dry-run \
 Refresh the project-local skill registry used by orchestrators before they delegate work:
 
 ```bash
-gentle-ai skill-registry refresh
-gentle-ai skill-registry refresh --force
-gentle-ai skill-registry refresh --cwd /path/to/project --quiet
+mr-mauroo-ai skill-registry refresh
+mr-mauroo-ai skill-registry refresh --force
+mr-mauroo-ai skill-registry refresh --cwd /path/to/project --quiet
 ```
 
 The command scans project skills first (`skills/`, `.opencode/skills/`, `.claude/skills/`, `.github/skills/`, and other supported workspace skill roots), then global agent skill directories. Project-local skills win over same-name global skills.
@@ -89,26 +89,26 @@ See [Skill Registry](skill-registry.md) for the full index-first flow and diagra
 
 ### sync
 
-Refresh managed assets to the current version. Use after `brew upgrade gentle-ai` or when you want your local configs aligned with the latest release. Does NOT reinstall binaries (engram, GGA) — only updates prompt content, skills, MCP configs, and SDD orchestrators.
+Refresh managed assets to the current version. Use after `brew upgrade mr-mauroo-ai` or when you want your local configs aligned with the latest release. Does NOT reinstall binaries (engram, GGA) — only updates prompt content, skills, MCP configs, and SDD orchestrators.
 
-> **Important:** `gentle-ai sync` updates the agents recorded as installed by Gentle AI, not every AI agent config directory on your machine.
+> **Important:** `mr-mauroo-ai sync` updates the agents recorded as installed by Mr.Mauroo AI, not every AI agent config directory on your machine.
 >
-> Gentle AI stores your selected install targets in `~/.gentle-ai/state.json`. Future `sync` runs use that stored selection so Gentle AI does not accidentally write into tools you did not choose to manage. If you rerun install and select only one agent, that new selection becomes the default sync scope.
+> Mr.Mauroo AI stores your selected install targets in `~/.mr-mauroo-ai/state.json`. Future `sync` runs use that stored selection so Mr.Mauroo AI does not accidentally write into tools you did not choose to manage. If you rerun install and select only one agent, that new selection becomes the default sync scope.
 >
-> Before syncing, you can preview the active scope with `gentle-ai sync --dry-run`. If you want to sync agents outside the stored selection, pass them explicitly with `--agent`.
+> Before syncing, you can preview the active scope with `mr-mauroo-ai sync --dry-run`. If you want to sync agents outside the stored selection, pass them explicitly with `--agent`.
 
 ```bash
 # Preview which agents sync will update
-gentle-ai sync --dry-run
+mr-mauroo-ai sync --dry-run
 
-# Sync the agents currently registered in ~/.gentle-ai/state.json
-gentle-ai sync
+# Sync the agents currently registered in ~/.mr-mauroo-ai/state.json
+mr-mauroo-ai sync
 
 # Sync specific agents only
-gentle-ai sync --agent claude-code --agent opencode
+mr-mauroo-ai sync --agent claude-code --agent opencode
 
 # Refresh OpenClaw workspace instructions and MCP config
-gentle-ai sync --agent openclaw
+mr-mauroo-ai sync --agent openclaw
 ```
 
 Sync is safe and idempotent — running it twice produces no changes the second time. When files change, the summary reports the changed file count and lists the changed file paths.
@@ -117,59 +117,59 @@ Sync is safe and idempotent — running it twice produces no changes the second 
 
 For OpenClaw, sync reads the active workspace from `~/.openclaw/openclaw.json` (`agents.defaults.workspace`). It writes `AGENTS.md` / `SOUL.md` into that workspace, while MCP servers stay in the global OpenClaw config under `mcp.servers`.
 
-For Hermes, gentle-ai is detect-only: it cannot install Hermes. Install Hermes manually first. Detection is driven by the `~/.hermes` config directory (the binary being on `PATH` is reported separately). Once Hermes is detected, `gentle-ai install --agent hermes` injects context7 and Engram MCP blocks into `~/.hermes/config.yaml`, writes the SDD orchestrator and persona into `~/.hermes/SOUL.md`, and copies skills to `~/.hermes/skills/`. Use `gentle-ai sync --agent hermes` to update the managed configuration after upgrades.
+For Hermes, mr-mauroo-ai is detect-only: it cannot install Hermes. Install Hermes manually first. Detection is driven by the `~/.hermes` config directory (the binary being on `PATH` is reported separately). Once Hermes is detected, `mr-mauroo-ai install --agent hermes` injects context7 and Engram MCP blocks into `~/.hermes/config.yaml`, writes the SDD orchestrator and persona into `~/.hermes/SOUL.md`, and copies skills to `~/.hermes/skills/`. Use `mr-mauroo-ai sync --agent hermes` to update the managed configuration after upgrades.
 
 ### uninstall
 
-Remove only the `gentle-ai` managed configuration from one or more agents. This does not uninstall external packages or binaries — it removes managed prompt sections, MCP entries, skills/config fragments, and other managed files, then updates `state.json` accordingly.
+Remove only the `mr-mauroo-ai` managed configuration from one or more agents. This does not uninstall external packages or binaries — it removes managed prompt sections, MCP entries, skills/config fragments, and other managed files, then updates `state.json` accordingly.
 
-Before any change is applied, `gentle-ai` creates a backup snapshot of the affected files.
+Before any change is applied, `mr-mauroo-ai` creates a backup snapshot of the affected files.
 
 ```bash
 # Partial uninstall for specific agents
-gentle-ai uninstall \
+mr-mauroo-ai uninstall \
   --agent claude-code \
   --agent opencode
 
 # Partial uninstall for specific components only
-gentle-ai uninstall \
+mr-mauroo-ai uninstall \
   --agent claude-code \
   --component sdd,persona,context7
 
 # Complete uninstall of managed config from all supported agents
-gentle-ai uninstall --all
+mr-mauroo-ai uninstall --all
 
 # Skip confirmation prompt
-gentle-ai uninstall --agent cursor --component skills --yes
+mr-mauroo-ai uninstall --agent cursor --component skills --yes
 ```
 
-If no `--component` flag is provided for a partial uninstall, `gentle-ai` removes all managed uninstallable components for the selected agent set.
+If no `--component` flag is provided for a partial uninstall, `mr-mauroo-ai` removes all managed uninstallable components for the selected agent set.
 
 ### update / upgrade
 
-Check for and install new versions of `gentle-ai` itself. The pre-upgrade backup snapshot covers only the agents recorded in `state.InstalledAgents` (`~/.gentle-ai/state.json`) — not every agent config directory that exists on your machine.
+Check for and install new versions of `mr-mauroo-ai` itself. The pre-upgrade backup snapshot covers only the agents recorded in `state.InstalledAgents` (`~/.mr-mauroo-ai/state.json`) — not every agent config directory that exists on your machine.
 
 ```bash
 # Check if a newer version is available
-gentle-ai update
+mr-mauroo-ai update
 
 # Upgrade to the latest release (downloads new binary, replaces current)
-gentle-ai upgrade
+mr-mauroo-ai upgrade
 ```
 
-After upgrading, run `gentle-ai sync` to refresh all managed assets to the new version's content.
+After upgrading, run `mr-mauroo-ai sync` to refresh all managed assets to the new version's content.
 
-If GitHub rate-limits update checks, export `GITHUB_TOKEN` or `GH_TOKEN` before running `gentle-ai update`/`upgrade`.
+If GitHub rate-limits update checks, export `GITHUB_TOKEN` or `GH_TOKEN` before running `mr-mauroo-ai update`/`upgrade`.
 
 If Homebrew refuses an upgrade from an untrusted tap, trust only the artifact Homebrew names and retry the upgrade:
 
 ```bash
-# Formula tools, for example gentle-ai
-brew trust --formula gentleman-programming/tap/gentle-ai
-brew upgrade gentle-ai
+# Formula tools, for example mr-mauroo-ai
+brew trust --formula mr-mauroo-programming/tap/mr-mauroo-ai
+brew upgrade mr-mauroo-ai
 
 # Cask tools, for example engram
-brew trust --cask gentleman-programming/tap/engram
+brew trust --cask mr-mauroo-programming/tap/engram
 brew upgrade engram
 ```
 
@@ -179,7 +179,7 @@ brew upgrade engram
 |-----------|----------|
 | Interactive terminal (TTY) | Always prompts `Apply now? [Y/n]`. Empty Enter accepts. |
 | Non-TTY (CI, pipe, script) | Auto-declines — never hangs. |
-| `GENTLE_AI_YES=1` | Auto-accepts without prompting (for scripted upgrades). This variable is inherited by subprocesses, so scope it to a single invocation when needed (e.g. `GENTLE_AI_YES=1 gentle-ai …`). |
+| `GENTLE_AI_YES=1` | Auto-accepts without prompting (for scripted upgrades). This variable is inherited by subprocesses, so scope it to a single invocation when needed (e.g. `GENTLE_AI_YES=1 mr-mauroo-ai …`). |
 | `GENTLE_AI_NO_SELF_UPDATE=1` | Skips the self-update check entirely. |
 
 `GENTLE_AI_CONFIRM_UPDATE` was removed in slice 5. It is now ignored if set.
@@ -195,7 +195,7 @@ The TUI **Configure Models** screen can assign different models to SDD phases, `
 Read-only ecosystem health diagnostics — no changes made to your configuration:
 
 ```bash
-gentle-ai doctor
+mr-mauroo-ai doctor
 ```
 
 Checks performed:
@@ -203,7 +203,7 @@ Checks performed:
 | Check | What it verifies |
 |-------|-----------------|
 | Tool binaries | Required tools present on `PATH`; shadow detection (wrong binary resolves first) |
-| `state.json` validity | Parses `~/.gentle-ai/state.json` and reports any schema/corruption issues |
+| `state.json` validity | Parses `~/.mr-mauroo-ai/state.json` and reports any schema/corruption issues |
 | Engram MCP reachability | Confirms the Engram MCP server responds |
 | Disk space | Warns when available space is critically low |
 
@@ -212,9 +212,9 @@ Each check reports **pass**, **warn**, or **fail** with an optional remedy hint.
 ### version
 
 ```bash
-gentle-ai version
-gentle-ai --version
-gentle-ai -v
+mr-mauroo-ai version
+mr-mauroo-ai --version
+mr-mauroo-ai -v
 ```
 
 ---
@@ -226,8 +226,8 @@ gentle-ai -v
 | `--agent`, `--agents`         | Agents to configure (comma-separated)                                                                             |
 | `--component`, `--components` | Components to install (comma-separated)                                                                           |
 | `--skill`, `--skills`         | Skills to install (comma-separated)                                                                               |
-| `--persona`                   | Persona mode: `gentleman`, `neutral`, `custom` (`custom` keeps your existing persona unmanaged)                   |
-| `--preset`                    | Preset: `full-gentleman`, `ecosystem-only`, `minimal`, `custom` (`custom` means manual component/skill selection) |
+| `--persona`                   | Persona mode: `mr-mauroo`, `neutral`, `custom` (`custom` keeps your existing persona unmanaged)                   |
+| `--preset`                    | Preset: `full-mr-mauroo`, `ecosystem-only`, `minimal`, `custom` (`custom` means manual component/skill selection) |
 | `--sdd-mode`                  | SDD orchestrator mode: `single` or `multi`                                                                        |
 | `--scope`                     | Install scope for agent-scoped files: `global` (default, writes to each selected agent's global config directory) or `workspace` (writes to the current project root). Also settable via `GENTLE_AI_INSTALL_SCOPE` env var for CI/non-interactive use. |
 | `--dry-run`                   | Preview the install plan without applying changes                                                                 |
@@ -251,18 +251,18 @@ gentle-ai -v
 
 ```bash
 # Create a "cheap" profile using a free model for all phases
-gentle-ai sync --profile cheap:openrouter/qwen/qwen3-30b-a3b:free
+mr-mauroo-ai sync --profile cheap:openrouter/qwen/qwen3-30b-a3b:free
 
 # Override the design phase to use a stronger model
-gentle-ai sync --profile-phase cheap:sdd-design:anthropic/claude-sonnet-4-20250514
+mr-mauroo-ai sync --profile-phase cheap:sdd-design:anthropic/claude-sonnet-4-20250514
 
 # Create multiple profiles in one command
-gentle-ai sync \
+mr-mauroo-ai sync \
   --profile cheap:openrouter/qwen/qwen3-30b-a3b:free \
   --profile premium:anthropic/claude-sonnet-4-20250514
 
 # Use compatibility mode with an external OpenCode profile manager
-gentle-ai sync --agent opencode --sdd-profile-strategy external-single-active
+mr-mauroo-ai sync --agent opencode --sdd-profile-strategy external-single-active
 ```
 
 See [OpenCode SDD Profiles](opencode-profiles.md) for the full guide.
@@ -282,34 +282,34 @@ See [OpenCode SDD Profiles](opencode-profiles.md) for the full guide.
 
 ```bash
 # First time: install everything
-brew install gentleman-programming/tap/gentle-ai
-gentle-ai install --agent claude-code,cursor --preset full-gentleman
+brew install mr-mauroo-programming/tap/mr-mauroo-ai
+mr-mauroo-ai install --agent claude-code,cursor --preset full-mr-mauroo
 
 # After a new release: upgrade + sync
-brew upgrade gentle-ai
-gentle-ai sync
+brew upgrade mr-mauroo-ai
+mr-mauroo-ai sync
 
 # Remove only managed SDD + persona config from one agent
-gentle-ai uninstall --agent claude-code --component sdd,persona
+mr-mauroo-ai uninstall --agent claude-code --component sdd,persona
 
 # Adding a new agent later
-gentle-ai install --agent windsurf --preset full-gentleman
+mr-mauroo-ai install --agent windsurf --preset full-mr-mauroo
 ```
 
 ### Homebrew upgrade troubleshooting
 
 Homebrew 6 can require explicit trust for non-official taps and, on Linux, can
-sandbox builds with Bubblewrap. `gentle-ai upgrade` and `scripts/install.sh`
-auto-trust only the Gentle AI formula, but manual upgrades may still need this
+sandbox builds with Bubblewrap. `mr-mauroo-ai upgrade` and `scripts/install.sh`
+auto-trust only the Mr.Mauroo AI formula, but manual upgrades may still need this
 one-time command:
 
 ```bash
-brew trust --formula gentleman-programming/tap/gentle-ai
-brew upgrade gentle-ai
+brew trust --formula mr-mauroo-programming/tap/mr-mauroo-ai
+brew upgrade mr-mauroo-ai
 ```
 
 On Linux, if Homebrew reports that Bubblewrap cannot create a rootless sandbox,
-there is nothing for Gentle AI to install: Bubblewrap is already present, but the
+there is nothing for Mr.Mauroo AI to install: Bubblewrap is already present, but the
 host blocks the rootless namespace primitives it needs. This is a security
 tradeoff and should be an explicit admin decision. If your policy allows it,
 fix the host namespace policy first:
@@ -320,7 +320,7 @@ sudo sysctl -w user.max_user_namespaces=28633
 sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
 ```
 
-Use `HOMEBREW_NO_SANDBOX_LINUX=1 brew upgrade gentle-ai` only as a final
+Use `HOMEBREW_NO_SANDBOX_LINUX=1 brew upgrade mr-mauroo-ai` only as a final
 workaround when your distro policy forbids the namespace settings; it disables
 Homebrew's Linux sandbox for that command.
 
@@ -329,7 +329,7 @@ Homebrew's Linux sandbox for that command.
 
 ## Dependency Management
 
-`gentle-ai` auto-detects prerequisites before installation and provides platform-specific guidance:
+`mr-mauroo-ai` auto-detects prerequisites before installation and provides platform-specific guidance:
 
 - **Detected tools**: git, curl, node, npm, brew, go
 - **Version checks**: validates minimum versions where applicable

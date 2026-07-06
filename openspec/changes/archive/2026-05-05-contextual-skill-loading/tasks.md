@@ -45,7 +45,7 @@ T6 = A+B atomic (removal + injection in same commit — not independently testab
 
 ## Phase 2 — Frontmatter Hygiene (C-1 and C-2)
 
-- [x] **T2** `[GREEN]` Fix `name:` field in `internal/assets/skills/chained-pr/SKILL.md`: change `name: gentle-ai-chained-pr` to `name: chained-pr`.
+- [x] **T2** `[GREEN]` Fix `name:` field in `internal/assets/skills/chained-pr/SKILL.md`: change `name: mr-mauroo-ai-chained-pr` to `name: chained-pr`.
   - Commit: `fix(skills): align chained-pr SKILL.md name with directory` — DONE 1b2b374
 
 - [x] **T3** `[GREEN]` Remove `allowed-tools:` top-level key from `internal/assets/skills/skill-creator/SKILL.md` frontmatter. Regenerate 4 affected goldens:
@@ -67,7 +67,7 @@ T6 = A+B atomic (removal + injection in same commit — not independently testab
 ## Phase 4 — Persona Directive Injection (A+B atomic)
 
 - [x] **T5** `[RED]` Add `TestPersonasContainContextualSkillLoadingDirective` to `internal/assets/assets_test.go`.
-  - Check all 6 persona paths: `claude/persona-gentleman.md`, `opencode/persona-gentleman.md`, `generic/persona-gentleman.md`, `generic/persona-neutral.md`, `kiro/persona-gentleman.md`, `kimi/persona-gentleman.md`.
+  - Check all 6 persona paths: `claude/persona-mr-mauroo.md`, `opencode/persona-mr-mauroo.md`, `generic/persona-mr-mauroo.md`, `generic/persona-neutral.md`, `kiro/persona-mr-mauroo.md`, `kimi/persona-mr-mauroo.md`.
   - Assert each contains: `## Contextual Skill Loading (MANDATORY)`, `<available_skills>`, `Self-check BEFORE every response`.
   - Commit: `test(assets): require contextual skill loading directive in personas` — DONE 131707f
 

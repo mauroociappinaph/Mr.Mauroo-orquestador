@@ -19,7 +19,7 @@ comment-preserving YAML string helpers (no new module dependency).
   is the exact precedent: pure string-based, strip-then-re-append, comment-preserving outside
   managed blocks. Hermes's YAML usage (flat keys + one nested `mcp_servers` table) is structurally
   simple enough for the same approach.
-- The generic persona assets — BOTH `generic/persona-gentleman.md` AND `generic/persona-neutral.md` —
+- The generic persona assets — BOTH `generic/persona-mr-mauroo.md` AND `generic/persona-neutral.md` —
   contain a `## Contextual Skill Loading (MANDATORY)` block that assumes a Claude-Code-style
   `<available_skills>` system-prompt mechanism. Hermes loads skills from `~/.hermes/skills/` by
   category via its own native loop, so this block does not apply as-is (Option B decision, #4747).
@@ -28,9 +28,9 @@ comment-preserving YAML string helpers (no new module dependency).
 
 - Register Hermes as `TierFull` (detect / validate / TUI / configure).
 - Inject context7 + engram MCP into `~/.hermes/config.yaml` idempotently, without destroying
-  user content or comments outside gentle-ai-managed server blocks.
+  user content or comments outside mr-mauroo-ai-managed server blocks.
 - Inject engram-protocol / SDD-orchestrator / strict-TDD into `~/.hermes/SOUL.md` via markdown markers.
-- Inject the correct Hermes-specific persona (gentleman AND neutral) with the skill-loading block
+- Inject the correct Hermes-specific persona (mr-mauroo AND neutral) with the skill-loading block
   rewritten for Hermes's native skill model.
 - Document the complementary engram-vs-Hermes-native-memory relationship in SOUL.md (via the persona
   asset and/or engram protocol section — see Decision 7).
@@ -76,7 +76,7 @@ comment-preserving YAML string helpers (no new module dependency).
 |---|---|
 | **Choice** | `SystemPromptStrategy() = StrategyMarkdownSections`; `SystemPromptFile(homeDir) = ~/.hermes/SOUL.md`. |
 | **Alternatives** | (a) `StrategyFileReplace` (Codex/Qwen style) — viable but loses the clean per-section marker semantics that let engram/SDD/strict-TDD coexist without clobbering. (b) OpenClaw's `injectOpenClawSoulPersona` special-case — rejected: that exists ONLY because OpenClaw writes `SOUL.md` to the **workspace** dir. Hermes is global, so `SystemPromptFile(homeDir)` already resolves to `~/.hermes/SOUL.md` and the standard `StrategyMarkdownSections` flow handles it with NO special case. |
-| **Rationale** | Marker sections are battle-tested (Claude Code, OpenClaw). engram, SDD, strict-TDD, and persona each inject their own `<!-- gentle-ai:ID -->` section. Global path = standard flow. |
+| **Rationale** | Marker sections are battle-tested (Claude Code, OpenClaw). engram, SDD, strict-TDD, and persona each inject their own `<!-- mr-mauroo-ai:ID -->` section. Global path = standard flow. |
 
 ### Decision 4 — Adapter shape: hybrid of OpenClaw (detect-only) + Codex (non-JSON string merge), global-only
 
@@ -86,19 +86,19 @@ comment-preserving YAML string helpers (no new module dependency).
 | **Alternatives** | Copy OpenClaw verbatim including workspace logic — rejected: Hermes has no workspace-first config, so that code would be dead and misleading. |
 | **Rationale** | Detect-only + manual-install error is identical to OpenClaw; the YAML MCP strategy is the only structural novelty. Global scope means no `run.go`/`sync.go` routing changes. |
 
-### Decision 5 — Persona Option B: dedicated Hermes assets for BOTH gentleman AND neutral
+### Decision 5 — Persona Option B: dedicated Hermes assets for BOTH mr-mauroo AND neutral
 
 This is the core persona decision and resolves the neutral question explicitly.
 
 **Finding (verified in code):** `generic/persona-neutral.md` (lines 50-56) ALSO contains the
 `## Contextual Skill Loading (MANDATORY)` block referencing `<available_skills>`. The mismatch
-affects BOTH personas, not just gentleman. Today `personaContent()` (`persona/inject.go`) handles
+affects BOTH personas, not just mr-mauroo. Today `personaContent()` (`persona/inject.go`) handles
 `PersonaNeutral` with a single non-per-agent `assets.MustRead("generic/persona-neutral.md")` and
-has NO per-agent neutral switch — gentleman is the only per-agent branch.
+has NO per-agent neutral switch — mr-mauroo is the only per-agent branch.
 
 | | |
 |---|---|
-| **Choice** | Create TWO Hermes persona assets and refactor `personaContent()` to support per-agent neutral: <br>• `internal/assets/hermes/persona-gentleman.md` (copy of generic gentleman, skill-loading block rewritten) <br>• `internal/assets/hermes/persona-neutral.md` (copy of generic neutral, skill-loading block rewritten) |
+| **Choice** | Create TWO Hermes persona assets and refactor `personaContent()` to support per-agent neutral: <br>• `internal/assets/hermes/persona-mr-mauroo.md` (copy of generic mr-mauroo, skill-loading block rewritten) <br>• `internal/assets/hermes/persona-neutral.md` (copy of generic neutral, skill-loading block rewritten) |
 | **Alternatives** | (a) Keep neutral on the generic asset (Option b in #4747) — rejected: neutral users would still get the wrong `<available_skills>` instruction for Hermes; that is exactly the bug Option B exists to fix. (b) Strip the skill-loading block entirely for Hermes instead of rewriting it — rejected: Hermes DOES have skills (`~/.hermes/skills/`); we want a correct instruction, not a missing one. |
 | **Rationale** | The skill-loading mismatch is persona-independent, so the fix must be persona-independent. In Hermes, `SOUL.md` IS the agent identity, so persona→SOUL maps cleanly for both variants. |
 
@@ -131,20 +131,20 @@ func personaContent(agent model.AgentID, persona model.PersonaID) string {
 	case model.PersonaCustom:
 		return ""
 	default:
-		// Gentleman persona — try agent-specific asset, then generic fallback.
+		// Mr.Mauroo persona — try agent-specific asset, then generic fallback.
 		switch agent {
 		case model.AgentClaudeCode:
-			return assets.MustRead("claude/persona-gentleman.md")
+			return assets.MustRead("claude/persona-mr-mauroo.md")
 		...
 		default:
-			return assets.MustRead("generic/persona-gentleman.md")
+			return assets.MustRead("generic/persona-mr-mauroo.md")
 		}
 	}
 }
 ```
 
-Change the `PersonaNeutral` case to a per-agent inner switch (mirroring the gentleman branch),
-and add a Hermes case to the gentleman branch:
+Change the `PersonaNeutral` case to a per-agent inner switch (mirroring the mr-mauroo branch),
+and add a Hermes case to the mr-mauroo branch:
 
 ```go
 	case model.PersonaNeutral:
@@ -157,21 +157,21 @@ and add a Hermes case to the gentleman branch:
 ```
 
 ```go
-		// inside the gentleman (default) branch's inner agent switch:
+		// inside the mr-mauroo (default) branch's inner agent switch:
 		case model.AgentHermes:
-			return assets.MustRead("hermes/persona-gentleman.md")
+			return assets.MustRead("hermes/persona-mr-mauroo.md")
 ```
 
 **Persona variant behavior (must all work):**
 
 | Install persona | `personaContent` returns for Hermes | Notes |
 |---|---|---|
-| `gentleman` | `hermes/persona-gentleman.md` | `isGentlemanConversationPersona` = true |
-| `gentleman-neutral-artifacts` | `hermes/persona-gentleman.md` | same gentleman branch (falls into default) |
+| `mr-mauroo` | `hermes/persona-mr-mauroo.md` | `isMr.MaurooConversationPersona` = true |
+| `mr-mauroo-neutral-artifacts` | `hermes/persona-mr-mauroo.md` | same mr-mauroo branch (falls into default) |
 | `neutral` | `hermes/persona-neutral.md` | NEW per-agent neutral path |
 | `custom` | `""` (no-op) | unchanged |
 
-Hermes uses `StrategyMarkdownSections`, so persona is injected as a `<!-- gentle-ai:persona -->`
+Hermes uses `StrategyMarkdownSections`, so persona is injected as a `<!-- mr-mauroo-ai:persona -->`
 marker section by the standard flow (no `injectOpenClawSoulPersona`-style special case). Because
 `StrategyMarkdownSections` uses markers, `preserveManagedSections` (which is `StrategyFileReplace`/
 `StrategyInstructionsFile`-only) is NOT involved — there is no duplication risk between persona and
@@ -189,7 +189,7 @@ engram/SDD sections; each lives in its own marker block.
 | | |
 |---|---|
 | **Choice** | Make `stableEngramCommandForMergedConfig` recover a prior engram command from `config.yaml`, exactly like it already does for JSON agents, by teaching `existingMergedEngramCommand` to read YAML. Add an early branch at the top of `existingMergedEngramCommand` (after the `len(raw)==0` guard, before the JSON `MergeJSONObjects` call): `if agentID == model.AgentHermes { return filemerge.ReadYAMLMCPServerCommand(string(raw), "engram") }`. Recovery uses the new read-only helper `filemerge.ReadYAMLMCPServerCommand`. |
-| **Alternatives** | (a) Defer to a future refinement and fall back to stable `engram` (the original first-slice plan) — rejected by user: re-running gentle-ai would clobber a user's customized YAML engram command (e.g. an absolute path written by `engram setup`) with bare `engram`. (b) Add `gopkg.in/yaml.v3` to parse for recovery — rejected: inconsistent with the write-side hand-rolled decision (Decision 2); recovery only needs to find one `command` scalar/list, which block scanning handles. |
+| **Alternatives** | (a) Defer to a future refinement and fall back to stable `engram` (the original first-slice plan) — rejected by user: re-running mr-mauroo-ai would clobber a user's customized YAML engram command (e.g. an absolute path written by `engram setup`) with bare `engram`. (b) Add `gopkg.in/yaml.v3` to parse for recovery — rejected: inconsistent with the write-side hand-rolled decision (Decision 2); recovery only needs to find one `command` scalar/list, which block scanning handles. |
 | **Rationale** | Recovery parity removes the only behavioral gap between Hermes and JSON agents on re-run. Placing the branch before the JSON parser means YAML never hits `MergeJSONObjects` (which would fail and silently lose the command). The branch generalizes: any future YAML agent can route to the same helper. Recovered commands still flow through `stableEngramCommandForExisting`, so a versioned Homebrew cellar path recovered from YAML is stabilized to `engram`/the stable path — identical to JSON agents. When nothing is recovered, `isStandardAgent(AgentHermes)=true` yields the stable `engram` fallback. |
 
 **Control flow after the change:**
@@ -209,15 +209,15 @@ stableEngramCommandForMergedConfig(path, AgentHermes)
 
 | | |
 |---|---|
-| **Choice** | Document the complementary relationship inside the **Hermes persona asset** (`hermes/persona-gentleman.md` and `hermes/persona-neutral.md`) as a short subsection, NOT in the shared `claude/engram-protocol.md`. |
-| **Alternatives** | (a) Add it to `claude/engram-protocol.md` — rejected: that asset is shared by every agent; Hermes-specific text would leak into all of them. (b) A separate `<!-- gentle-ai:hermes-memory-note -->` marker section injected by the engram component — rejected: adds a Hermes-only branch to the engram injector for one paragraph; the persona asset is already Hermes-specific and always present. |
+| **Choice** | Document the complementary relationship inside the **Hermes persona asset** (`hermes/persona-mr-mauroo.md` and `hermes/persona-neutral.md`) as a short subsection, NOT in the shared `claude/engram-protocol.md`. |
+| **Alternatives** | (a) Add it to `claude/engram-protocol.md` — rejected: that asset is shared by every agent; Hermes-specific text would leak into all of them. (b) A separate `<!-- mr-mauroo-ai:hermes-memory-note -->` marker section injected by the engram component — rejected: adds a Hermes-only branch to the engram injector for one paragraph; the persona asset is already Hermes-specific and always present. |
 | **Rationale** | Keeps Hermes-specific prose in Hermes-specific assets; avoids polluting shared engram content and avoids new injector branches. No duplication because the engram protocol section and the persona memory note address different things (the protocol = how to use engram tools; the note = how engram and Hermes-native memory coexist). |
 
 ### Decision 8 — Native skill-format risk: write, with a documented assumption to verify in apply
 
 | | |
 |---|---|
-| **Choice** | Write gentle-ai `SKILL.md` files into `~/.hermes/skills/` (`SupportsSkills()=true`) using the standard SDD skills flow, but record a **documented assumption** that Hermes tolerates gentle-ai's `SKILL.md` frontmatter format. The SDD orchestrator instructions live in `SOUL.md` regardless, so even if Hermes ignores or rejects unknown skill files, the orchestrator protocol is still loaded. |
+| **Choice** | Write mr-mauroo-ai `SKILL.md` files into `~/.hermes/skills/` (`SupportsSkills()=true`) using the standard SDD skills flow, but record a **documented assumption** that Hermes tolerates mr-mauroo-ai's `SKILL.md` frontmatter format. The SDD orchestrator instructions live in `SOUL.md` regardless, so even if Hermes ignores or rejects unknown skill files, the orchestrator protocol is still loaded. |
 | **Recommendation** | Do NOT gate skill writing behind a feature flag for the first slice. The blast radius is contained: worst case Hermes ignores files it does not recognize in `~/.hermes/skills/`. The apply phase should add a verification step (manual or via Hermes docs) confirming the format is accepted; if Hermes rejects it, a follow-up change gates or transforms the format. |
 | **Rationale** | SOUL.md is the guaranteed-loaded surface, so functionality does not depend on skill-file acceptance. Writing skills is consistent with every other TierFull agent and avoids special-casing on day one. |
 
@@ -226,7 +226,7 @@ stableEngramCommandForMergedConfig(path, AgentHermes)
 ## YAML Helper API Contract (`internal/components/filemerge/yaml.go`)
 
 Mirror `toml.go` semantics: pure string manipulation, normalize `\r\n`→`\n`, strip any existing
-gentle-ai-managed block, re-append a fresh block, return content ending in a single trailing `\n`.
+mr-mauroo-ai-managed block, re-append a fresh block, return content ending in a single trailing `\n`.
 2-space indentation throughout. No external dependency.
 
 ### Function signatures
@@ -264,7 +264,7 @@ func UpsertHermesContext7Block(content string) string
 // ReadYAMLMCPServerCommand recovers the executable of a named MCP server's
 // `command` from a YAML config (read-only — never mutates). It is the YAML
 // counterpart of the JSON path inside engram's existingMergedEngramCommand,
-// enabling gentle-ai to preserve a command already written for a server
+// enabling mr-mauroo-ai to preserve a command already written for a server
 // (e.g. an absolute path) instead of clobbering it on re-run.
 //
 // Algorithm (hand-rolled, NO gopkg.in/yaml.v3 — read-only block scanning,
@@ -317,10 +317,10 @@ func ReadYAMLMCPServerCommand(content string, serverID string) (string, bool)
 
 - Re-running with identical inputs MUST produce byte-identical output (drives `WriteFileAtomic`'s
   `Changed=false` no-op on the second run).
-- Content **outside** any gentle-ai-managed server block is preserved verbatim, including:
+- Content **outside** any mr-mauroo-ai-managed server block is preserved verbatim, including:
   user comments (`# ...`), other top-level keys, and other MCP servers (user-defined or a sibling
-  gentle-ai server).
-- Comments **inside** a managed server block are gentle-ai-owned and may be lost on re-write
+  mr-mauroo-ai server).
+- Comments **inside** a managed server block are mr-mauroo-ai-owned and may be lost on re-write
   (acceptable — same trade-off as Codex's managed blocks).
 
 ### Golden-test matrix (`yaml_test.go`)
@@ -469,9 +469,9 @@ The adapter struct mirrors OpenClaw: injectable `lookPath`/`statPath`, a package
 | `internal/agents/factory.go` | import hermes; add to `NewAdapter()` + default registry |
 | `internal/catalog/agents.go` | `{ID: AgentHermes, Name: "Hermes", Tier: TierFull, ConfigPath: "~/.hermes"}` |
 | `internal/assets/assets.go` | add `all:hermes` to the `//go:embed` directive |
-| `internal/assets/hermes/` | NEW: `persona-gentleman.md`, `persona-neutral.md`, `sdd-orchestrator.md` |
+| `internal/assets/hermes/` | NEW: `persona-mr-mauroo.md`, `persona-neutral.md`, `sdd-orchestrator.md` |
 | `internal/components/sdd/inject.go` | `case model.AgentHermes: return "hermes/sdd-orchestrator.md"` in `sddOrchestratorAsset()` |
-| `internal/components/persona/inject.go` | per-agent neutral switch + `AgentHermes` gentleman case (Decision 5) |
+| `internal/components/persona/inject.go` | per-agent neutral switch + `AgentHermes` mr-mauroo case (Decision 5) |
 | `internal/components/engram/inject.go` | `StrategyMergeIntoYAML` case + `AgentHermes` in `isStandardAgent` (Decision 6) |
 | `internal/components/engram/setup.go` | `case model.AgentHermes: return "", false` |
 | `internal/components/mcp/inject.go` | `StrategyMergeIntoYAML` case + `injectYAMLFile` |
@@ -495,8 +495,8 @@ Planner: standard component order (persona → engram → context7 → sdd → s
   │
   ▼
 Pipeline (all paths use ~/.hermes/ — global, no workspace dir):
-  ├── persona:  inject <!-- gentle-ai:persona --> into SOUL.md
-  │             (hermes/persona-gentleman.md OR hermes/persona-neutral.md)
+  ├── persona:  inject <!-- mr-mauroo-ai:persona --> into SOUL.md
+  │             (hermes/persona-mr-mauroo.md OR hermes/persona-neutral.md)
   ├── engram:   stableEngramCommandForMergedConfig (recovers prior YAML command via
   │             ReadYAMLMCPServerCommand) → UpsertHermesEngramBlock → config.yaml
   │             mcp_servers.engram + InjectMarkdownSection engram-protocol → SOUL.md
@@ -517,7 +517,7 @@ Verify: SOUL.md contains persona + engram-protocol + sdd-orchestrator markers;
 | Risk | Severity | Mitigation |
 |---|---|---|
 | YAML indentation errors (silently invalid config) | Med | Strict 2-space indent in helper; golden tests #1-#10 pin exact bytes |
-| Comment loss inside managed blocks | Low | Documented: managed blocks are gentle-ai-owned; content outside preserved (golden #6) |
+| Comment loss inside managed blocks | Low | Documented: managed blocks are mr-mauroo-ai-owned; content outside preserved (golden #6) |
 | Idempotency when `mcp_servers:` created on first run | Med | Golden #2 + #4 (create then re-run = no change) |
 | Indent-aware block boundary bugs (nested-2-deep vs flat TOML) | Med | Explicit boundary rules in algorithm; golden #5/#7 cover sibling preservation |
 | Hermes config.yaml schema drift (emerging agent) | Med | Schema knowledge isolated in `yaml.go`; pinned by golden tests; easy single-file update |
@@ -537,12 +537,12 @@ Verify: SOUL.md contains persona + engram-protocol + sdd-orchestrator markers;
 | Unit | `Detect()` — binary found/missing, stat error, config dir present/absent | Table-driven with injected `lookPath`/`statPath` mocks (mirror OpenClaw/qwen) |
 | Unit | `InstallCommand()` returns `AgentNotInstallableError` | Explicit error-type assertion |
 | Unit | Config paths + capabilities + strategies | Table-driven name/expected pairs |
-| Unit | `personaContent()` — gentleman/neutral/gentleman-neutral-artifacts/custom for Hermes | Table-driven; assert Hermes assets selected and skill-loading block rewritten |
+| Unit | `personaContent()` — mr-mauroo/neutral/mr-mauroo-neutral-artifacts/custom for Hermes | Table-driven; assert Hermes assets selected and skill-loading block rewritten |
 | Integration | engram MCP YAML inject (`engram/inject_test.go`) | `t.TempDir()`; call `Inject`; assert `mcp_servers.engram` present + idempotent on re-run |
 | Integration | engram YAML command recovery (`engram/inject_test.go`) | `t.TempDir()` with a `config.yaml` whose `mcp_servers.engram.command` is a custom absolute path; call `Inject`; assert the custom command is preserved (not replaced with bare `engram`); a versioned cellar command is stabilized to `engram`/stable path |
 | Integration | context7 MCP YAML inject (`mcp/inject_test.go`) | `t.TempDir()`; assert `mcp_servers.context7` present |
 | Integration | SDD inject (`sdd/inject_test.go`) | `t.TempDir()`; assert SOUL.md sdd-orchestrator marker + `~/.hermes/skills/` files; assert asset selection case |
-| Integration | persona inject into SOUL.md | `t.TempDir()`; assert `<!-- gentle-ai:persona -->` section; assert engram/SDD sections coexist without duplication |
+| Integration | persona inject into SOUL.md | `t.TempDir()`; assert `<!-- mr-mauroo-ai:persona -->` section; assert engram/SDD sections coexist without duplication |
 | Unit | `SetupAgentSlug(AgentHermes)` → `("", false)` (`setup_test.go`) | Table case |
 | Registry | default registry includes Hermes (`registry_test.go`) | Extend `TestDefaultRegistryIncludesAllAgents` |
 | CLI | validate accepts `"hermes"` | Extend mapping test |

@@ -7,10 +7,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/assets"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 type InjectionResult struct {
@@ -34,22 +34,22 @@ func outputStyleOverlayJSON(name string) []byte {
 // openCodeAgentOverlayJSON defines the Tab-switchable persona agent for OpenCode.
 // SDD is installed separately by the SDD component as "gentle-orchestrator";
 // persona injection must not create legacy SDD conductor keys.
-var openCodeAgentOverlayJSON = []byte("{\n  \"agent\": {\n    \"gentleman\": {\n      \"mode\": \"primary\",\n      \"description\": \"Senior Architect mentor - helpful first, challenging when it matters\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"write\": true,\n        \"edit\": true\n      }\n    }\n  }\n}\n")
+var openCodeAgentOverlayJSON = []byte("{\n  \"agent\": {\n    \"mr-mauroo\": {\n      \"mode\": \"primary\",\n      \"description\": \"Senior Architect mentor - helpful first, challenging when it matters\",\n      \"prompt\": \"{file:./AGENTS.md}\",\n      \"tools\": {\n        \"write\": true,\n        \"edit\": true\n      }\n    }\n  }\n}\n")
 
 // Inject performs a full persona injection: the marker-bound markdown block,
-// the OpenCode/Kilocode `gentleman` agent definition in settings JSON, AND
-// the Claude Code output-style overlay. Used by `gentle-ai install`.
+// the OpenCode/Kilocode `mr-mauroo` agent definition in settings JSON, AND
+// the Claude Code output-style overlay. Used by `mr-mauroo-ai install`.
 func Inject(homeDir string, adapter agents.Adapter, persona model.PersonaID) (InjectionResult, error) {
 	return injectInternal(homeDir, adapter, persona, false)
 }
 
-// InjectForSync regenerates the persona assets that `gentle-ai sync` is
+// InjectForSync regenerates the persona assets that `mr-mauroo-ai sync` is
 // allowed to touch. It writes:
 //   - The marker-bound persona block in the agent's prompt file (markdown).
-//   - The Gentleman output-style file + outputStyle settings overlay (Claude
+//   - The Mr.Mauroo output-style file + outputStyle settings overlay (Claude
 //     Code only — no conflict with other components).
 //
-// It deliberately skips the OpenCode/Kilocode `gentleman` agent definition in
+// It deliberately skips the OpenCode/Kilocode `mr-mauroo` agent definition in
 // opencode.json/kilocode.json: that JSON merge shares the "agent" key with
 // SDD's gentle-orchestrator overlay, so running both in the same sync clobbers
 // each other's entries and breaks idempotency. That overlay remains an
@@ -94,7 +94,7 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 			return InjectionResult{}, err
 		}
 
-		// Auto-heal: strip any legacy free-text Gentleman persona block that was
+		// Auto-heal: strip any legacy free-text Mr.Mauroo persona block that was
 		// written before the marker-based injection system existed. This is safe
 		// for StrategyMarkdownSections because InjectMarkdownSection preserves
 		// all existing marker sections — only the unmarked free-text preamble is
@@ -148,11 +148,11 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 			break
 		}
 
-		// For non-Gentleman personas (e.g. neutral), the content is just a short
+		// For non-Mr.Mauroo personas (e.g. neutral), the content is just a short
 		// one-liner. Writing ONLY that content would destroy any SDD/engram
 		// sections that are injected later in the pipeline. Instead, we write the
 		// persona content as the base and let subsequent inject steps (SDD, engram)
-		// append their sections. For Gentleman, the content is the full persona
+		// append their sections. For Mr.Mauroo, the content is the full persona
 		// asset which is safe to write as-is.
 		//
 		// If the file already exists and has managed sections (SDD, engram), we
@@ -182,7 +182,7 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 	case model.StrategyInstructionsFile:
 		promptPath := adapter.SystemPromptFile(homeDir)
 
-		// Auto-heal: remove any stale Gentleman persona content left at the
+		// Auto-heal: remove any stale Mr.Mauroo persona content left at the
 		// old VSCode path (~/.github/copilot-instructions.md) that was written
 		// by an older installer version.  VS Code still reads that path for
 		// global instructions, so the two files would conflict.
@@ -190,7 +190,7 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 			changed = true
 		}
 
-		// For non-Gentleman personas, preserve managed sections (same logic
+		// For non-Mr.Mauroo personas, preserve managed sections (same logic
 		// as StrategyFileReplace above).
 		existing, readErr := readFileOrEmpty(promptPath)
 		if readErr != nil {
@@ -295,8 +295,8 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 		// across both persona and output-style instruction layers.
 		outputStyleContent := ""
 		switch {
-		case isGentlemanConversationPersona(persona):
-			outputStyleContent = assets.MustRead("kimi/output-style-gentleman.md")
+		case isMrMaurooConversationPersona(persona):
+			outputStyleContent = assets.MustRead("kimi/output-style-mr-mauroo.md")
 		case persona == model.PersonaNeutral:
 			outputStyleContent = assets.MustRead("kimi/output-style-neutral.md")
 		}
@@ -310,14 +310,14 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 	}
 
 	// 2. OpenCode/Kilocode agent definitions — Tab-switchable agents in settings.
-	// Gentleman overlay creation remains install-only because this overlay shares
+	// Mr.Mauroo overlay creation remains install-only because this overlay shares
 	// the "agent" key in opencode.json with SDD's gentle-orchestrator overlay.
-	// Non-gentleman sync may still do a narrow cleanup of only agent.gentleman so
+	// Non-mr-mauroo sync may still do a narrow cleanup of only agent.mr-mauroo so
 	// neutral sync does not leave regional persona state behind.
 	if (adapter.Agent() == model.AgentOpenCode || adapter.Agent() == model.AgentKilocode) && persona != model.PersonaCustom {
 		settingsPath := adapter.SettingsPath(homeDir)
 		if settingsPath != "" {
-			if isGentlemanConversationPersona(persona) {
+			if isMrMaurooConversationPersona(persona) {
 				if !syncManaged {
 					agentResult, err := mergeJSONFile(settingsPath, openCodeAgentOverlayJSON)
 					if err != nil {
@@ -327,12 +327,12 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 					files = append(files, settingsPath)
 				}
 			} else {
-				// Non-gentleman: remove any residual agent.gentleman key left by a
-				// previous gentleman install. Only the "gentleman" sub-key is removed
+				// Non-mr-mauroo: remove any residual agent.mr-mauroo key left by a
+				// previous mr-mauroo install. Only the "mr-mauroo" sub-key is removed
 				// from within "agent" — other user-defined agents are preserved.
-				removed, err := removeJSONNestedSubKey(settingsPath, "agent", "gentleman")
+				removed, err := removeJSONNestedSubKey(settingsPath, "agent", "mr-mauroo")
 				if err != nil {
-					return InjectionResult{}, fmt.Errorf("clean agent.gentleman from settings: %w", err)
+					return InjectionResult{}, fmt.Errorf("clean agent.mr-mauroo from settings: %w", err)
 				}
 				if removed {
 					changed = true
@@ -342,12 +342,12 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 		}
 	}
 
-	// 3. Gentleman-only: write output style + merge into settings (if agent supports it).
-	if isGentlemanConversationPersona(persona) && adapter.Agent() != model.AgentOpenClaw && adapter.SupportsOutputStyles() {
+	// 3. Mr.Mauroo-only: write output style + merge into settings (if agent supports it).
+	if isMrMaurooConversationPersona(persona) && adapter.Agent() != model.AgentOpenClaw && adapter.SupportsOutputStyles() {
 		outputStyleDir := adapter.OutputStyleDir(homeDir)
 		if outputStyleDir != "" {
-			outputStylePath := outputStyleDir + "/gentleman.md"
-			outputStyleContent := assets.MustRead("claude/output-style-gentleman.md")
+			outputStylePath := outputStyleDir + "/mr-mauroo.md"
+			outputStyleContent := assets.MustRead("claude/output-style-mr-mauroo.md")
 
 			styleResult, err := filemerge.WriteFileAtomic(outputStylePath, []byte(outputStyleContent), 0o644)
 			if err != nil {
@@ -357,10 +357,10 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 			files = append(files, outputStylePath)
 		}
 
-		// Merge "outputStyle": "Gentleman" into settings.
+		// Merge "outputStyle": "Mr.Mauroo" into settings.
 		settingsPath := adapter.SettingsPath(homeDir)
 		if settingsPath != "" {
-			settingsResult, err := mergeJSONFile(settingsPath, outputStyleOverlayJSON("Gentleman"))
+			settingsResult, err := mergeJSONFile(settingsPath, outputStyleOverlayJSON("Mr.Mauroo"))
 			if err != nil {
 				return InjectionResult{}, err
 			}
@@ -396,15 +396,15 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 		}
 	}
 
-	// 3b. Non-gentleman cleanup: remove residual Gentleman output-style artifacts
-	// left by a previous install when the user switches away from the gentleman persona.
-	if !isGentlemanConversationPersona(persona) && adapter.Agent() != model.AgentOpenClaw && adapter.SupportsOutputStyles() {
+	// 3b. Non-mr-mauroo cleanup: remove residual Mr.Mauroo output-style artifacts
+	// left by a previous install when the user switches away from the mr-mauroo persona.
+	if !isMrMaurooConversationPersona(persona) && adapter.Agent() != model.AgentOpenClaw && adapter.SupportsOutputStyles() {
 		outputStyleDir := adapter.OutputStyleDir(homeDir)
 		if outputStyleDir != "" {
-			outputStylePath := outputStyleDir + "/gentleman.md"
+			outputStylePath := outputStyleDir + "/mr-mauroo.md"
 			styleRemoved, err := removeFileAtomic(outputStylePath)
 			if err != nil {
-				return InjectionResult{}, fmt.Errorf("remove gentleman output style: %w", err)
+				return InjectionResult{}, fmt.Errorf("remove mr-mauroo output style: %w", err)
 			}
 			if styleRemoved {
 				changed = true
@@ -414,7 +414,7 @@ func injectInternal(homeDir string, adapter agents.Adapter, persona model.Person
 
 		settingsPath := adapter.SettingsPath(homeDir)
 		if settingsPath != "" {
-			removed, err := removeJSONKeyIfValue(settingsPath, "outputStyle", "Gentleman")
+			removed, err := removeJSONKeyIfValue(settingsPath, "outputStyle", "Mr.Mauroo")
 			if err != nil {
 				return InjectionResult{}, fmt.Errorf("clean outputStyle from settings: %w", err)
 			}
@@ -455,7 +455,7 @@ func injectOpenClawSoulPersona(workspaceDir, content string) (InjectionResult, e
 }
 
 // shouldStripManagedLegacyPersona returns true ONLY when the existing file
-// already contains a <!-- gentle-ai:persona --> section. That is the strongest
+// already contains a <!-- mr-mauroo-ai:persona --> section. That is the strongest
 // evidence that the pre-marker persona content is stale legacy text written by
 // an older installer, not user-authored content that happens to share headings.
 //
@@ -463,7 +463,7 @@ func injectOpenClawSoulPersona(workspaceDir, content string) (InjectionResult, e
 // or any other managed marker — their presence does not prove that the
 // pre-marker content is installer-owned.
 // isExactLegacyPersonaAsset returns true when the file content is an exact
-// match of one of the known persona assets (gentleman or neutral). This handles
+// match of one of the known persona assets (mr-mauroo or neutral). This handles
 // the case where an old installer wrote the asset as the entire file with no
 // markers — we can safely replace it because there is zero user content.
 func isExactLegacyPersonaAsset(existing string) bool {
@@ -472,8 +472,8 @@ func isExactLegacyPersonaAsset(existing string) bool {
 		return false
 	}
 	for _, assetPath := range []string{
-		"opencode/persona-gentleman.md",
-		"generic/persona-gentleman.md",
+		"opencode/persona-mr-mauroo.md",
+		"generic/persona-mr-mauroo.md",
 		"generic/persona-neutral.md",
 	} {
 		asset := strings.TrimSpace(assets.MustRead(assetPath))
@@ -485,11 +485,11 @@ func isExactLegacyPersonaAsset(existing string) bool {
 }
 
 func shouldStripManagedLegacyPersona(existing string) bool {
-	return strings.Contains(existing, "<!-- gentle-ai:persona -->")
+	return strings.Contains(existing, "<!-- mr-mauroo-ai:persona -->")
 }
 
-func isGentlemanConversationPersona(persona model.PersonaID) bool {
-	return persona == model.PersonaGentleman || persona == model.PersonaGentlemanNeutralArtifacts
+func isMrMaurooConversationPersona(persona model.PersonaID) bool {
+	return persona == model.PersonaMrMauroo || persona == model.PersonaMrMaurooNeutralArtifacts
 }
 
 func personaContent(agent model.AgentID, persona model.PersonaID) string {
@@ -507,24 +507,24 @@ func personaContent(agent model.AgentID, persona model.PersonaID) string {
 	case model.PersonaCustom:
 		return ""
 	default:
-		// Gentleman persona — try agent-specific asset, then generic fallback.
+		// Mr.Mauroo persona — try agent-specific asset, then generic fallback.
 		switch agent {
 		case model.AgentClaudeCode:
-			return assets.MustRead("claude/persona-gentleman.md")
+			return assets.MustRead("claude/persona-mr-mauroo.md")
 		case model.AgentOpenCode, model.AgentKilocode:
-			return assets.MustRead("opencode/persona-gentleman.md")
+			return assets.MustRead("opencode/persona-mr-mauroo.md")
 		case model.AgentKimi:
-			return assets.MustRead("kimi/persona-gentleman.md")
+			return assets.MustRead("kimi/persona-mr-mauroo.md")
 		case model.AgentKiroIDE:
 			// Kiro uses a steering-file based persona. The asset is identical to
 			// generic today but kept separate so it can diverge independently.
-			return assets.MustRead("kiro/persona-gentleman.md")
+			return assets.MustRead("kiro/persona-mr-mauroo.md")
 		case model.AgentHermes:
-			return assets.MustRead("hermes/persona-gentleman.md")
+			return assets.MustRead("hermes/persona-mr-mauroo.md")
 		default:
-			// Generic persona includes Gentleman personality + skills table + SDD orchestrator.
+			// Generic persona includes Mr.Mauroo personality + skills table + SDD orchestrator.
 			// Used by Gemini CLI, Cursor, VS Code Copilot, and any future agents.
-			return assets.MustRead("generic/persona-gentleman.md")
+			return assets.MustRead("generic/persona-mr-mauroo.md")
 		}
 	}
 }
@@ -567,16 +567,16 @@ var osReadFile = func(path string) ([]byte, error) {
 }
 
 // preserveManagedSections checks whether the existing file content has
-// gentle-ai managed sections (SDD orchestrator, engram protocol, etc.) and
+// mr-mauroo-ai managed sections (SDD orchestrator, engram protocol, etc.) and
 // returns new content that preserves those sections while replacing only the
 // persona text before them. Returns ("", false) when no preservation is needed
-// (empty file, Gentleman persona, or no managed markers found).
+// (empty file, Mr.Mauroo persona, or no managed markers found).
 func preserveManagedSections(existing, newPersona string, persona model.PersonaID) (string, bool) {
-	if existing == "" || isGentlemanConversationPersona(persona) {
+	if existing == "" || isMrMaurooConversationPersona(persona) {
 		return "", false
 	}
 
-	idx := strings.Index(existing, "<!-- gentle-ai:")
+	idx := strings.Index(existing, "<!-- mr-mauroo-ai:")
 	if idx < 0 {
 		return "", false
 	}
@@ -608,7 +608,7 @@ func readFileOrEmpty(path string) (string, error) {
 
 func wrapInstructionsFile(content string) string {
 	frontmatter := "---\n" +
-		"name: Gentle AI Persona\n" +
+		"name: Mr.Mauroo AI Persona\n" +
 		"description: Teaching-oriented persona with SDD orchestration and Engram protocol\n" +
 		"applyTo: \"**\"\n" +
 		"---\n\n"
@@ -624,7 +624,7 @@ func wrapSteeringFile(content string) string {
 	return frontmatter + content
 }
 
-// isLegacyUnwrappedPersona reports whether content is a Gentleman persona
+// isLegacyUnwrappedPersona reports whether content is a Mr.Mauroo persona
 // file written by an older installer version without YAML frontmatter.
 // Requires ALL fingerprints to match (not just one) to reduce false positives.
 // This is only used for legacy path cleanup (e.g. ~/.github/copilot-instructions.md)
@@ -650,7 +650,7 @@ func isLegacyUnwrappedPersona(content string) bool {
 }
 
 // legacyVSCodePersonaPaths returns the old VS Code persona file paths that may
-// contain stale Gentleman persona content from older installer versions.
+// contain stale Mr.Mauroo persona content from older installer versions.
 // These paths are no longer written by the current installer but may still
 // be read by VS Code, causing conflicting instructions.
 func legacyVSCodePersonaPaths(homeDir string) []string {
@@ -766,9 +766,9 @@ func removeJSONNestedSubKey(path, parentKey, subKey string) (bool, error) {
 	return true, nil
 }
 
-// cleanLegacyVSCodePersona removes Gentleman persona content from any old VS Code
+// cleanLegacyVSCodePersona removes Mr.Mauroo persona content from any old VS Code
 // persona file paths that are no longer written by the current installer.
-// Only files that contain clear Gentleman persona fingerprints are removed —
+// Only files that contain clear Mr.Mauroo persona fingerprints are removed —
 // files with user-written content are left untouched.
 // Returns true if at least one file was cleaned.
 func cleanLegacyVSCodePersona(homeDir string) (bool, error) {
@@ -783,7 +783,7 @@ func cleanLegacyVSCodePersona(homeDir string) (bool, error) {
 		}
 
 		if !isLegacyUnwrappedPersona(string(data)) {
-			// File exists but doesn't look like a Gentleman persona — leave it alone.
+			// File exists but doesn't look like a Mr.Mauroo persona — leave it alone.
 			continue
 		}
 

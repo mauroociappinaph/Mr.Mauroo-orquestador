@@ -14,10 +14,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/cli"
-	"github.com/gentleman-programming/gentle-ai/internal/components/engram"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/cli"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/engram"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
 )
 
 // engramDownloadFn is the function used to download the engram binary on the stable channel.
@@ -58,7 +58,7 @@ const maxScriptSize = 1 * 1024 * 1024 // 1 MB
 //   - brew profile → brewUpgrade (regardless of tool's declared method)
 //   - go-install method + apt/pacman/other → goInstallUpgrade
 //   - binary method + linux/darwin → binaryUpgrade
-//   - binary method + windows → manualFallback (gentle-ai on Windows uses installerUpgrade instead)
+//   - binary method + windows → manualFallback (mr-mauroo-ai on Windows uses installerUpgrade instead)
 //   - script method + linux/darwin + gga → ggaScriptUpgrade (git clone approach)
 //   - script method + linux/darwin + other → scriptUpgrade (curl | bash install.sh)
 //   - script method + windows → manualFallback
@@ -94,7 +94,7 @@ func runStrategy(ctx context.Context, r update.UpdateResult, profile system.Plat
 		return false, opencodePluginUpgrade(ctx, r)
 	default:
 		return false, &ManualFallbackError{
-			Hint: fmt.Sprintf("upgrade %q: unsupported install method %q — please update manually. See: https://github.com/Gentleman-Programming/%s",
+			Hint: fmt.Sprintf("upgrade %q: unsupported install method %q — please update manually. See: https://github.com/Mr-Mauroo-Programming/%s",
 				r.Tool.Name, method, r.Tool.Repo),
 		}
 	}
@@ -309,21 +309,21 @@ func openCodePluginRegisteredPendingHint(pkg string) string {
 // network), the upgrade is still attempted using the existing cache — a stale
 // cache is better than no upgrade at all.
 func brewUpgrade(ctx context.Context, toolName string) error {
-	// Ensure the Gentleman-Programming homebrew tap is present before upgrading.
+	// Ensure the Mr-Mauroo-Programming homebrew tap is present before upgrading.
 	// Non-fatal: brew tap is a no-op when already present; if it fails for any other
 	// reason, the subsequent brew upgrade will surface the real error. See issue #455:
 	// without this, a lost tap (untap, machine swap, brew cleanup) makes upgrades fail
-	// with "No available formula" for engram/gga/gentle-ai.
-	tapCmd := execCommand("brew", "tap", "Gentleman-Programming/homebrew-tap")
+	// with "No available formula" for engram/gga/mr-mauroo-ai.
+	tapCmd := execCommand("brew", "tap", "Mr-Mauroo-Programming/homebrew-tap")
 	tapCmd.Stdin = nil
 	_ = tapCmd.Run()
 
-	// Trust only the Gentleman Programming artifact being upgraded. Homebrew 6 can
+	// Trust only the Mr.Mauroo Programming artifact being upgraded. Homebrew 6 can
 	// require explicit trust for non-official taps; this is intentionally scoped to
 	// our formula/cask, not the whole tap or third-party taps. Older Homebrew versions
 	// may not support `brew trust`, so this is non-fatal and the upgrade output
 	// below remains the source of truth.
-	trustCmd := execCommand("brew", "trust", homebrewTrustFlag(toolName), gentlemanProgrammingTapRef(toolName))
+	trustCmd := execCommand("brew", "trust", homebrewTrustFlag(toolName), mrMaurooProgrammingTapRef(toolName))
 	trustCmd.Stdin = nil
 	_ = trustCmd.Run()
 
@@ -341,8 +341,8 @@ func brewUpgrade(ctx context.Context, toolName string) error {
 	return nil
 }
 
-func gentlemanProgrammingTapRef(toolName string) string {
-	return "gentleman-programming/tap/" + strings.TrimSpace(toolName)
+func mrMaurooProgrammingTapRef(toolName string) string {
+	return "mr-mauroo-programming/tap/" + strings.TrimSpace(toolName)
 }
 
 func homebrewTrustFlag(toolName string) string {
@@ -362,7 +362,7 @@ func formatBrewUpgradeError(toolName string, err error, output string) error {
 
 func homebrewFailureAdvice(toolName string, output string) string {
 	lower := strings.ToLower(output)
-	ref := gentlemanProgrammingTapRef(toolName)
+	ref := mrMaurooProgrammingTapRef(toolName)
 
 	if strings.Contains(lower, "untrusted tap") || strings.Contains(lower, "tap trust is required") || strings.Contains(lower, "homebrew_require_tap_trust") {
 		flag := homebrewTrustFlag(toolName)
@@ -374,7 +374,7 @@ func homebrewFailureAdvice(toolName string, output string) string {
 			flag = "--formula"
 			artifact = "formula"
 		}
-		return fmt.Sprintf("Homebrew requires explicit trust for external taps. Trust only this Gentle AI %s, then retry:\n  brew trust %s %s\n  brew upgrade %s", artifact, flag, ref, toolName)
+		return fmt.Sprintf("Homebrew requires explicit trust for external taps. Trust only this Mr.Mauroo AI %s, then retry:\n  brew trust %s %s\n  brew upgrade %s", artifact, flag, ref, toolName)
 	}
 
 	if strings.Contains(lower, "bubblewrap is installed but cannot create a rootless sandbox") ||
@@ -403,18 +403,24 @@ func goInstallUpgrade(ctx context.Context, tool update.ToolInfo, latestVersion s
 }
 
 func isBetaGentleAIUpgrade(r update.UpdateResult) bool {
-	return r.Tool.Name == "gentle-ai" &&
-		strings.EqualFold(r.Tool.Owner, "Gentleman-Programming") &&
-		r.Tool.Repo == "gentle-ai" &&
+	return r.Tool.Name == "mr-mauroo-ai" &&
+		strings.EqualFold(r.Tool.Owner, "Mr-Mauroo-Programming") &&
+		r.Tool.Repo == "mr-mauroo-ai" &&
 		strings.HasPrefix(strings.TrimSpace(r.LatestVersion), "main@")
 }
 
 func goInstallMainUpgrade(tool update.ToolInfo) error {
-	module := strings.ToLower(fmt.Sprintf("github.com/%s/%s", strings.TrimSpace(tool.Owner), strings.TrimSpace(tool.Repo)))
-	if module == "github.com//" {
-		module = "github.com/gentleman-programming/gentle-ai"
+	module := ""
+	if tool.GoImportPath != "" {
+		module = strings.TrimSuffix(tool.GoImportPath, "/cmd/mr-mauroo-ai")
 	}
-	target := module + "/cmd/gentle-ai@main"
+	if module == "" {
+		module = strings.ToLower(fmt.Sprintf("github.com/%s/%s", strings.TrimSpace(tool.Owner), strings.TrimSpace(tool.Repo)))
+		if module == "github.com//" {
+			module = "github.com/mr-mauroo/mr-mauroo-ai"
+		}
+	}
+	target := module + "/cmd/mr-mauroo-ai@main"
 	cmd := execCommand("go", "install", target)
 	cmd.Stdin = nil
 	cmd.Env = goProxyBypassEnv(cmd.Env, module)
@@ -476,9 +482,9 @@ func prependGoPattern(existing, pattern string) string {
 // binaryUpgrade handles binary-release upgrades via GitHub Releases asset download.
 //
 // engram has its own cross-platform binary downloader (DownloadLatestBinary) that
-// works on all platforms including Windows. For tools besides engram and gentle-ai
+// works on all platforms including Windows. For tools besides engram and mr-mauroo-ai
 // on Windows, a ManualFallbackError is returned so the executor surfaces it as
-// UpgradeSkipped with an actionable hint. (gentle-ai uses InstallInstaller).
+// UpgradeSkipped with an actionable hint. (mr-mauroo-ai uses InstallInstaller).
 func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.PlatformProfile) error {
 	// engram: always use its dedicated binary downloader regardless of platform
 	// (except brew, which is handled by effectiveMethod before we get here).
@@ -492,7 +498,7 @@ func binaryUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 		// with an actionable hint — NOT as UpgradeFailed.
 		hint := r.UpdateHint
 		if hint == "" {
-			hint = fmt.Sprintf("Download manually from https://github.com/Gentleman-Programming/%s/releases", r.Tool.Repo)
+			hint = fmt.Sprintf("Download manually from https://github.com/Mr-Mauroo-Programming/%s/releases", r.Tool.Repo)
 		}
 		return &ManualFallbackError{
 			Hint: fmt.Sprintf("upgrade %q on Windows requires manual update: %s", r.Tool.Name, hint),
@@ -524,7 +530,7 @@ func installerUpgradeArgs(tmpPath string, beta bool) []string {
 	return args
 }
 
-// installerUpgrade launches the PowerShell installer (install.ps1) for gentle-ai on Windows.
+// installerUpgrade launches the PowerShell installer (install.ps1) for mr-mauroo-ai on Windows.
 // This is used for the Windows self-replace workaround — the running process
 // exits immediately after launching the installer, which then replaces the binary.
 // When beta is true, "-Channel beta" is passed to install.ps1 so it installs
@@ -560,7 +566,7 @@ func installerUpgrade(ctx context.Context, tool update.ToolInfo, releaseURL stri
 	}
 
 	// Write to a temporary file instead of passing it to iex directly
-	tmpFile, err := os.CreateTemp("", "gentle-ai-install-*.ps1")
+	tmpFile, err := os.CreateTemp("", "mr-mauroo-ai-install-*.ps1")
 	if err != nil {
 		return false, fmt.Errorf("create temp script: %w", err)
 	}
@@ -573,7 +579,7 @@ func installerUpgrade(ctx context.Context, tool update.ToolInfo, releaseURL stri
 	cmd := execCommand("cmd", installerUpgradeArgs(tmpFile.Name(), beta)...)
 
 	fmt.Printf("\nLaunching installer for %s...\n", tool.Name)
-	fmt.Println("gentle-ai will now exit so the installer can replace the binary.")
+	fmt.Println("mr-mauroo-ai will now exit so the installer can replace the binary.")
 
 	if err := cmd.Start(); err != nil {
 		return false, fmt.Errorf("failed to start installer: %w", err)
@@ -715,7 +721,7 @@ func scriptUpgrade(ctx context.Context, r update.UpdateResult, profile system.Pl
 // ggaMkdirTemp is the function used to create a temporary directory for GGA git clone.
 // Package-level var for testability — swapped in tests to control the temp dir path.
 var ggaMkdirTemp = func() (string, error) {
-	return os.MkdirTemp("", "gentle-ai-gga-*")
+	return os.MkdirTemp("", "mr-mauroo-ai-gga-*")
 }
 
 // ggaScriptUpgrade upgrades GGA by cloning its repository and running install.sh

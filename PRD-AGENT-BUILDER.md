@@ -3,16 +3,16 @@
 > **Your ecosystem, your rules. Build custom AI sub-agents from the TUI — no code required.**
 
 **Version**: 0.1.0-draft
-**Author**: Gentleman Programming
+**Author**: Mr.Mauroo Programming
 **Date**: 2026-04-03
 **Status**: Draft
-**Parent PRD**: [PRD.md](PRD.md) (Gentleman AI Installer)
+**Parent PRD**: [PRD.md](PRD.md) (Mr.Mauroo AI Installer)
 
 ---
 
 ## 1. Problem Statement
 
-The Gentleman AI ecosystem ships with a powerful set of pre-built skills and SDD phases. But every developer works differently. A frontend architect needs a design system reviewer. A security engineer needs a vulnerability scanner agent. A technical writer needs a documentation generator.
+The Mr.Mauroo AI ecosystem ships with a powerful set of pre-built skills and SDD phases. But every developer works differently. A frontend architect needs a design system reviewer. A security engineer needs a vulnerability scanner agent. A technical writer needs a documentation generator.
 
 **Today, creating a custom sub-agent requires:**
 
@@ -33,7 +33,7 @@ The Gentleman AI ecosystem ships with a powerful set of pre-built skills and SDD
 Think of it as the "Create Agent" flow from Claude's `/agents` command, but:
 - **Cross-agent**: generates once, installs everywhere (Claude Code, OpenCode, Gemini CLI, Cursor, etc.)
 - **SDD-aware**: can optionally integrate as a new SDD phase or as support for an existing phase
-- **Ecosystem-native**: the generated agent has access to Engram (persistent memory), MCP servers, and follows the Gentleman skill format
+- **Ecosystem-native**: the generated agent has access to Engram (persistent memory), MCP servers, and follows the Mr.Mauroo skill format
 - **Preview before install**: you see exactly what will be generated before it touches your filesystem
 
 **Before**: "I want an agent that reviews my CSS for accessibility... I guess I need to write a SKILL.md manually, figure out triggers, and copy it to 4 different directories."
@@ -308,7 +308,7 @@ The prompt sent to the AI engine is critical. It must produce a well-structured 
 #### System Prompt (injected before user input)
 
 ```
-You are an expert AI skill creator for the Gentleman AI ecosystem.
+You are an expert AI skill creator for the Mr.Mauroo AI ecosystem.
 Your task is to generate a SKILL.md file based on the user's description.
 
 The SKILL.md format must follow this structure:
@@ -426,7 +426,7 @@ The installer writes the SAME `SKILL.md` to ALL agents that were configured duri
 To track which custom agents the user has created (for future management), a local registry file is maintained:
 
 ```
-~/.config/gentle-ai/custom-agents.json
+~/.config/mr-mauroo-ai/custom-agents.json
 ```
 
 ```json
@@ -458,11 +458,11 @@ When the custom agent has SDD integration, additional configuration is needed:
 The generated skill includes SDD-aware instructions. The orchestrator's system prompt is updated to include a reference to the custom skill:
 
 ```markdown
-<!-- gentle-ai:custom-agent:{name} -->
+<!-- mr-mauroo-ai:custom-agent:{name} -->
 ## Custom Agent: {Title}
 When executing the "{target_phase}" phase, also load and apply the "{name}" skill
 for additional validation/support.
-<!-- /gentle-ai:custom-agent:{name} -->
+<!-- /mr-mauroo-ai:custom-agent:{name} -->
 ```
 
 This is injected into the agent's system prompt using the existing `StrategyMarkdownSections` approach (marker-based injection that doesn't clobber user content).
@@ -610,7 +610,7 @@ func (e *OpenCodeEngine) Generate(ctx context.Context, prompt string) (string, e
 ```mermaid
 sequenceDiagram
     participant User
-    participant TUI as Gentle AI TUI
+    participant TUI as Mr.Mauroo AI TUI
     participant Builder as Agent Builder
     participant Engine as Generation Engine<br/>(Claude/OpenCode/etc.)
     participant Parser as Output Parser
@@ -708,7 +708,7 @@ graph TB
 
     subgraph STORAGE["Storage"]
         SKILLS_DIR["~/.{agent}/skills/{name}/SKILL.md"]
-        REGISTRY_FILE["~/.config/gentle-ai/custom-agents.json"]
+        REGISTRY_FILE["~/.config/mr-mauroo-ai/custom-agents.json"]
         SYS_PROMPT["Agent system prompts<br/>(CLAUDE.md / AGENTS.md / etc.)"]
     end
 
@@ -807,7 +807,7 @@ The user selects where in the pipeline to insert the new phase:
 | R-AB-05 | The Agent Builder MUST show a preview of the generated skill before installation | P0 |
 | R-AB-06 | The Agent Builder MUST install the generated skill to ALL configured AI agents | P0 |
 | R-AB-07 | The Agent Builder MUST support SDD integration in three modes: standalone, phase support, new phase | P0 |
-| R-AB-08 | The Agent Builder MUST maintain a local registry of custom agents at `~/.config/gentle-ai/custom-agents.json` | P0 |
+| R-AB-08 | The Agent Builder MUST maintain a local registry of custom agents at `~/.config/mr-mauroo-ai/custom-agents.json` | P0 |
 | R-AB-09 | The Agent Builder MUST allow the user to edit the generated skill before installation (open in $EDITOR) | P1 |
 | R-AB-10 | The Agent Builder MUST allow the user to regenerate the skill with the same prompt | P0 |
 | R-AB-11 | The Agent Builder MUST include Engram integration instructions in every generated skill | P0 |

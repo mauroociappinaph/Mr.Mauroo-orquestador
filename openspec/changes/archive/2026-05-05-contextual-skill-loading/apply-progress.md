@@ -1,6 +1,6 @@
 # Apply Progress — contextual-skill-loading
 
-**Worktree**: /Users/alanbuscaglia/work/gentle-ai-claude-skills
+**Worktree**: /Users/alanbuscaglia/work/mr-mauroo-ai-claude-skills
 **Branch**: feat/claude-contextual-skill-loading
 **Mode**: Strict TDD (`go test ./...`)
 **Delivery strategy**: ask-on-risk — single PR within budget (Low risk per tasks.md forecast)
@@ -47,17 +47,17 @@
 | File | Action | What |
 |------|--------|------|
 | `internal/assets/skills_frontmatter_test.go` | created | new linter (frontmatter parses, name == basename, plain scalar description, Trigger present, whitelist) |
-| `internal/assets/skills/chained-pr/SKILL.md` | modified | `name: gentle-ai-chained-pr` → `name: chained-pr` (T2); description flattened (T4) |
+| `internal/assets/skills/chained-pr/SKILL.md` | modified | `name: mr-mauroo-ai-chained-pr` → `name: chained-pr` (T2); description flattened (T4) |
 | `internal/assets/skills/skill-creator/SKILL.md` | modified | dropped `allowed-tools:` top-level key (T3); description flattened (T4) |
 | `internal/assets/skills/{_shared, branch-pr, cognitive-doc-design, comment-writer, go-testing, issue-creation, judgment-day, sdd-apply, sdd-archive, sdd-design, sdd-explore, sdd-init, sdd-onboard, sdd-propose, sdd-spec, sdd-tasks, sdd-verify, skill-registry, work-unit-commits}/SKILL.md` | modified | description block-scalar → plain double-quoted single-line scalar (T4) |
 | `internal/assets/assets_test.go` | modified | added `TestPersonasContainContextualSkillLoadingDirective` covering 6 personas (T5) |
-| `internal/assets/claude/persona-gentleman.md` | modified | removed `## Skills (Auto-load based on context)` table; injected verbatim B2 directive naming `Skill` tool (T6) |
-| `internal/assets/{opencode, generic, kiro, kimi}/persona-gentleman.md` + `internal/assets/generic/persona-neutral.md` | modified | removed table; injected non-Claude variant of B2 directive ("read the matching SKILL.md (using your agent's read mechanism)") across 5 files (T6) |
+| `internal/assets/claude/persona-mr-mauroo.md` | modified | removed `## Skills (Auto-load based on context)` table; injected verbatim B2 directive naming `Skill` tool (T6) |
+| `internal/assets/{opencode, generic, kiro, kimi}/persona-mr-mauroo.md` + `internal/assets/generic/persona-neutral.md` | modified | removed table; injected non-Claude variant of B2 directive ("read the matching SKILL.md (using your agent's read mechanism)") across 5 files (T6) |
 | `internal/components/persona/inject_test.go` | modified | updated cursor persona smoke assertion to match the new directive heading (T6) |
 | `testdata/golden/skills-{claude, opencode, windsurf, kiro}-skill-creator.golden` | regenerated | T3 + T4 (allowed-tools removal + description flatten) |
 | `testdata/golden/skills-{claude, opencode, windsurf, kiro}-go-testing.golden` | regenerated | T4 (description flatten) |
 | `testdata/golden/sdd-{antigravity, codex, cursor, gemini, kiro, opencode, vscode, windsurf}-skill-sdd-init.golden` | regenerated | T4 (description flatten — 8 files; claude SDD goldens do not include installed SKILL.md) |
-| `testdata/golden/persona-{claude-gentleman, claude-neutral, opencode-gentleman, opencode-neutral, windsurf-gentleman, kiro-gentleman, antigravity-gentleman}.golden` + `testdata/golden/combined-{claude-claudemd, windsurf-global-rules}.golden` | regenerated | T6 (table → directive across 9 goldens) |
+| `testdata/golden/persona-{claude-mr-mauroo, claude-neutral, opencode-mr-mauroo, opencode-neutral, windsurf-mr-mauroo, kiro-mr-mauroo, antigravity-mr-mauroo}.golden` + `testdata/golden/combined-{claude-claudemd, windsurf-global-rules}.golden` | regenerated | T6 (table → directive across 9 goldens) |
 | `openspec/changes/contextual-skill-loading/tasks.md` | modified | marked T1–T7 `[x]` |
 | `openspec/changes/contextual-skill-loading/apply-progress.md` | created | this artifact |
 

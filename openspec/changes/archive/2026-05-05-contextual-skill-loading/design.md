@@ -1,6 +1,6 @@
 # Design: contextual-skill-loading
 
-**Worktree**: /Users/alanbuscaglia/work/gentle-ai-claude-skills
+**Worktree**: /Users/alanbuscaglia/work/mr-mauroo-ai-claude-skills
 **Branch**: feat/claude-contextual-skill-loading
 **Strict TDD**: enabled (`go test ./...`)
 
@@ -8,7 +8,7 @@
 
 ## Executive summary
 
-Inject one short MANDATORY directive (Decision 1, B2 wording) into ALL six `persona-gentleman.md` / `persona-neutral.md` assets in place of the hardcoded "Skills (Auto-load based on context)" table. Claude variant references the native `Skill` tool by name; non-Claude variants reference `<available_skills>` discovery in tool-agnostic phrasing (Decision 2, option β'). Guard against future block-scalar regressions with a Go frontmatter linter test under `go test ./...` (Decision 3, option c). Each delta (A, B, C, D) ships as its own work-unit commit; cumulative diff stays within the 400-line review budget — no chained PRs needed.
+Inject one short MANDATORY directive (Decision 1, B2 wording) into ALL six `persona-mr-mauroo.md` / `persona-neutral.md` assets in place of the hardcoded "Skills (Auto-load based on context)" table. Claude variant references the native `Skill` tool by name; non-Claude variants reference `<available_skills>` discovery in tool-agnostic phrasing (Decision 2, option β'). Guard against future block-scalar regressions with a Go frontmatter linter test under `go test ./...` (Decision 3, option c). Each delta (A, B, C, D) ships as its own work-unit commit; cumulative diff stays within the 400-line review budget — no chained PRs needed.
 
 ---
 

@@ -3,9 +3,9 @@
 // isolated from install, pipeline, planner, and config-sync code paths.
 //
 // Import boundary: this package MUST NOT import:
-//   - github.com/gentleman-programming/gentle-ai/internal/pipeline
-//   - github.com/gentleman-programming/gentle-ai/internal/planner
-//   - github.com/gentleman-programming/gentle-ai/internal/cli
+//   - github.com/mr-mauroo/mr-mauroo-ai/internal/pipeline
+//   - github.com/mr-mauroo/mr-mauroo-ai/internal/planner
+//   - github.com/mr-mauroo/mr-mauroo-ai/internal/cli
 package upgrade
 
 import (
@@ -20,16 +20,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/assets"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/gga"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	"github.com/gentleman-programming/gentle-ai/internal/components/skills"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/assets"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/gga"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/sdd"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/skills"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
 )
 
 // Package-level vars for testability — same pattern as internal/update/detect.go.
@@ -44,7 +44,7 @@ var snapshotCreator = func(snapshotDir string, paths []string) (backup.Manifest,
 	return backup.NewSnapshotter().Create(snapshotDir, paths)
 }
 
-// AppVersion is the gentle-ai version written into backup manifests created by
+// AppVersion is the mr-mauroo-ai version written into backup manifests created by
 // the upgrade executor. Set by app.go before calling Execute so that upgrade
 // backups record the version that created them.
 // Default "dev" matches the ldflags default in app.Version.
@@ -115,11 +115,11 @@ var backupExcludeSubdirs = map[string]bool{
 	"tmp":                         true, // Antigravity temporary runtime artifacts
 }
 
-// configPathsForBackup returns the explicit Gentle AI-managed file paths that
+// configPathsForBackup returns the explicit Mr.Mauroo AI-managed file paths that
 // the backup snapshot must include before any upgrade execution.
 //
 // This is intentionally NOT a recursive backup of agent config directories.
-// Upgrade backups are rollback artifacts for files Gentle AI may create or
+// Upgrade backups are rollback artifacts for files Mr.Mauroo AI may create or
 // modify, not general-purpose backups of conversations, sessions, caches,
 // sockets, package installs, or other runtime state.
 //
@@ -127,7 +127,7 @@ var backupExcludeSubdirs = map[string]bool{
 // only those agents' config paths are backed up — this is the canonical source
 // of truth established at install time. Filesystem detection is used only as a
 // fallback for fresh installs (no state.json yet). This prevents snapshot bloat
-// from agent config dirs that the user never actually installed via gentle-ai
+// from agent config dirs that the user never actually installed via mr-mauroo-ai
 // (issue #354: snapshots could reach ~25 GiB from unmanaged config dirs).
 func configPathsForBackup(homeDir string, diagnostics ...io.Writer) []string {
 	dw := firstWriter(diagnostics...)
@@ -216,7 +216,7 @@ func managedAgentBackupPaths(homeDir string, adapter agents.Adapter, diagnostics
 	}
 
 	if adapter.SupportsOutputStyles() {
-		add(filepath.Join(adapter.OutputStyleDir(homeDir), "gentleman.md"))
+		add(filepath.Join(adapter.OutputStyleDir(homeDir), "mr-mauroo.md"))
 	}
 
 	if adapter.SupportsSlashCommands() {
@@ -237,7 +237,7 @@ func managedAgentBackupPaths(homeDir string, adapter agents.Adapter, diagnostics
 
 	switch adapter.Agent() {
 	case model.AgentClaudeCode:
-		add(filepath.Join(homeDir, ".claude", "themes", "gentleman.json"))
+		add(filepath.Join(homeDir, ".claude", "themes", "mr-mauroo.json"))
 	case model.AgentOpenCode:
 		add(
 			filepath.Join(homeDir, ".config", "opencode", "plugins", "background-agents.ts"),
@@ -455,7 +455,7 @@ func ExecuteWithOptions(ctx context.Context, results []update.UpdateResult, prof
 	backupWarning := ""
 	if !dryRun && len(executable) > 0 && !options.SkipBackup {
 		sp := NewSpinner(pw, "Creating pre-upgrade backup")
-		snapshotDir := filepath.Join(homeDir, ".gentle-ai", "backups",
+		snapshotDir := filepath.Join(homeDir, ".mr-mauroo-ai", "backups",
 			fmt.Sprintf("upgrade-%s", time.Now().UTC().Format("20060102T150405Z")))
 		manifest, err := snapshotCreator(snapshotDir, configPathsForBackup(homeDir, options.BackupDiagnostics))
 		if err != nil {
@@ -481,7 +481,7 @@ func ExecuteWithOptions(ctx context.Context, results []update.UpdateResult, prof
 		// snapshot fails due to disk pressure caused by prior accumulated
 		// backups, pruning is the recovery path. Non-fatal: a prune failure
 		// must not prevent the upgrade from completing.
-		backupRoot := filepath.Join(homeDir, ".gentle-ai", "backups")
+		backupRoot := filepath.Join(homeDir, ".mr-mauroo-ai", "backups")
 		if _, pruneErr := backup.Prune(backupRoot, backup.DefaultRetentionCount); pruneErr != nil {
 			log.Printf("backup: prune: %v", pruneErr)
 		}
@@ -498,7 +498,7 @@ func ExecuteWithOptions(ctx context.Context, results []update.UpdateResult, prof
 			NewVersion: r.LatestVersion,
 			Method:     effectiveMethod(r.Tool, profile),
 			Status:     UpgradeSkipped,
-			ManualHint: fmt.Sprintf("source build — upgrade manually or install a release binary from https://github.com/Gentleman-Programming/%s/releases", r.Tool.Repo),
+			ManualHint: fmt.Sprintf("source build — upgrade manually or install a release binary from https://github.com/%s/%s/releases", r.Tool.Owner, r.Tool.Repo),
 		})
 	}
 
@@ -604,7 +604,7 @@ func executeOne(ctx context.Context, r update.UpdateResult, profile system.Platf
 //
 //  1. OpenCode plugins are always handled by their own method — never overridden.
 //  2. Brew-managed platforms always use brew regardless of the tool's declared method.
-//  3. gentle-ai on Windows uses the installer so the running binary can exit before replacement.
+//  3. mr-mauroo-ai on Windows uses the installer so the running binary can exit before replacement.
 //  4. When Go is available on PATH and the tool has a GoImportPath, go-install is
 //     preferred over a direct binary download.
 //  5. Otherwise the tool's declared InstallMethod is used as-is.
@@ -615,8 +615,8 @@ func effectiveMethod(tool update.ToolInfo, profile system.PlatformProfile) updat
 	if profile.PackageManager == "brew" {
 		return update.InstallBrew
 	}
-	// Use installer method for gentle-ai on Windows (launches PowerShell installer).
-	if profile.OS == "windows" && tool.Name == "gentle-ai" {
+	// Use installer method for mr-mauroo-ai on Windows (launches PowerShell installer).
+	if profile.OS == "windows" && tool.Name == "mr-mauroo-ai" {
 		return update.InstallInstaller
 	}
 	if profile.GoAvailable && tool.GoImportPath != "" {

@@ -7,7 +7,7 @@
 
 ## Purpose
 
-Define a declarative trigger-rules system that gentle-ai INSTALLS (not executes) into every supported agent. The system defines a closed set of lifecycle events, a binding schema with structured `when` conditions, a token-aware built-in default rule set, and mechanism for rendering rules as plain instructional text and injecting them idempotently into all supported agent assets through the existing installer/injection path.
+Define a declarative trigger-rules system that mr-mauroo-ai INSTALLS (not executes) into every supported agent. The system defines a closed set of lifecycle events, a binding schema with structured `when` conditions, a token-aware built-in default rule set, and mechanism for rendering rules as plain instructional text and injecting them idempotently into all supported agent assets through the existing installer/injection path.
 
 ---
 
@@ -479,7 +479,7 @@ The renderer turns the rule set into per-agent plain instructional text. The ren
 - Scannable: events, conditions, agents, and modes are clearly labeled
 - Concise: the entire trigger-rules section MUST NOT exceed 40 lines for the default rule set
 - Deterministic: the same rule set produces byte-identical output on every render
-- Marker-free: the renderer does NOT emit `<!-- gentle-ai:trigger-rules -->` markers (the caller injects them)
+- Marker-free: the renderer does NOT emit `<!-- mr-mauroo-ai:trigger-rules -->` markers (the caller injects them)
 
 #### Scenario: RenderTriggerRules is deterministic
 
@@ -491,7 +491,7 @@ The renderer turns the rule set into per-agent plain instructional text. The ren
 
 - GIVEN rendered output from `RenderTriggerRules`
 - WHEN the output is inspected
-- THEN it contains no `<!-- gentle-ai:` or `<!-- /gentle-ai:` markers
+- THEN it contains no `<!-- mr-mauroo-ai:` or `<!-- /mr-mauroo-ai:` markers
 - (Markers are added by the injector, not the renderer.)
 
 #### Scenario: Rendered block contains organic-not-a-gate note
@@ -510,7 +510,7 @@ The renderer turns the rule set into per-agent plain instructional text. The ren
 
 ### Requirement: Injection (from Delta F)
 
-Rules are injected through the existing installer path. The injector writes the rendered block into the installed assets for every supported agent through the existing `filemerge.InjectMarkdownSection` mechanism under the section ID `gentle-ai:trigger-rules`.
+Rules are injected through the existing installer path. The injector writes the rendered block into the installed assets for every supported agent through the existing `filemerge.InjectMarkdownSection` mechanism under the section ID `mr-mauroo-ai:trigger-rules`.
 
 ### Requirement: All Eight Supported Agents Must Receive Injected Rules
 
@@ -542,7 +542,7 @@ No supported agent may be silently skipped. A test MUST enumerate all eight adap
 
 ### Requirement: Injection Uses the Existing Marker-Section Mechanism
 
-The trigger-rules section MUST use a dedicated, uniquely named marker: `gentle-ai:trigger-rules`.
+The trigger-rules section MUST use a dedicated, uniquely named marker: `mr-mauroo-ai:trigger-rules`.
 
 The marker-section mechanism is the same one used for existing sections (via `internal/filemerge/section.go`). No new injection mechanism is introduced.
 
@@ -550,19 +550,19 @@ The marker-section mechanism is the same one used for existing sections (via `in
 
 - GIVEN an agent asset file before injection
 - WHEN injection runs
-- THEN the file contains an opening marker `<!-- gentle-ai:trigger-rules -->` and a corresponding closing marker
+- THEN the file contains an opening marker `<!-- mr-mauroo-ai:trigger-rules -->` and a corresponding closing marker
 - AND the rendered directive block is between the markers
 
 #### Scenario: Injection is idempotent
 
-- GIVEN an agent asset that already contains the `gentle-ai:trigger-rules` marker section
+- GIVEN an agent asset that already contains the `mr-mauroo-ai:trigger-rules` marker section
 - WHEN injection runs again with the same rule set
 - THEN the file content is identical
 - AND the marker section does not appear more than once
 
 #### Scenario: Injection updates stale content
 
-- GIVEN an agent asset that contains a `gentle-ai:trigger-rules` section with outdated rendered content
+- GIVEN an agent asset that contains a `mr-mauroo-ai:trigger-rules` section with outdated rendered content
 - WHEN injection runs with a newer rule set
 - THEN the old section content is replaced with the new rendered content
 - AND the markers remain present and unique
@@ -596,16 +596,16 @@ The primary injection point for the trigger-rules section MUST be the per-agent 
 
 #### Scenario: Trigger-rules section is present in the always-loaded system prompt section
 
-- GIVEN a `claude` installation produced by `gentle-ai install`
+- GIVEN a `claude` installation produced by `mr-mauroo-ai install`
 - WHEN the installed CLAUDE.md (or equivalent always-loaded file) is inspected
-- THEN the `gentle-ai:trigger-rules` section is present
+- THEN the `mr-mauroo-ai:trigger-rules` section is present
 - AND it is not only in a secondary or optional file
 
 ---
 
 ### Requirement: No Execution of Agents (from Delta H)
 
-gentle-ai MUST NOT execute, spawn, or invoke any agent at any lifecycle moment. The binary's role is strictly to install and inject.
+mr-mauroo-ai MUST NOT execute, spawn, or invoke any agent at any lifecycle moment. The binary's role is strictly to install and inject.
 
 #### Scenario: Binary source contains no agent-dispatch code
 
@@ -623,7 +623,7 @@ gentle-ai MUST NOT execute, spawn, or invoke any agent at any lifecycle moment. 
 
 ### Requirement: No Git Hook Generation
 
-gentle-ai MUST NOT create, write, or modify any file under a `.git/hooks/` directory as a result of this change.
+mr-mauroo-ai MUST NOT create, write, or modify any file under a `.git/hooks/` directory as a result of this change.
 
 #### Scenario: No `.git/hooks/` writes occur during install
 
@@ -647,7 +647,7 @@ No code path introduced by this change MUST block, pause, or gate the user's wor
 
 #### Scenario: Installer completes without interactive gate
 
-- GIVEN the trigger-rules injection running as part of `gentle-ai install`
+- GIVEN the trigger-rules injection running as part of `mr-mauroo-ai install`
 - WHEN the installer writes the trigger-rules section
 - THEN the installer does not pause for input or wait for acknowledgment
 
@@ -659,7 +659,7 @@ No code path introduced by this change MUST block, pause, or gate the user's wor
 
 ### Requirement: No `when` Evaluation Engine
 
-gentle-ai MUST NOT evaluate `when` conditions at runtime. It renders them as text. The binary MUST NOT contain a parser or evaluator that reads diff metadata and applies condition logic.
+mr-mauroo-ai MUST NOT evaluate `when` conditions at runtime. It renders them as text. The binary MUST NOT contain a parser or evaluator that reads diff metadata and applies condition logic.
 
 #### Scenario: No diff-reading logic in trigger-rules code
 
@@ -684,11 +684,11 @@ This change MUST NOT introduce a YAML, TOML, or other structured-data parse libr
 
 | Non-goal | Reason |
 |----------|--------|
-| Executing agents | gentle-ai stays an installer/injector. It renders rules; the AI tool's orchestrator runs them. |
+| Executing agents | mr-mauroo-ai stays an installer/injector. It renders rules; the AI tool's orchestrator runs them. |
 | Generating git hooks | Events are semantic moments honored by the orchestrator, not OS-level hooks. |
 | Event bus / runtime dispatch | No runtime layer is added; no daemon, no listener, no scheduler. |
 | Deterministic / hard gates | Organic-only by decision. No blocking. `mode: strong` is the strongest level — a strong recommendation, not a gate. |
-| A `when` expression engine that gentle-ai evaluates | gentle-ai does not evaluate `when`; it renders the condition as instruction text for the orchestrator to interpret. |
+| A `when` expression engine that mr-mauroo-ai evaluates | mr-mauroo-ai does not evaluate `when`; it renders the condition as instruction text for the orchestrator to interpret. |
 | User-override / per-project rule customization | Explicitly deferred. Defaults ship only in this change. |
 
 ---
@@ -763,5 +763,5 @@ type TriggerRuleSet struct {
 - [x] A token-aware built-in default rule set ships covering the 4R, judgment-day, and sdd phases.
 - [x] Default bindings demonstrably scale by blast radius: cheap advisory lens on everyday events; full 4R only on hot paths / large diffs; judgment-day only at high-stakes moments.
 - [x] Rules are rendered and injected into the installed assets for ALL supported agents (claude, opencode, cursor, codex, gemini, vscode, windsurf, antigravity), idempotently.
-- [x] gentle-ai adds NO execution, NO git hooks, NO event bus, NO deterministic gate — verified by the absence of any runtime dispatch code.
+- [x] mr-mauroo-ai adds NO execution, NO git hooks, NO event bus, NO deterministic gate — verified by the absence of any runtime dispatch code.
 - [x] `go build ./...`, `go vet ./...`, and `go test ./...` pass clean.

@@ -14,22 +14,22 @@ import (
 
 	"github.com/charmbracelet/bubbles/textarea"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/gentleman-programming/gentle-ai/internal/agentbuilder"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/catalog"
-	"github.com/gentleman-programming/gentle-ai/internal/components/communitytool"
-	"github.com/gentleman-programming/gentle-ai/internal/components/opencodeplugin"
-	"github.com/gentleman-programming/gentle-ai/internal/components/sdd"
-	componentuninstall "github.com/gentleman-programming/gentle-ai/internal/components/uninstall"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agentbuilder"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/catalog"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/communitytool"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/opencodeplugin"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/sdd"
+	componentuninstall "github.com/mr-mauroo/mr-mauroo-ai/internal/components/uninstall"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/opencode"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/pipeline"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/planner"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/screens"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update/upgrade"
 )
 
 // tuiNowFn returns the current time for the update-check cooldown gate.
@@ -585,15 +585,15 @@ func NewModel(detection system.DetectionResult, version string, installState ...
 		s = installState[0]
 	}
 	agents := preselectedAgents(detection, s)
-	components := componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	components := componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	if isPiOnlyAgents(agents) {
 		components = piOnlyComponents()
 	}
 
 	selection := model.Selection{
 		Agents:                 agents,
-		Persona:                model.PersonaGentleman,
-		Preset:                 model.PresetFullGentleman,
+		Persona:                model.PersonaMrMauroo,
+		Preset:                 model.PresetFullMrMauroo,
 		Components:             components,
 		ClaudeModelAssignments: installStateClaudeAssignments(s.ClaudeModelAssignments),
 		ClaudePhaseAssignments: installStateClaudePhaseAssignments(s.ClaudePhaseAssignments),
@@ -1685,7 +1685,7 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 		if m.OperationRunning {
 			return m, nil
 		}
-		// If gentle-ai itself was upgraded, leave the TUI so the app layer can restart
+		// If mr-mauroo-ai itself was upgraded, leave the TUI so the app layer can restart
 		// or ask for restart using the platform-specific restart helper.
 		if _, ok := m.GentleAIUpgradeVersion(); ok {
 			return m, tea.Quit
@@ -1729,7 +1729,7 @@ func (m Model) confirmSelection() (tea.Model, tea.Cmd) {
 		if m.OperationRunning {
 			return m, nil
 		}
-		// If gentle-ai itself was upgraded, leave the TUI so the app layer can restart
+		// If mr-mauroo-ai itself was upgraded, leave the TUI so the app layer can restart
 		// or ask for restart using the platform-specific restart helper.
 		if _, ok := m.GentleAIUpgradeVersion(); ok {
 			return m, tea.Quit
@@ -2707,7 +2707,7 @@ func (m Model) startUninstall() tea.Cmd {
 			}
 			if isHomebrewManagedBinary(execPath) {
 				result.ManualActions = append(result.ManualActions,
-					"Homebrew-managed install detected. Run 'brew uninstall gentle-ai' to remove the executable cleanly.")
+					"Homebrew-managed install detected. Run 'brew uninstall mr-mauroo-ai' to remove the executable cleanly.")
 			} else if removeErr := osRemoveFn(execPath); removeErr != nil {
 				return UninstallDoneMsg{Result: result, Err: fmt.Errorf("uninstall succeeded but failed to remove binary at %q: %w", execPath, removeErr)}
 			}
@@ -2768,7 +2768,7 @@ func (m Model) detectProjectEngramData() bool {
 // startUpgradeSync runs upgrade then sync sequentially via tea.Sequence.
 // Design decision: sync normally runs regardless of tool-level upgrade outcome.
 // Tool-level upgrade failures are per-tool (in UpgradeReport.Results), not fatal.
-// Exception: if gentle-ai itself was upgraded, sync is skipped so the old
+// Exception: if mr-mauroo-ai itself was upgraded, sync is skipped so the old
 // running binary cannot rewrite configs after installing a newer binary.
 //
 // The first command runs the upgrade and sends UpgradePhaseCompletedMsg
@@ -2792,7 +2792,7 @@ func (m Model) startUpgradeSync() tea.Cmd {
 
 	syncCmd := func() tea.Msg {
 		if gentleAIUpdated {
-			// Deferred sync (task 4.8): gentle-ai was upgraded in this session.
+			// Deferred sync (task 4.8): mr-mauroo-ai was upgraded in this session.
 			// Set PendingSync=true so the new binary runs sync on next launch
 			// instead of silently skipping it. Non-fatal if state write fails.
 			//
@@ -2827,21 +2827,21 @@ func (m Model) startUpgradeSync() tea.Cmd {
 
 func reportUpgradedGentleAI(report upgrade.UpgradeReport) bool {
 	for _, result := range report.Results {
-		if result.ToolName == "gentle-ai" && result.Status == upgrade.UpgradeSucceeded {
+		if result.ToolName == "mr-mauroo-ai" && result.Status == upgrade.UpgradeSucceeded {
 			return true
 		}
 	}
 	return false
 }
 
-// GentleAIUpgradeVersion returns the upgraded gentle-ai version when the current
+// GentleAIUpgradeVersion returns the upgraded mr-mauroo-ai version when the current
 // TUI result requires restarting the app before continuing with config sync.
 func (m Model) GentleAIUpgradeVersion() (string, bool) {
 	if m.UpgradeReport == nil {
 		return "", false
 	}
 	for _, result := range m.UpgradeReport.Results {
-		if result.ToolName == "gentle-ai" && result.Status == upgrade.UpgradeSucceeded {
+		if result.ToolName == "mr-mauroo-ai" && result.Status == upgrade.UpgradeSucceeded {
 			return strings.TrimPrefix(result.NewVersion, "v"), true
 		}
 	}
@@ -3760,7 +3760,7 @@ func (m *Model) buildDependencyPlan() {
 	m.DependencyPlan = resolved
 }
 
-// agentsToManage returns the canonical list of agents gentle-ai should manage.
+// agentsToManage returns the canonical list of agents mr-mauroo-ai should manage.
 //
 // Priority:
 //  1. state.InstalledAgents is non-empty → use those (persisted user selection).
@@ -4046,7 +4046,7 @@ func componentsForPreset(preset model.PresetID, persona model.PersonaID) []model
 		components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD, model.ComponentSkills, model.ComponentContext7, model.ComponentGGA}
 	case model.PresetCustom:
 		return nil
-	default: // full-gentleman
+	default: // full-mr-mauroo
 		components = []model.ComponentID{
 			model.ComponentEngram,
 			model.ComponentSDD,
@@ -4527,7 +4527,7 @@ func (m Model) startInstallation() (tea.Model, tea.Cmd) {
 		}
 
 		// Persist entry to registry.
-		registryPath := filepath.Join(homeDir(), ".config", "gentle-ai", "custom-agents.json")
+		registryPath := filepath.Join(homeDir(), ".config", "mr-mauroo-ai", "custom-agents.json")
 		_ = os.MkdirAll(filepath.Dir(registryPath), 0755)
 		if reg, loadErr := agentbuilder.LoadRegistry(registryPath); loadErr == nil {
 			// Collect IDs of agents that were successfully installed.

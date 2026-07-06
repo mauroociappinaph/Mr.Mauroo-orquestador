@@ -1,7 +1,7 @@
 # Archive Report — contextual-skill-loading
 
 **Archived**: 2026-05-05  
-**Worktree**: /Users/alanbuscaglia/work/gentle-ai-claude-skills  
+**Worktree**: /Users/alanbuscaglia/work/mr-mauroo-ai-claude-skills  
 **Branch**: feat/claude-contextual-skill-loading (NOT pushed)  
 **Status**: COMPLETED — all tests pass, all specs reconciled, ready for merge
 
@@ -18,12 +18,12 @@ The `contextual-skill-loading` change successfully injected a mandatory skill-lo
 ### Personas Affected (6 files)
 
 All 6 persona assets received the mandatory directive injection:
-1. `internal/assets/claude/persona-gentleman.md` — Claude variant (names `Skill` tool)
-2. `internal/assets/opencode/persona-gentleman.md` — non-Claude variant
-3. `internal/assets/generic/persona-gentleman.md` — non-Claude variant
+1. `internal/assets/claude/persona-mr-mauroo.md` — Claude variant (names `Skill` tool)
+2. `internal/assets/opencode/persona-mr-mauroo.md` — non-Claude variant
+3. `internal/assets/generic/persona-mr-mauroo.md` — non-Claude variant
 4. `internal/assets/generic/persona-neutral.md` — non-Claude variant
-5. `internal/assets/kiro/persona-gentleman.md` — non-Claude variant
-6. `internal/assets/kimi/persona-gentleman.md` — non-Claude variant
+5. `internal/assets/kiro/persona-mr-mauroo.md` — non-Claude variant
+6. `internal/assets/kimi/persona-mr-mauroo.md` — non-Claude variant
 
 ### SKILL.md Files (21 total)
 
@@ -37,13 +37,13 @@ All 21 embedded SKILL.md files under `internal/assets/skills/*/` had their `desc
 ### Goldens Updated (21 files)
 
 9 persona goldens:
-- `persona-claude-gentleman.golden`
+- `persona-claude-mr-mauroo.golden`
 - `persona-claude-neutral.golden`
-- `persona-opencode-gentleman.golden`
+- `persona-opencode-mr-mauroo.golden`
 - `persona-opencode-neutral.golden`
-- `persona-windsurf-gentleman.golden`
-- `persona-kiro-gentleman.golden`
-- `persona-antigravity-gentleman.golden`
+- `persona-windsurf-mr-mauroo.golden`
+- `persona-kiro-mr-mauroo.golden`
+- `persona-antigravity-mr-mauroo.golden`
 - `combined-claude-claudemd.golden`
 - `combined-windsurf-global-rules.golden`
 
@@ -156,7 +156,7 @@ This change is **ready for merge**. The following are candidates for future SDD 
 
 1. **Behavioral verification of contextual skill loading** — implement option A (manual transcript) or option B (Claude API automation) to verify live model behavior with `Skill` tool.
 2. **Linter hardening** — enforce `license` and `metadata.author` as required fields in SKILL.md frontmatter.
-3. **Opencode user-skill mechanism** — currently out of scope; gentle-ai's skill-registry and `load` directive only ship to Claude Code, not to OpenCode's manual import flow.
+3. **Opencode user-skill mechanism** — currently out of scope; mr-mauroo-ai's skill-registry and `load` directive only ship to Claude Code, not to OpenCode's manual import flow.
 
 ---
 

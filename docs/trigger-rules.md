@@ -4,26 +4,26 @@
 
 ---
 
-gentle-ai injects a **trigger-rules** section into every supported agent's system prompt or orchestrator configuration. This section is a set of organic recommendations that guide the AI orchestrator on when to run review and verification agents during the development workflow.
+mr-mauroo-ai injects a **trigger-rules** section into every supported agent's system prompt or orchestrator configuration. This section is a set of organic recommendations that guide the AI orchestrator on when to run review and verification agents during the development workflow.
 
 ## What Are Trigger Rules?
 
-Trigger rules are **organic recommendations, not hard gates**. gentle-ai renders the rules as plain instruction text and injects them into the agent's prompt; the AI orchestrator decides when and how to act on them. gentle-ai never fires, blocks, or executes any rule itself.
+Trigger rules are **organic recommendations, not hard gates**. mr-mauroo-ai renders the rules as plain instruction text and injects them into the agent's prompt; the AI orchestrator decides when and how to act on them. mr-mauroo-ai never fires, blocks, or executes any rule itself.
 
 The injected section looks like this in your agent's system-prompt file:
 
 ```markdown
-<!-- gentle-ai:trigger-rules -->
+<!-- mr-mauroo-ai:trigger-rules -->
 ## Agent Trigger Rules
 
-These are organic recommendations, not enforced checkpoints. gentle-ai only
+These are organic recommendations, not enforced checkpoints. mr-mauroo-ai only
 renders this text; the AI orchestrator decides when to act on it.
 
 - At **pre-commit**, always, consider running `review-readability`. ...
 - At **pre-pr**, when the diff touches auth/update/security OR exceeds 400
   changed lines, **strongly recommend** running all four 4R lenses in parallel.
 - ...
-<!-- /gentle-ai:trigger-rules -->
+<!-- /mr-mauroo-ai:trigger-rules -->
 ```
 
 ## Where the Section Is Injected
@@ -32,12 +32,12 @@ renders this text; the AI orchestrator decides when to act on it.
 |-------|----------|
 | Claude Code | `~/.claude/CLAUDE.md` (marker section) |
 | Gemini CLI | `~/.gemini/GEMINI.md` (marker section) |
-| Cursor | `~/.cursor/rules/gentle-ai.mdc` (marker section) |
+| Cursor | `~/.cursor/rules/mr-mauroo-ai.mdc` (marker section) |
 | VS Code Copilot | `.instructions.md` (marker section) |
 | Codex | `~/.codex/AGENTS.md` (marker section) |
 | Antigravity | `~/.gemini/GEMINI.md` (marker section) |
 | Windsurf | `~/.codeium/windsurf/memories/global_rules.md` (marker section) |
-| Kiro | `~/.kiro/steering/gentle-ai.md` (marker section) |
+| Kiro | `~/.kiro/steering/mr-mauroo-ai.md` (marker section) |
 | Hermes | `~/.hermes/SOUL.md` (marker section) |
 | OpenCode | `opencode.json` → `agent.gentle-orchestrator.prompt` (inline) |
 | Kilocode | `opencode.json` → `agent.gentle-orchestrator.prompt` (inline) |
@@ -69,8 +69,8 @@ The built-in default set follows a three-tier cost model:
 Re-run install or sync after an update to refresh the injected section:
 
 ```bash
-gentle-ai install   # full install
-gentle-ai sync      # re-sync only (faster)
+mr-mauroo-ai install   # full install
+mr-mauroo-ai sync      # re-sync only (faster)
 ```
 
 The injection is idempotent — running it twice replaces the existing section without duplication.

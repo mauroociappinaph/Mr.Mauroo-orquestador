@@ -1,19 +1,19 @@
 ---
-name: gentle-ai-branch-pr
-description: "Create Gentle AI pull requests with issue-first checks. Trigger: creating, opening, or preparing PRs for review."
+name: mr-mauroo-ai-branch-pr
+description: "Create Mr.Mauroo AI pull requests with issue-first checks. Trigger: creating, opening, or preparing PRs for review."
 license: Apache-2.0
 metadata:
-  author: gentleman-programming
+  author: mr-mauroo-programming
   version: "2.0"
 ---
 
-# Gentle AI — Branch & PR Skill
+# Mr.Mauroo AI — Branch & PR Skill
 
 ## When to Use
 
 Load this skill whenever you need to:
 - Create a branch for a new fix or feature
-- Open a pull request on [Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai)
+- Open a pull request on [Mr-Mauroo/mr-mauroo-ai](https://github.com/Mr-Mauroo/mr-mauroo-ai)
 - Prepare changes for review
 
 ## Critical Rules
@@ -29,7 +29,7 @@ Load this skill whenever you need to:
 
 ```
 1. Confirm the issue has status:approved
-   gh issue view <N> --repo Gentleman-Programming/gentle-ai
+   gh issue view <N> --repo Mr-Mauroo/mr-mauroo-ai
 
 2. Create a branch from main using the naming convention below
 
@@ -221,7 +221,7 @@ feat(cli)!: change default config path
 
 ```bash
 # Confirm issue is approved before starting
-gh issue view <N> --repo Gentleman-Programming/gentle-ai
+gh issue view <N> --repo Mr-Mauroo/mr-mauroo-ai
 
 # Create branch
 git checkout main && git pull
@@ -248,7 +248,7 @@ cd e2e && ./docker-test.sh
 
 ```bash
 gh pr create \
-  --repo Gentleman-Programming/gentle-ai \
+  --repo Mr-Mauroo/mr-mauroo-ai \
   --title "fix(agent): correct Claude Code detection on Linux" \
   --body "$(cat <<'EOF'
 ## 🔗 Linked Issue
@@ -292,12 +292,12 @@ EOF
 ### Check PR Status
 
 ```bash
-gh pr checks --repo Gentleman-Programming/gentle-ai <PR-number>
-gh pr view --repo Gentleman-Programming/gentle-ai <PR-number>
+gh pr checks --repo Mr-Mauroo/mr-mauroo-ai <PR-number>
+gh pr view --repo Mr-Mauroo/mr-mauroo-ai <PR-number>
 ```
 
 ### Add a Label
 
 ```bash
-gh pr edit <PR-number> --repo Gentleman-Programming/gentle-ai --add-label "type:bug"
+gh pr edit <PR-number> --repo Mr-Mauroo/mr-mauroo-ai --add-label "type:bug"
 ```

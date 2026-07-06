@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-const SchemaName = "gentle-ai.sdd-status"
+const SchemaName = "mr-mauroo-ai.sdd-status"
 const SchemaVersion = 1
 
 type ArtifactStore string
@@ -387,7 +387,7 @@ func configMentionsEngram(content string) bool {
 }
 
 func exportEngramObservations(workspaceRoot string) ([]engramObservation, error) {
-	tmp, err := os.CreateTemp("", "gentle-ai-sdd-engram-*.json")
+	tmp, err := os.CreateTemp("", "mr-mauroo-ai-sdd-engram-*.json")
 	if err != nil {
 		return nil, err
 	}

@@ -90,7 +90,7 @@ func TestCheckOneTool_OK(t *testing.T) {
 }
 
 // TestCheckOneTool_ShadowedWindowsExt reproduces the Windows bug: binaries on
-// disk carry an executable extension (e.g. gentle-ai.exe / gentle-ai.cmd), so a
+// disk carry an executable extension (e.g. mr-mauroo-ai.exe / mr-mauroo-ai.cmd), so a
 // bare-name scan misses them and shadowing is reported as [ok]. With PATHEXT
 // extensions the duplicate copies are detected and a warning is produced.
 func TestCheckOneTool_ShadowedWindowsExt(t *testing.T) {
@@ -107,7 +107,7 @@ func TestCheckOneTool_ShadowedWindowsExt(t *testing.T) {
 
 	dir1 := t.TempDir()
 	dir2 := t.TempDir()
-	for _, p := range []string{filepath.Join(dir1, "gentle-ai.exe"), filepath.Join(dir2, "gentle-ai.cmd")} {
+	for _, p := range []string{filepath.Join(dir1, "mr-mauroo-ai.exe"), filepath.Join(dir2, "mr-mauroo-ai.cmd")} {
 		f, err := os.Create(p)
 		if err != nil {
 			t.Fatal(err)
@@ -115,9 +115,9 @@ func TestCheckOneTool_ShadowedWindowsExt(t *testing.T) {
 		_ = f.Close()
 	}
 
-	lookPathFn = func(string) (string, error) { return filepath.Join(dir1, "gentle-ai.exe"), nil }
+	lookPathFn = func(string) (string, error) { return filepath.Join(dir1, "mr-mauroo-ai.exe"), nil }
 
-	got := checkOneTool("gentle-ai", []string{dir1, dir2})
+	got := checkOneTool("mr-mauroo-ai", []string{dir1, dir2})
 
 	if got.Status != CheckStatusWarn {
 		t.Fatalf("expected warn for extensioned shadow, got %s: %s", got.Status, got.Detail)
@@ -269,7 +269,7 @@ func TestCheckStateJSON_Missing(t *testing.T) {
 
 func TestCheckStateJSON_Malformed(t *testing.T) {
 	homeDir := t.TempDir()
-	stateDir := filepath.Join(homeDir, ".gentle-ai")
+	stateDir := filepath.Join(homeDir, ".mr-mauroo-ai")
 	if err := os.MkdirAll(stateDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -289,7 +289,7 @@ func TestCheckStateJSON_Malformed(t *testing.T) {
 
 func TestCheckStateJSON_AgentConfigDirMissing(t *testing.T) {
 	homeDir := t.TempDir()
-	stateDir := filepath.Join(homeDir, ".gentle-ai")
+	stateDir := filepath.Join(homeDir, ".mr-mauroo-ai")
 	if err := os.MkdirAll(stateDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -311,7 +311,7 @@ func TestCheckStateJSON_AgentConfigDirMissing(t *testing.T) {
 
 func TestCheckStateJSON_OK(t *testing.T) {
 	homeDir := t.TempDir()
-	stateDir := filepath.Join(homeDir, ".gentle-ai")
+	stateDir := filepath.Join(homeDir, ".mr-mauroo-ai")
 	if err := os.MkdirAll(stateDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -451,7 +451,7 @@ func TestRunDoctor_IntegrationAllMocked(t *testing.T) {
 	}()
 
 	homeDir := t.TempDir()
-	stateDir := filepath.Join(homeDir, ".gentle-ai")
+	stateDir := filepath.Join(homeDir, ".mr-mauroo-ai")
 	if err := os.MkdirAll(stateDir, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -478,7 +478,7 @@ func TestRunDoctor_IntegrationAllMocked(t *testing.T) {
 	}
 
 	output := buf.String()
-	if !strings.Contains(output, "gentle-ai doctor") {
+	if !strings.Contains(output, "mr-mauroo-ai doctor") {
 		t.Error("expected header in output")
 	}
 	if !strings.Contains(output, "Summary:") {

@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/storage"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/storage"
 )
 
 // CheckStatus is the outcome of a doctor check: pass, warn, or fail.
@@ -38,7 +38,7 @@ type DoctorReport struct {
 	Checks []CheckResult
 }
 
-var knownTools = []string{"gentle-ai", "engram", "gga", "claude", "opencode"}
+var knownTools = []string{"mr-mauroo-ai", "engram", "gga", "claude", "opencode"}
 
 const (
 	engramHealthEnvVar = "ENGRAM_BASE_URL"
@@ -157,7 +157,7 @@ func doctorToolCopies(tool string, pathDirs []string) []string {
 
 // executableExtensions returns the filename suffixes to probe when scanning a
 // PATH directory for a tool binary. On Windows it mirrors exec.LookPath, which
-// resolves a bare name like "gentle-ai" to "gentle-ai.exe"/".cmd" via PATHEXT;
+// resolves a bare name like "mr-mauroo-ai" to "mr-mauroo-ai.exe"/".cmd" via PATHEXT;
 // on other platforms the bare name is used as-is. Without this, the duplicate
 // scan never matches real Windows binaries and PATH shadowing goes unreported.
 func executableExtensions() []string {
@@ -216,7 +216,7 @@ func appendUniqueExt(exts []string, ext string) []string {
 	return append(exts, ext)
 }
 
-// checkStateJSON validates ~/.gentle-ai/state.json and agent config dirs.
+// checkStateJSON validates ~/.mr-mauroo-ai/state.json and agent config dirs.
 func checkStateJSON(homeDir string) CheckResult {
 	const name = "state:json"
 	statePath := state.Path(homeDir)
@@ -228,14 +228,14 @@ func checkStateJSON(homeDir string) CheckResult {
 				Name:   name,
 				Status: CheckStatusWarn,
 				Detail: "state file not found at " + statePath + " (expected for first-time install)",
-				Remedy: "Run 'gentle-ai install' to create initial state",
+				Remedy: "Run 'mr-mauroo-ai install' to create initial state",
 			}
 		}
 		return CheckResult{
 			Name:   name,
 			Status: CheckStatusFail,
 			Detail: "failed to parse " + statePath + ": " + err.Error(),
-			Remedy: "Delete or repair " + statePath + ", then re-run 'gentle-ai install'",
+			Remedy: "Delete or repair " + statePath + ", then re-run 'mr-mauroo-ai install'",
 		}
 	}
 
@@ -244,7 +244,7 @@ func checkStateJSON(homeDir string) CheckResult {
 			Name:   name,
 			Status: CheckStatusWarn,
 			Detail: "state file found at " + statePath + " with no installed agents",
-			Remedy: "Run 'gentle-ai install' to configure agents",
+			Remedy: "Run 'mr-mauroo-ai install' to configure agents",
 		}
 	}
 
@@ -262,7 +262,7 @@ func checkStateJSON(homeDir string) CheckResult {
 			Name:   name,
 			Status: CheckStatusWarn,
 			Detail: fmt.Sprintf("state lists %d agent(s) whose config dirs are missing: %s", len(missing), strings.Join(missing, ", ")),
-			Remedy: "Run 'gentle-ai sync' to restore missing config files",
+			Remedy: "Run 'mr-mauroo-ai sync' to restore missing config files",
 		}
 	}
 
@@ -330,10 +330,10 @@ func checkEngramReachable() CheckResult {
 	}
 }
 
-// checkDiskSpace reports free space on the ~/.gentle-ai filesystem.
+// checkDiskSpace reports free space on the ~/.mr-mauroo-ai filesystem.
 func checkDiskSpace(homeDir string) CheckResult {
 	const name = "disk:space"
-	dir := filepath.Join(homeDir, ".gentle-ai")
+	dir := filepath.Join(homeDir, ".mr-mauroo-ai")
 
 	free, err := availableBytesFn(dir)
 	if err != nil {
@@ -379,7 +379,7 @@ func renderDoctorReport(w io.Writer, report DoctorReport) {
 		}
 	}
 
-	fmt.Fprintln(w, "gentle-ai doctor — system health check")
+	fmt.Fprintln(w, "mr-mauroo-ai doctor — system health check")
 	fmt.Fprintln(w, "=======================================")
 	fmt.Fprintln(w)
 

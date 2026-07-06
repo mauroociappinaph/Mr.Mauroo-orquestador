@@ -1,10 +1,10 @@
 /**
  * model-variants
- * Exports per-model variant (effort level) data for gentle-ai.
+ * Exports per-model variant (effort level) data for mr-mauroo-ai.
  *
  * On OpenCode startup, fetches the provider list via the in-process SDK client,
  * extracts variant keys per model, and writes a minimal JSON cache to
- * ~/.gentle-ai/cache/model-variants.json. gentle-ai reads this file
+ * ~/.mr-mauroo-ai/cache/model-variants.json. mr-mauroo-ai reads this file
  * to populate the effort level picker without needing a live API connection.
  */
 
@@ -49,7 +49,7 @@ export const ModelVariantsPlugin: Plugin = async (input) => {
         }
       }
 
-      const cacheDir = path.join(homedir(), ".gentle-ai", "cache")
+      const cacheDir = path.join(homedir(), ".mr-mauroo-ai", "cache")
       await mkdir(cacheDir, { recursive: true })
 
       // Always write through a per-invocation tmp file before renaming, so

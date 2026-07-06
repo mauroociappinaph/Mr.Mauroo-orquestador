@@ -4,27 +4,27 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
-func TestPersonaOptionsIncludeGentlemanNeutralArtifacts(t *testing.T) {
+func TestPersonaOptionsIncludeMrMaurooNeutralArtifacts(t *testing.T) {
 	options := PersonaOptions()
 	found := false
 	for _, option := range options {
-		if option == model.PersonaGentlemanNeutralArtifacts {
+		if option == model.PersonaMrMaurooNeutralArtifacts {
 			found = true
 		}
 	}
 	if !found {
-		t.Fatalf("PersonaOptions() = %v, missing %q", options, model.PersonaGentlemanNeutralArtifacts)
+		t.Fatalf("PersonaOptions() = %v, missing %q", options, model.PersonaMrMaurooNeutralArtifacts)
 	}
 }
 
-func TestRenderPersonaDescribesGentlemanNeutralArtifacts(t *testing.T) {
-	out := RenderPersona(model.PersonaGentlemanNeutralArtifacts, 2)
+func TestRenderPersonaDescribesMrMaurooNeutralArtifacts(t *testing.T) {
+	out := RenderPersona(model.PersonaMrMaurooNeutralArtifacts, 2)
 	for _, want := range []string{
-		"gentleman-neutral-artifacts",
-		"Gentleman conversation",
+		"mr-mauroo-neutral-artifacts",
+		"Mr.Mauroo conversation",
 		"English technical artifacts",
 		"context language",
 	} {

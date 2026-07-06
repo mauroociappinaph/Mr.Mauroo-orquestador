@@ -8,12 +8,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/verify"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/pipeline"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/verify"
 )
 
 // ─── Phase 1: ParseSyncFlags ───────────────────────────────────────────────
@@ -198,7 +198,7 @@ func TestBuildSyncSelectionDefaultScopeIncludesManagedComponents(t *testing.T) {
 	sel := BuildSyncSelection(flags, agents)
 
 	// Default sync must include: SDD, Engram, Context7, GGA, Skills, Persona.
-	// Persona is included because the content between <!-- gentle-ai:persona -->
+	// Persona is included because the content between <!-- mr-mauroo-ai:persona -->
 	// markers is harness-managed; sync must propagate embedded-asset changes to
 	// users who already have a persona installed. Content outside the markers
 	// is preserved by InjectMarkdownSection.
@@ -487,7 +487,7 @@ func TestComponentSyncStepRunsPersonaInjectForSync(t *testing.T) {
 		component: model.ComponentPersona,
 		homeDir:   home,
 		agents:    []model.AgentID{model.AgentOpenCode},
-		selection: model.Selection{Persona: model.PersonaGentleman},
+		selection: model.Selection{Persona: model.PersonaMrMauroo},
 	}
 
 	if err := step.Run(); err != nil {
@@ -500,7 +500,7 @@ func TestComponentSyncStepRunsPersonaInjectForSync(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ReadFile AGENTS.md: %v", err)
 	}
-	if !strings.Contains(string(body), "<!-- gentle-ai:persona -->") {
+	if !strings.Contains(string(body), "<!-- mr-mauroo-ai:persona -->") {
 		t.Errorf("AGENTS.md missing persona open marker after sync; got:\n%s", string(body))
 	}
 
@@ -509,8 +509,8 @@ func TestComponentSyncStepRunsPersonaInjectForSync(t *testing.T) {
 	settings := filepath.Join(home, ".config", "opencode", "opencode.json")
 	if _, err := os.Stat(settings); err == nil {
 		raw, _ := os.ReadFile(settings)
-		if strings.Contains(string(raw), "gentleman") {
-			t.Errorf("opencode.json should NOT contain gentleman agent after sync; got:\n%s", string(raw))
+		if strings.Contains(string(raw), "mr-mauroo") {
+			t.Errorf("opencode.json should NOT contain mr-mauroo agent after sync; got:\n%s", string(raw))
 		}
 	}
 }
@@ -592,9 +592,9 @@ func TestCodeGraphGuidanceSyncStepRefreshesOldMarkerWhenConfigured(t *testing.T)
 	mustWriteFile(t, filepath.Join(home, ".config", "opencode", "opencode.json"), []byte(`{}`))
 	mustWriteFile(t, agentsPath, []byte(strings.Join([]string{
 		"custom notes",
-		"<!-- gentle-ai:codegraph-guidance -->",
+		"<!-- mr-mauroo-ai:codegraph-guidance -->",
 		"stale CodeGraph lifecycle guidance",
-		"<!-- /gentle-ai:codegraph-guidance -->",
+		"<!-- /mr-mauroo-ai:codegraph-guidance -->",
 	}, "\n")))
 
 	restoreLookPath := cmdLookPath
@@ -718,7 +718,7 @@ func TestCodeGraphGuidanceSyncStepRepairsCodexConfigOnlyGuidance(t *testing.T) {
 		t.Fatalf("ReadFile(%q) error = %v", agentsPath, err)
 	}
 	text := string(body)
-	for _, want := range []string{"<!-- gentle-ai:codegraph-guidance -->", "immediately run `codegraph init <project-root>`"} {
+	for _, want := range []string{"<!-- mr-mauroo-ai:codegraph-guidance -->", "immediately run `codegraph init <project-root>`"} {
 		if !strings.Contains(text, want) {
 			t.Fatalf("Codex AGENTS.md missing managed CodeGraph guidance %q:\n%s", want, text)
 		}
@@ -762,7 +762,7 @@ func TestCodeGraphGuidanceSyncStepCleansLegacyBlockWithoutCodeGraphCLI(t *testin
 		t.Fatalf("ReadFile(%q) error = %v", agentsPath, err)
 	}
 	text := string(body)
-	for _, stale := range []string{"<!-- CODEGRAPH_START -->", "<!-- CODEGRAPH_END -->", "old CodeGraph instructions", "<!-- gentle-ai:codegraph-guidance -->"} {
+	for _, stale := range []string{"<!-- CODEGRAPH_START -->", "<!-- CODEGRAPH_END -->", "old CodeGraph instructions", "<!-- mr-mauroo-ai:codegraph-guidance -->"} {
 		if strings.Contains(text, stale) {
 			t.Fatalf("unexpected CodeGraph content %q after legacy-only cleanup:\n%s", stale, text)
 		}
@@ -804,7 +804,7 @@ func TestCodeGraphGuidanceSyncStepDoesNotInjectWhenNotConfigured(t *testing.T) {
 func TestSyncRuntimeAddsCodeGraphRefreshStepOnlyWhenConfigured(t *testing.T) {
 	home := t.TempDir()
 	mustWriteFile(t, filepath.Join(home, ".config", "opencode", "opencode.json"), []byte(`{}`))
-	mustWriteFile(t, filepath.Join(home, ".config", "opencode", "AGENTS.md"), []byte("<!-- gentle-ai:codegraph-guidance -->\nold\n<!-- /gentle-ai:codegraph-guidance -->\n"))
+	mustWriteFile(t, filepath.Join(home, ".config", "opencode", "AGENTS.md"), []byte("<!-- mr-mauroo-ai:codegraph-guidance -->\nold\n<!-- /mr-mauroo-ai:codegraph-guidance -->\n"))
 
 	restoreLookPath := cmdLookPath
 	t.Cleanup(func() { cmdLookPath = restoreLookPath })
@@ -1217,7 +1217,7 @@ func TestRenderSyncReportIncludesManagedActions(t *testing.T) {
 
 // TestRunSyncExcludesUnmanagedLookalikeFile verifies the spec scenario:
 // "User modified an unmanaged file that resembles a managed target —
-// gentle-ai sync excludes it from the plan and does not adopt it."
+// mr-mauroo-ai sync excludes it from the plan and does not adopt it."
 //
 // We create a file with the same NAME as a managed target but in a directory
 // that is NOT part of the managed inventory (simulating an unmanaged lookalike).
@@ -1233,7 +1233,7 @@ func TestRunSyncExcludesUnmanagedLookalikeFile(t *testing.T) {
 		t.Fatalf("MkdirAll() error = %v", err)
 	}
 	lookalikePath := filepath.Join(lookalikeDir, "AGENTS.md")
-	const lookalikeContent = "# My project AGENTS.md — NOT managed by gentle-ai"
+	const lookalikeContent = "# My project AGENTS.md — NOT managed by mr-mauroo-ai"
 	if err := os.WriteFile(lookalikePath, []byte(lookalikeContent), 0o644); err != nil {
 		t.Fatalf("WriteFile() lookalike error = %v", err)
 	}
@@ -1674,7 +1674,7 @@ func TestRunSyncExternalSingleActiveSkipsDetectAndPreservesOrchestratorPrompt(t 
 	seed := `{
   "agent": {
     "sdd-orchestrator": {"mode": "primary", "prompt": ` + strconv.Quote(customPrompt) + `},
-    "gentleman": {"mode": "primary", "description": "revoked OpenCode persona", "prompt": "REVOKED_GENTLEMAN_PROMPT_SHOULD_NOT_SURVIVE"},
+    "mr-mauroo": {"mode": "primary", "description": "revoked OpenCode persona", "prompt": "REVOKED_GENTLEMAN_PROMPT_SHOULD_NOT_SURVIVE"},
     "sdd-orchestrator-cheap": {"mode": "primary", "model": "anthropic:claude-haiku-3-5"},
     "sdd-init-cheap": {"mode": "subagent", "model": "anthropic:claude-haiku-3-5"}
   }
@@ -1718,11 +1718,11 @@ func TestRunSyncExternalSingleActiveSkipsDetectAndPreservesOrchestratorPrompt(t 
 	if strings.Contains(settingsText, "\"sdd-onboard-cheap\"") {
 		t.Fatalf("external-single-active should not auto-detect/regenerate suffixed profiles")
 	}
-	if strings.Contains(settingsText, "\"gentleman\"") {
-		t.Fatalf("external-single-active sync should delete revoked gentleman agent")
+	if strings.Contains(settingsText, "\"mr-mauroo\"") {
+		t.Fatalf("external-single-active sync should delete revoked mr-mauroo agent")
 	}
 	if strings.Contains(settingsText, "REVOKED_GENTLEMAN_PROMPT_SHOULD_NOT_SURVIVE") {
-		t.Fatalf("external-single-active sync preserved revoked gentleman prompt")
+		t.Fatalf("external-single-active sync preserved revoked mr-mauroo prompt")
 	}
 
 	// external-single-active forces multi-mode assets so shared prompts exist.
@@ -2593,7 +2593,7 @@ func TestSyncPersonaPathsExcludeOpenCodeAgentJson(t *testing.T) {
 	reg, _ := agents.NewDefaultRegistry()
 	a, _ := reg.Get(model.AgentOpenCode)
 
-	paths := syncPersonaPaths(home, model.Selection{Persona: model.PersonaGentleman}, []agents.Adapter{a})
+	paths := syncPersonaPaths(home, model.Selection{Persona: model.PersonaMrMauroo}, []agents.Adapter{a})
 
 	settingsPath := filepath.Join(home, ".config", "opencode", "opencode.json")
 	for _, p := range paths {
@@ -2616,9 +2616,9 @@ func TestSyncPersonaPathsDeclareManagedClaudeOutputStyle(t *testing.T) {
 		wantConfig string
 	}{
 		{
-			name:       "gentleman",
-			persona:    model.PersonaGentleman,
-			wantStyle:  filepath.Join(home, ".claude", "output-styles", "gentleman.md"),
+			name:       "mr-mauroo",
+			persona:    model.PersonaMrMauroo,
+			wantStyle:  filepath.Join(home, ".claude", "output-styles", "mr-mauroo.md"),
 			unwanted:   filepath.Join(home, ".claude", "output-styles", "neutral.md"),
 			wantConfig: filepath.Join(home, ".claude", "settings.json"),
 		},
@@ -2626,7 +2626,7 @@ func TestSyncPersonaPathsDeclareManagedClaudeOutputStyle(t *testing.T) {
 			name:       "neutral",
 			persona:    model.PersonaNeutral,
 			wantStyle:  filepath.Join(home, ".claude", "output-styles", "neutral.md"),
-			unwanted:   filepath.Join(home, ".claude", "output-styles", "gentleman.md"),
+			unwanted:   filepath.Join(home, ".claude", "output-styles", "mr-mauroo.md"),
 			wantConfig: filepath.Join(home, ".claude", "settings.json"),
 		},
 	}
@@ -2658,19 +2658,19 @@ func TestRunSyncRegeneratesPersonaBlockBetweenMarkers(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(home, ".claude"), 0o755); err != nil {
 		t.Fatalf("MkdirAll: %v", err)
 	}
-	// Write a stale managed persona block — what an older version of gentle-ai
+	// Write a stale managed persona block — what an older version of mr-mauroo-ai
 	// would have emitted. The sync must replace this with the v1.26 directive.
 	stalePersona := "# pre-existing notes by user\n\n" +
-		"<!-- gentle-ai:persona -->\n" +
+		"<!-- mr-mauroo-ai:persona -->\n" +
 		"## Skills (Auto-load based on context)\n\nstale 2-row table here.\n" +
-		"<!-- /gentle-ai:persona -->\n"
+		"<!-- /mr-mauroo-ai:persona -->\n"
 	claudeMD := filepath.Join(home, ".claude", "CLAUDE.md")
 	if err := os.WriteFile(claudeMD, []byte(stalePersona), 0o644); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 	if err := state.Write(home, state.InstallState{
 		InstalledAgents: []string{"claude-code"},
-		Persona:         "gentleman",
+		Persona:         "mr-mauroo",
 	}); err != nil {
 		t.Fatalf("state.Write: %v", err)
 	}
@@ -2696,7 +2696,7 @@ func TestRunSyncRegeneratesPersonaBlockBetweenMarkers(t *testing.T) {
 }
 
 // TestRunSyncReadsPersonaFromState verifies that sync uses the persona the
-// user installed (from state.json) rather than always defaulting to Gentleman.
+// user installed (from state.json) rather than always defaulting to Mr.Mauroo.
 func TestRunSyncReadsPersonaFromState(t *testing.T) {
 	home := t.TempDir()
 	setSyncTestHome(t, home)
@@ -2722,7 +2722,7 @@ func TestRunSyncReadsPersonaFromState(t *testing.T) {
 
 // TestRunSyncFallsBackToNeutralWhenStateLacksPersona verifies missing persona
 // state resolves to neutral/default-safe behavior instead of reactivating
-// Gentleman regional voice.
+// Mr.Mauroo regional voice.
 func TestRunSyncFallsBackToNeutralWhenStateLacksPersona(t *testing.T) {
 	home := t.TempDir()
 	setSyncTestHome(t, home)
@@ -2750,7 +2750,7 @@ func TestRunSyncFallsBackToNeutralWhenStateLacksPersona(t *testing.T) {
 
 // TestRunSyncWithSelection_PersonaResolvesFromStateNeutral verifies that when
 // the TUI calls RunSyncWithSelection with an empty persona, the persisted
-// persona from state.json is used — not the Gentleman default.
+// persona from state.json is used — not the Mr.Mauroo default.
 func TestRunSyncWithSelection_PersonaResolvesFromStateNeutral(t *testing.T) {
 	home := t.TempDir()
 	setSyncTestHome(t, home)
@@ -2857,10 +2857,10 @@ func TestRunSyncWithSelection_ExplicitPersonaWinsOverState(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(home, ".claude"), 0o755); err != nil {
 		t.Fatalf("MkdirAll: %v", err)
 	}
-	// State says "gentleman" but the caller explicitly chose "neutral".
+	// State says "mr-mauroo" but the caller explicitly chose "neutral".
 	if err := state.Write(home, state.InstallState{
 		InstalledAgents: []string{"claude-code"},
-		Persona:         "gentleman",
+		Persona:         "mr-mauroo",
 	}); err != nil {
 		t.Fatalf("state.Write: %v", err)
 	}
@@ -2883,7 +2883,7 @@ func TestRunSyncWithSelection_ExplicitPersonaWinsOverState(t *testing.T) {
 
 // TestRunSyncWithSelection_UnknownPersistedPersonaFallsBackToNeutral documents
 // the normalizePersona contract for unrecognized persisted values: an unknown or
-// misspelled persona string must NOT silently propagate or reactivate Gentleman.
+// misspelled persona string must NOT silently propagate or reactivate Mr.Mauroo.
 func TestRunSyncWithSelection_UnknownPersistedPersonaFallsBackToNeutral(t *testing.T) {
 	home := t.TempDir()
 	setSyncTestHome(t, home)
@@ -2892,11 +2892,11 @@ func TestRunSyncWithSelection_UnknownPersistedPersonaFallsBackToNeutral(t *testi
 		t.Fatalf("MkdirAll: %v", err)
 	}
 	// Write a state with an unrecognized persona value (wrong capitalization).
-	// normalizePersona does a case-sensitive switch, so "Gentleman" != "gentleman"
+	// normalizePersona does a case-sensitive switch, so "Mr.Mauroo" != "mr-mauroo"
 	// and must return an error, triggering the neutral fallback.
 	if err := state.Write(home, state.InstallState{
 		InstalledAgents: []string{"claude-code"},
-		Persona:         "Gentleman", // capitalized — not a valid PersonaID
+		Persona:         "Mr.Mauroo", // capitalized — not a valid PersonaID
 	}); err != nil {
 		t.Fatalf("state.Write: %v", err)
 	}
@@ -3225,7 +3225,7 @@ func TestRunSync_RestoresCodexEffortAssignments(t *testing.T) {
 }
 
 // TestRunSync_RestoresCodexPhaseModelAssignments verifies that plain
-// `gentle-ai sync` preserves Custom per-phase Codex model assignments from
+// `mr-mauroo-ai sync` preserves Custom per-phase Codex model assignments from
 // state.json and renders the per-phase model table into AGENTS.md.
 func TestRunSync_RestoresCodexPhaseModelAssignments(t *testing.T) {
 	efforts := map[string]string{

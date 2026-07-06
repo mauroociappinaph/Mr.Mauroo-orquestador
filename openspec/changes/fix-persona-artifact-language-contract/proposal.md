@@ -2,13 +2,13 @@
 
 ## Intent
 
-Separate language behavior across three domains so persona style no longer leaks into technical artifacts or public comments. Gentleman remains a Rioplatense teaching voice for direct conversation, while generated artifacts default to English and comments react to their target context.
+Separate language behavior across three domains so persona style no longer leaks into technical artifacts or public comments. Mr.Mauroo remains a Rioplatense teaching voice for direct conversation, while generated artifacts default to English and comments react to their target context.
 
 ## Product language contract
 
 | Domain | Default contract | Regional Spanish behavior |
 |--------|------------------|---------------------------|
-| Direct user/orchestrator conversation | Governed by the active persona. | `gentleman` uses the expected Rioplatense senior-architect teaching voice: voseo, concepts before code, warm/direct tone. `neutral` keeps the same teaching core without regional tone. |
+| Direct user/orchestrator conversation | Governed by the active persona. | `mr-mauroo` uses the expected Rioplatense senior-architect teaching voice: voseo, concepts before code, warm/direct tone. `neutral` keeps the same teaching core without regional tone. |
 | Generated technical artifacts | Default to English regardless of persona or conversation language. Examples: OpenSpec artifacts, specs, designs, tasks, generated code comments, UI copy, prompt-generated technical files, and SDD phase artifacts. | If Spanish artifacts are explicitly requested, or project convention requires Spanish, use neutral/professional Spanish unless the user explicitly asks for a regional variant. |
 | Public/contextual comments | `comment-writer` writes in the target context language by default: Spanish issue/thread -> Spanish comment, English thread -> English comment, mixed -> target message language. Explicit user override wins. | Spanish comments default to neutral/professional unless the user or surrounding context clearly calls for regional tone. |
 
@@ -30,13 +30,13 @@ Separate language behavior across three domains so persona style no longer leaks
   - generic fallback via `internal/assets/generic/sdd-orchestrator.md`
   - discovered agent-specific assets, including Kiro via `internal/assets/kiro/sdd-orchestrator.md`
 - Fix `comment-writer` source consistency so root and embedded skills enforce context-reactive comments without forcing Rioplatense Spanish.
-- Preserve Gentleman persona assets that intentionally govern direct conversation, while making their artifact-boundary rules clearer if needed.
+- Preserve Mr.Mauroo persona assets that intentionally govern direct conversation, while making their artifact-boundary rules clearer if needed.
 - Update install/sync behavior tests so refreshed assets cannot regenerate the old language leak.
 - Update golden fixtures and language drift guards affected by asset changes.
 
 ### Out of scope
 
-- Removing or weakening the Gentleman direct conversation voice.
+- Removing or weakening the Mr.Mauroo direct conversation voice.
 - Adding a new language preference UI or changing persona selection semantics.
 - Changing SDD phase order, delegation mechanics, or artifact storage semantics beyond language-contract wording.
 - Implementing this proposal in this phase. This artifact defines the planned change only.
@@ -63,7 +63,7 @@ Separate language behavior across three domains so persona style no longer leaks
    - Verify sync refreshes do not reintroduce old OpenCode/Kilocode SDD wording or stale root skill wording.
 
 5. **Add regression tests.**
-   - Asset-level language guards with allowlists for Gentleman direct-conversation persona files.
+   - Asset-level language guards with allowlists for Mr.Mauroo direct-conversation persona files.
    - Source consistency checks for root and embedded `comment-writer` assets.
    - Install/sync checks for neutral persona plus SDD plus skills, with OpenCode/Kilocode coverage for the known leak path.
 
@@ -73,7 +73,7 @@ Separate language behavior across three domains so persona style no longer leaks
 |------|--------|
 | `internal/assets` | Primary prompt and skill asset changes, including SDD orchestrators, persona boundary wording, embedded `comment-writer`, and golden fixtures. |
 | `internal/components/sdd` | Tests around SDD asset selection, OpenCode/Kilocode overlay inlining, shared prompt writing, and sync/install propagation. |
-| `internal/components/persona` | Possible tests or wording updates to preserve direct Gentleman conversation while preventing artifact leakage. |
+| `internal/components/persona` | Possible tests or wording updates to preserve direct Mr.Mauroo conversation while preventing artifact leakage. |
 | `internal/components/skills` | Tests ensuring installed skills receive the corrected embedded `comment-writer` behavior. |
 | `internal/cli` | Sync/install regression tests to ensure refreshed assets do not regenerate stale language rules. |
 | `internal/agents` / `internal/model` | Coverage awareness for all supported agent IDs and fallback behavior; no model/API changes expected. |
@@ -85,7 +85,7 @@ Separate language behavior across three domains so persona style no longer leaks
 | Risk | Mitigation |
 |------|------------|
 | Broad duplicated prompt surface leaves one agent unfixed. | Enumerate SDD orchestrator assets from known asset paths and add tests that include OpenCode, Kilocode via OpenCode, Claude, Kimi, Codex, Gemini, Qwen, Cursor, Windsurf, Antigravity, Kiro, and generic fallback. |
-| Regression accidentally removes Gentleman direct voseo. | Allow regional wording only in Gentleman direct-conversation persona/output-style assets and add/keep assertions that Gentleman Spanish replies remain Rioplatense. |
+| Regression accidentally removes Mr.Mauroo direct voseo. | Allow regional wording only in Mr.Mauroo direct-conversation persona/output-style assets and add/keep assertions that Mr.Mauroo Spanish replies remain Rioplatense. |
 | Tests over-ban legitimate explanatory mentions of `voseo` or `Rioplatense`. | Use scoped assertions and allowlists: ban regional imperatives in persona-agnostic artifacts, but permit explicit boundary/prohibition text where it is needed. |
 | Root and embedded skill sources drift again. | Add a consistency test or shared required-rule assertion for both `skills/comment-writer/SKILL.md` and `internal/assets/skills/comment-writer/SKILL.md`. |
 | Sync/install regenerates stale content from a hidden source. | Cover embedded assets, generated OpenCode overlays, shared prompt files, and sync paths in tests. |
@@ -103,7 +103,7 @@ If the language-contract change causes regressions:
 
 ## Success criteria
 
-- [ ] Direct conversation remains persona-governed: Gentleman keeps Rioplatense teaching voice, neutral keeps the same teaching core without regional tone.
+- [ ] Direct conversation remains persona-governed: Mr.Mauroo keeps Rioplatense teaching voice, neutral keeps the same teaching core without regional tone.
 - [ ] Generated technical artifacts default to English across SDD phase instructions and generated OpenSpec artifacts.
 - [ ] Spanish artifacts are neutral/professional unless explicitly requested otherwise.
 - [ ] `comment-writer` writes in the target context language and no longer forces Rioplatense Spanish by default.

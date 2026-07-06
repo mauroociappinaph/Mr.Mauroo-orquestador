@@ -6,7 +6,7 @@
 
 - Homebrew installed and available in PATH.
 - `git` available.
-- If Homebrew requires tap trust, run `brew trust --formula gentleman-programming/tap/gentle-ai` once.
+- If Homebrew requires tap trust, run `brew trust --formula mr-mauroo-programming/tap/mr-mauroo-ai` once.
 
 ### Ubuntu/Debian (and derivatives like Linux Mint, Pop!\_OS)
 
@@ -36,12 +36,12 @@
 
 ### Windows
 
-- Scoop installed. Gentle AI recommends Scoop as the Windows install path.
+- Scoop installed. Mr.Mauroo AI recommends Scoop as the Windows install path.
 
 ## Run
 
 ```bash
-go run ./cmd/gentle-ai install --dry-run
+go run ./cmd/mr-mauroo-ai install --dry-run
 ```
 
 Use `--dry-run` first to validate selections and execution plan without applying changes. The dry-run output includes a `Platform decision` line showing the detected OS, distro, package manager, and support status.
@@ -49,23 +49,23 @@ Use `--dry-run` first to validate selections and execution plan without applying
 ## First real install
 
 ```bash
-go run ./cmd/gentle-ai install
+go run ./cmd/mr-mauroo-ai install
 ```
 
 The installer detects your platform automatically — no flags needed to select macOS vs Linux. Install commands are resolved through the appropriate package manager (brew, apt, pacman, or dnf) based on detection.
 
 After completion, verify that agent configs and selected components were installed to their expected paths.
 
-The agents you select during install become the default scope for future `gentle-ai sync` runs. Gentle AI records that selection in `~/.gentle-ai/state.json` and does not automatically sync every agent config directory that exists on your machine. To check what will be updated after an upgrade, run:
+The agents you select during install become the default scope for future `mr-mauroo-ai sync` runs. Mr.Mauroo AI records that selection in `~/.mr-mauroo-ai/state.json` and does not automatically sync every agent config directory that exists on your machine. To check what will be updated after an upgrade, run:
 
 ```bash
-gentle-ai sync --dry-run
+mr-mauroo-ai sync --dry-run
 ```
 
 To update a different set explicitly, pass every target agent:
 
 ```bash
-gentle-ai sync --agent claude-code --agent opencode
+mr-mauroo-ai sync --agent claude-code --agent opencode
 ```
 
 ## Verification outcome
@@ -74,13 +74,13 @@ When checks pass, installer reports:
 
 `You're ready. Run 'claude' or 'opencode' and start building.`
 
-If something looks wrong after install, run `gentle-ai doctor` for a read-only health check. It verifies tool binaries, `state.json` validity, Engram MCP reachability, and disk space — each check reports pass/warn/fail with a remedy hint.
+If something looks wrong after install, run `mr-mauroo-ai doctor` for a read-only health check. It verifies tool binaries, `state.json` validity, Engram MCP reachability, and disk space — each check reports pass/warn/fail with a remedy hint.
 
-For a Pi-only install, the plan shows the Pi package stack instead of Gentle AI components. It installs `gentle-pi`, `gentle-engram`, and `pi-mcp-adapter`, runs `pi-engram init` through the pinned `gentle-engram` package, then installs `pi-subagents-j0k3r`, `pi-intercom`, `@juicesharp/rpiv-ask-user-question`, `pi-web-access`, `@juicesharp/rpiv-todo`, and `pi-btw`.
+For a Pi-only install, the plan shows the Pi package stack instead of Mr.Mauroo AI components. It installs `gentle-pi`, `gentle-engram`, and `pi-mcp-adapter`, runs `pi-engram init` through the pinned `gentle-engram` package, then installs `pi-subagents-j0k3r`, `pi-intercom`, `@juicesharp/rpiv-ask-user-question`, `pi-web-access`, `@juicesharp/rpiv-todo`, and `pi-btw`.
 
 ## Hardening recommendations for users
 
-Gentle AI pins versions and disables postinstall scripts on every npm install it generates. When you install the `permissions` component, a sensitive-paths deny list is applied to Claude Code and OpenCode blocking access to `~/.ssh/*`, `**/*.pem`, `**/*.key`, `**/.env*`, `~/.aws/credentials`, and other credential paths. See [Components](../docs/components.md) for the full list.
+Mr.Mauroo AI pins versions and disables postinstall scripts on every npm install it generates. When you install the `permissions` component, a sensitive-paths deny list is applied to Claude Code and OpenCode blocking access to `~/.ssh/*`, `**/*.pem`, `**/*.key`, `**/.env*`, `~/.aws/credentials`, and other credential paths. See [Components](../docs/components.md) for the full list.
 
 For broader protection across npm packages you install yourself, set these once on your machine:
 

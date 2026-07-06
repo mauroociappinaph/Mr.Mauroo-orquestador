@@ -13,18 +13,18 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/gentleman-programming/gentle-ai/internal/backup"
-	"github.com/gentleman-programming/gentle-ai/internal/components/communitytool"
-	componentuninstall "github.com/gentleman-programming/gentle-ai/internal/components/uninstall"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
-	"github.com/gentleman-programming/gentle-ai/internal/opencode"
-	"github.com/gentleman-programming/gentle-ai/internal/pipeline"
-	"github.com/gentleman-programming/gentle-ai/internal/planner"
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/tui/screens"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/backup"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/communitytool"
+	componentuninstall "github.com/mr-mauroo/mr-mauroo-ai/internal/components/uninstall"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/opencode"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/pipeline"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/planner"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/tui/screens"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update/upgrade"
 )
 
 func TestNavigationWelcomeToDetection(t *testing.T) {
@@ -368,7 +368,7 @@ func TestPiOnlyAgentContinueSkipsPromptsAndIncludesEngram(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenAgents
 	m.Selection.Agents = []model.AgentID{model.AgentPi}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.Cursor = len(screensAgentOptions())
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
@@ -474,7 +474,7 @@ func TestPiCombinedWithOtherAgentsTUIInstallKeepsAllAgentsInPlan(t *testing.T) {
 	if !reflect.DeepEqual(state.DependencyPlan.Agents, wantAgents) {
 		t.Fatalf("dependency agents = %v, want %v", state.DependencyPlan.Agents, wantAgents)
 	}
-	// Minimal preset + Gentleman persona now includes ComponentPersona (persona is the source of truth).
+	// Minimal preset + Mr.Mauroo persona now includes ComponentPersona (persona is the source of truth).
 	wantComponents := []model.ComponentID{model.ComponentPersona, model.ComponentEngram}
 	if !reflect.DeepEqual(state.DependencyPlan.OrderedComponents, wantComponents) {
 		t.Fatalf("dependency components = %v, want %v", state.DependencyPlan.OrderedComponents, wantComponents)
@@ -1245,7 +1245,7 @@ func TestUpgradePhaseCompletedClearsUpdateResults(t *testing.T) {
 func TestReportUpgradedGentleAI(t *testing.T) {
 	report := upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{
 		{ToolName: "engram", Status: upgrade.UpgradeSucceeded},
-		{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded},
+		{ToolName: "mr-mauroo-ai", Status: upgrade.UpgradeSucceeded},
 	}}
 	if !reportUpgradedGentleAI(report) {
 		t.Fatal("reportUpgradedGentleAI() = false, want true")
@@ -1253,7 +1253,7 @@ func TestReportUpgradedGentleAI(t *testing.T) {
 
 	report.Results[1].Status = upgrade.UpgradeFailed
 	if reportUpgradedGentleAI(report) {
-		t.Fatal("reportUpgradedGentleAI() = true for failed gentle-ai upgrade")
+		t.Fatal("reportUpgradedGentleAI() = true for failed mr-mauroo-ai upgrade")
 	}
 }
 
@@ -1988,7 +1988,7 @@ func TestStartUninstall_FullRemoveHomebrewManagedBinaryAddsManualAction(t *testi
 		return componentuninstall.Result{}, nil
 	}
 
-	restoreExec := setOSExecutableForTest("/opt/homebrew/bin/gentle-ai", nil)
+	restoreExec := setOSExecutableForTest("/opt/homebrew/bin/mr-mauroo-ai", nil)
 	defer restoreExec()
 
 	removeCalled := false
@@ -2008,7 +2008,7 @@ func TestStartUninstall_FullRemoveHomebrewManagedBinaryAddsManualAction(t *testi
 	if len(msg.Result.ManualActions) == 0 {
 		t.Fatal("ManualActions should include Homebrew uninstall guidance")
 	}
-	if !strings.Contains(msg.Result.ManualActions[0], "brew uninstall gentle-ai") {
+	if !strings.Contains(msg.Result.ManualActions[0], "brew uninstall mr-mauroo-ai") {
 		t.Fatalf("manual action = %q, want brew uninstall guidance", msg.Result.ManualActions[0])
 	}
 }
@@ -2022,7 +2022,7 @@ func TestStartUninstall_FullRemoveNonBrewRemovesBinary(t *testing.T) {
 		return componentuninstall.Result{}, nil
 	}
 
-	restoreExec := setOSExecutableForTest("/tmp/gentle-ai", nil)
+	restoreExec := setOSExecutableForTest("/tmp/mr-mauroo-ai", nil)
 	defer restoreExec()
 
 	removedPath := ""
@@ -2036,8 +2036,8 @@ func TestStartUninstall_FullRemoveNonBrewRemovesBinary(t *testing.T) {
 	if msg.Err != nil {
 		t.Fatalf("UninstallDoneMsg.Err = %v, want nil", msg.Err)
 	}
-	if removedPath != "/tmp/gentle-ai" {
-		t.Fatalf("os.Remove path = %q, want %q", removedPath, "/tmp/gentle-ai")
+	if removedPath != "/tmp/mr-mauroo-ai" {
+		t.Fatalf("os.Remove path = %q, want %q", removedPath, "/tmp/mr-mauroo-ai")
 	}
 }
 
@@ -2303,7 +2303,7 @@ func TestCodexPickerBackRowEnterNavigates(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenCodexModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
+	m.Selection.Preset = model.PresetFullMrMauroo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentCodex, model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentSDD}
 	m.CodexModelPicker = screens.NewCodexModelPickerState()
@@ -2327,7 +2327,7 @@ func TestSDDModeBackReturnsToCodexPicker(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenSDDMode
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
+	m.Selection.Preset = model.PresetFullMrMauroo // non-custom
 	// OpenCode triggers SDDMode; Codex + Claude in flow, no Kiro.
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode, model.AgentCodex, model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentSDD}
@@ -2349,7 +2349,7 @@ func TestSDDModeEscReturnsToCodexPicker(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenSDDMode
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode, model.AgentCodex, model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentSDD}
 
@@ -2398,7 +2398,7 @@ func TestPresetConfirmEntersFirstPickerInFlow(t *testing.T) {
 			m := NewModel(system.DetectionResult{}, "dev")
 			m.Screen = ScreenPreset
 			m.Selection.Agents = tt.agents
-			m.Cursor = presetCursor(t, model.PresetFullGentleman)
+			m.Cursor = presetCursor(t, model.PresetFullMrMauroo)
 
 			updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 			state := updated.(Model)
@@ -2420,10 +2420,10 @@ func TestKiroPickerEscNonCustomWithClaudeGoesToClaudePicker(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenKiroModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
+	m.Selection.Preset = model.PresetFullMrMauroo // non-custom
 	// Simulate both Kiro and Claude being selected.
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE, model.AgentClaudeCode}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.KiroModelPicker = screens.NewKiroModelPickerState()
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -2442,10 +2442,10 @@ func TestKiroPickerEscNonCustomWithoutClaudeGoesToPreset(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenKiroModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 	// Only Kiro — no Claude.
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.KiroModelPicker = screens.NewKiroModelPickerState()
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -3532,7 +3532,7 @@ func TestStrictTDDBackNavigatesToSDDMode(t *testing.T) {
 func TestDependencyTreeEnterBackNavigatesToOpenCodePlugins(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenDependencyTree
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
+	m.Selection.Preset = model.PresetFullMrMauroo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeSingle
@@ -3556,7 +3556,7 @@ func TestModelPickerEnterBackNavigatesToSDDMode(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	withModelCacheOverride(t)
 	m.Screen = ScreenModelPicker
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
+	m.Selection.Preset = model.PresetFullMrMauroo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeMulti
@@ -3581,7 +3581,7 @@ func TestModelPickerContinueMultiGoesToStrictTDD(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	withModelCacheOverride(t)
 	m.Screen = ScreenModelPicker
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
+	m.Selection.Preset = model.PresetFullMrMauroo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentOpenCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.Selection.SDDMode = model.SDDModeMulti
@@ -3638,7 +3638,7 @@ func TestStrictTDDBackNavigatesToModelPickerWhenMultiWithCache(t *testing.T) {
 func TestStrictTDDScreenAppearsForClaudeCodeAgent(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenClaudeModelPicker
-	m.Selection.Preset = model.PresetFullGentleman // non-custom
+	m.Selection.Preset = model.PresetFullMrMauroo // non-custom
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
 	m.ClaudeModelPicker = screens.NewClaudeModelPickerState()
@@ -3672,9 +3672,9 @@ func TestStrictTDDScreenAppearsForClaudeCodeAgent(t *testing.T) {
 	m2 := NewModel(system.DetectionResult{}, "dev")
 	m2.Screen = ScreenPreset
 	m2.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
-	// Cursor on a preset option (PresetFullGentleman = index 0 typically).
+	// Cursor on a preset option (PresetFullMrMauroo = index 0 typically).
 	// Set cursor on first preset option.
-	m2.Cursor = 0 // FullGentleman
+	m2.Cursor = 0 // FullMrMauroo
 
 	// Press Enter → sets preset, components include SDD → should showClaudeModelPicker
 	// (ClaudeCode + SDD = true) → goes to ScreenClaudeModelPicker, NOT StrictTDD yet.
@@ -3716,7 +3716,7 @@ func TestStrictTDDScreenAppearsForCursorAgent(t *testing.T) {
 	m.Selection.Agents = []model.AgentID{model.AgentCursor}
 	// Cursor agent: no ClaudeModelPicker (no ClaudeCode), no SDDMode (no OpenCode).
 	// After preset selection with SDD in components → should go to ScreenStrictTDD [after fix].
-	m.Cursor = 0 // FullGentleman preset
+	m.Cursor = 0 // FullMr.Mauroo preset
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	state := updated.(Model)
@@ -3737,7 +3737,7 @@ func TestStrictTDDBackNavFromClaudeFlow(t *testing.T) {
 	m.Screen = ScreenStrictTDD
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
 	state := updated.(Model)
@@ -3756,7 +3756,7 @@ func TestStrictTDDBackNavFromPresetFlow(t *testing.T) {
 	m.Screen = ScreenStrictTDD
 	m.Selection.Agents = []model.AgentID{model.AgentCursor}
 	m.Selection.Components = []model.ComponentID{model.ComponentEngram, model.ComponentSDD}
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
 	state := updated.(Model)
@@ -4513,21 +4513,21 @@ func TestComponentsForPreset_PersonaMatrix(t *testing.T) {
 		wantNil     bool
 	}{
 		{
-			name:        "full-gentleman + gentleman includes persona",
-			preset:      model.PresetFullGentleman,
-			persona:     model.PersonaGentleman,
+			name:        "full-mr-mauroo + mr-mauroo includes persona",
+			preset:      model.PresetFullMrMauroo,
+			persona:     model.PersonaMrMauroo,
 			wantPersona: true,
 		},
 		{
-			name:        "full-gentleman + custom does not include persona",
-			preset:      model.PresetFullGentleman,
+			name:        "full-mr-mauroo + custom does not include persona",
+			preset:      model.PresetFullMrMauroo,
 			persona:     model.PersonaCustom,
 			wantPersona: false,
 		},
 		{
-			name:        "minimal + gentleman includes persona",
+			name:        "minimal + mr-mauroo includes persona",
 			preset:      model.PresetMinimal,
-			persona:     model.PersonaGentleman,
+			persona:     model.PersonaMrMauroo,
 			wantPersona: true,
 		},
 		{
@@ -4549,9 +4549,9 @@ func TestComponentsForPreset_PersonaMatrix(t *testing.T) {
 			wantPersona: false,
 		},
 		{
-			name:    "custom preset returns nil regardless of persona (gentleman)",
+			name:    "custom preset returns nil regardless of persona (mr-mauroo)",
 			preset:  model.PresetCustom,
-			persona: model.PersonaGentleman,
+			persona: model.PersonaMrMauroo,
 			wantNil: true,
 		},
 		{
@@ -4595,13 +4595,13 @@ func TestComponentsForPreset_PersonaMatrix(t *testing.T) {
 // the persona on the Persona screen recomputes the component list when a non-custom
 // preset has already been selected.
 func TestPersonaScreenRecomputesComponentsWhenPresetAlreadySet(t *testing.T) {
-	// Start with a model that has already picked full-gentleman preset and
-	// gentleman persona (the default), then go back to Persona screen and pick custom.
+	// Start with a model that has already picked full-mr-mauroo preset and
+	// mr-mauroo persona (the default), then go back to Persona screen and pick custom.
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenPersona
-	m.Selection.Preset = model.PresetFullGentleman
-	m.Selection.Persona = model.PersonaGentleman
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Preset = model.PresetFullMrMauroo
+	m.Selection.Persona = model.PersonaMrMauroo
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 
 	// Confirm that persona currently includes ComponentPersona.
 	hasPersonaBefore := false
@@ -4638,10 +4638,10 @@ func TestPersonaScreenDoesNotRecomputeForCustomPreset(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenPersona
 	m.Selection.Preset = model.PresetCustom
-	m.Selection.Persona = model.PersonaGentleman
+	m.Selection.Persona = model.PersonaMrMauroo
 	m.Selection.Components = nil
 
-	m.Cursor = 0 // PersonaGentleman
+	m.Cursor = 0 // PersonaMrMauroo
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	state := updated.(Model)
 
@@ -4689,7 +4689,7 @@ func TestCodexOnly_InstallFlowReachesCodexPicker(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenPreset
 	m.Selection.Agents = []model.AgentID{model.AgentCodex}
-	m.Cursor = 0 // PresetFullGentleman (includes SDD)
+	m.Cursor = 0 // PresetFullMrMauroo (includes SDD)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
 	state := updated.(Model)
@@ -4707,9 +4707,9 @@ func TestClaudeAndCodex_InstallFlowReachesCodexPickerAfterClaude(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenClaudeModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.ClaudeModelPicker = screens.NewClaudeModelPickerState()
 
 	// Press Enter to confirm the default preset option (cursor 0).
@@ -4729,9 +4729,9 @@ func TestKiroAndCodex_InstallFlowReachesCodexPickerAfterKiro(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenKiroModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.KiroModelPicker = screens.NewKiroModelPickerState()
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEnter})
@@ -4747,8 +4747,8 @@ func TestKiroAndCodex_InstallFlowReachesCodexPickerAfterKiro(t *testing.T) {
 // are selected.
 // RED: currently Claude→Kiro→SDDMode (Codex is skipped).
 func TestClaudeKiroCodex_InstallFlowSequence(t *testing.T) {
-	preset := model.PresetFullGentleman
-	components := componentsForPreset(preset, model.PersonaGentleman)
+	preset := model.PresetFullMrMauroo
+	components := componentsForPreset(preset, model.PersonaMrMauroo)
 	agents := []model.AgentID{model.AgentClaudeCode, model.AgentKiroIDE, model.AgentCodex}
 
 	// Step 1: ScreenPreset → ScreenClaudeModelPicker.
@@ -4795,9 +4795,9 @@ func TestCodexPicker_EscBackNavToKiroWhenKiroSelected(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenCodexModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 	m.Selection.Agents = []model.AgentID{model.AgentKiroIDE, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.CodexModelPicker = screens.NewCodexModelPickerStateFromAssignments(m.Selection.CodexModelAssignments)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -4815,9 +4815,9 @@ func TestCodexPicker_EscBackNavToClaudeWhenClaudeSelectedNoKiro(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenCodexModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 	m.Selection.Agents = []model.AgentID{model.AgentClaudeCode, model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.CodexModelPicker = screens.NewCodexModelPickerStateFromAssignments(m.Selection.CodexModelAssignments)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -4835,9 +4835,9 @@ func TestCodexPicker_EscBackNavToPresetWhenNeitherClaudeNorKiro(t *testing.T) {
 	m := NewModel(system.DetectionResult{}, "dev")
 	m.Screen = ScreenCodexModelPicker
 	m.ModelConfigMode = false
-	m.Selection.Preset = model.PresetFullGentleman
+	m.Selection.Preset = model.PresetFullMrMauroo
 	m.Selection.Agents = []model.AgentID{model.AgentCodex}
-	m.Selection.Components = componentsForPreset(model.PresetFullGentleman, model.PersonaGentleman)
+	m.Selection.Components = componentsForPreset(model.PresetFullMrMauroo, model.PersonaMrMauroo)
 	m.CodexModelPicker = screens.NewCodexModelPickerStateFromAssignments(m.Selection.CodexModelAssignments)
 
 	updated, _ := m.Update(tea.KeyMsg{Type: tea.KeyEsc})
@@ -4958,7 +4958,7 @@ func TestCodexModelPickerCustomModeEscResetsCursor(t *testing.T) {
 func TestGentleAIUpgradeVersionDetectsSucceededGentleAI(t *testing.T) {
 	report := upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{
 		{ToolName: "engram", Status: upgrade.UpgradeSucceeded, NewVersion: "1.0.0"},
-		{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "v1.40.0"},
+		{ToolName: "mr-mauroo-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "v1.40.0"},
 	}}
 	m := Model{UpgradeReport: &report}
 	got, ok := m.GentleAIUpgradeVersion()
@@ -4972,7 +4972,7 @@ func TestGentleAIUpgradeVersionDetectsSucceededGentleAI(t *testing.T) {
 
 func TestUpgradeResultEnterQuitsWhenGentleAIWasUpgraded(t *testing.T) {
 	report := upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{
-		{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "v1.40.0"},
+		{ToolName: "mr-mauroo-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "v1.40.0"},
 	}}
 	m := Model{Screen: ScreenUpgrade, UpgradeReport: &report}
 	_, cmd := m.confirmSelection()
@@ -4986,7 +4986,7 @@ func TestUpgradeResultEnterQuitsWhenGentleAIWasUpgraded(t *testing.T) {
 
 func TestUpgradeSyncResultEscQuitsWhenGentleAIWasUpgraded(t *testing.T) {
 	report := upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{
-		{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "v1.40.0"},
+		{ToolName: "mr-mauroo-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "v1.40.0"},
 	}}
 	m := Model{Screen: ScreenUpgradeSync, UpgradeReport: &report, HasSyncRun: true}
 	_, cmd := m.handleKeyPress(tea.KeyMsg{Type: tea.KeyEsc})
@@ -5046,7 +5046,7 @@ func executeUpgradeSyncSequence(t *testing.T, m Model) []tea.Msg {
 }
 
 // TestStartUpgradeSync_SetsPendingSyncWhenGentleAIUpgraded verifies that when
-// the UpgradeFn reports gentle-ai as upgraded, the syncCmd branch of
+// the UpgradeFn reports mr-mauroo-ai as upgraded, the syncCmd branch of
 // startUpgradeSync writes PendingSync=true to state.json before returning
 // SyncDoneMsg. This is the TUI-path equivalent of the selfupdate.go path tested
 // in TestSelfUpdate_SetsPendingSyncOnSuccess.
@@ -5059,11 +5059,11 @@ func TestStartUpgradeSync_SetsPendingSyncWhenGentleAIUpgraded(t *testing.T) {
 	m.Screen = ScreenUpgradeSync
 	m.OperationRunning = true
 
-	// UpgradeFn reports gentle-ai as successfully upgraded.
+	// UpgradeFn reports mr-mauroo-ai as successfully upgraded.
 	m.UpgradeFn = func(_ context.Context, _ []update.UpdateResult) upgrade.UpgradeReport {
 		return upgrade.UpgradeReport{
 			Results: []upgrade.ToolUpgradeResult{
-				{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
+				{ToolName: "mr-mauroo-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
 			},
 		}
 	}
@@ -5094,12 +5094,12 @@ func TestStartUpgradeSync_SetsPendingSyncWhenGentleAIUpgraded(t *testing.T) {
 		t.Fatalf("state.Read(%q) error = %v (PendingSync was not written)", home, err)
 	}
 	if !s.PendingSync {
-		t.Errorf("PendingSync = false after gentle-ai self-upgrade in TUI flow, want true")
+		t.Errorf("PendingSync = false after mr-mauroo-ai self-upgrade in TUI flow, want true")
 	}
 }
 
 // TestStartUpgradeSync_DoesNotSetPendingSyncWhenGentleAINotUpgraded verifies
-// that when gentle-ai was NOT upgraded (e.g. only engram was upgraded), the
+// that when mr-mauroo-ai was NOT upgraded (e.g. only engram was upgraded), the
 // syncCmd branch does NOT set PendingSync, and sync proceeds normally via SyncFn.
 func TestStartUpgradeSync_DoesNotSetPendingSyncWhenGentleAINotUpgraded(t *testing.T) {
 	home := t.TempDir()
@@ -5110,7 +5110,7 @@ func TestStartUpgradeSync_DoesNotSetPendingSyncWhenGentleAINotUpgraded(t *testin
 	m.Screen = ScreenUpgradeSync
 	m.OperationRunning = true
 
-	// UpgradeFn reports only engram upgraded, not gentle-ai.
+	// UpgradeFn reports only engram upgraded, not mr-mauroo-ai.
 	m.UpgradeFn = func(_ context.Context, _ []update.UpdateResult) upgrade.UpgradeReport {
 		return upgrade.UpgradeReport{
 			Results: []upgrade.ToolUpgradeResult{
@@ -5129,10 +5129,10 @@ func TestStartUpgradeSync_DoesNotSetPendingSyncWhenGentleAINotUpgraded(t *testin
 
 	// SyncFn must have been called (not the deferred-PendingSync path).
 	if !syncCalled {
-		t.Errorf("SyncFn was not called — expected normal sync when gentle-ai was not upgraded")
+		t.Errorf("SyncFn was not called — expected normal sync when mr-mauroo-ai was not upgraded")
 	}
 
-	// PendingSync must NOT be set when gentle-ai was not upgraded.
+	// PendingSync must NOT be set when mr-mauroo-ai was not upgraded.
 	// state.json may not exist at all if nothing wrote it; that is expected and
 	// means PendingSync was never set (correct). Any other read error is
 	// unexpected and should fail the test loudly.
@@ -5143,7 +5143,7 @@ func TestStartUpgradeSync_DoesNotSetPendingSyncWhenGentleAINotUpgraded(t *testin
 		}
 		// File absent → PendingSync was never set — correct.
 	} else if s.PendingSync {
-		t.Errorf("PendingSync = true after non-gentle-ai upgrade, want false")
+		t.Errorf("PendingSync = true after non-mr-mauroo-ai upgrade, want false")
 	}
 
 	// Verify SyncDoneMsg arrived.
@@ -5171,7 +5171,7 @@ func TestStartUpgradeSync_NoClobberOnCorruptStateFile(t *testing.T) {
 	t.Setenv("USERPROFILE", home)
 
 	// Write a corrupt state file so state.Read returns a non-ErrNotExist error.
-	stateDir := filepath.Join(home, ".gentle-ai")
+	stateDir := filepath.Join(home, ".mr-mauroo-ai")
 	if err := os.MkdirAll(stateDir, 0o755); err != nil {
 		t.Fatalf("MkdirAll: %v", err)
 	}
@@ -5185,11 +5185,11 @@ func TestStartUpgradeSync_NoClobberOnCorruptStateFile(t *testing.T) {
 	m.Screen = ScreenUpgradeSync
 	m.OperationRunning = true
 
-	// UpgradeFn reports gentle-ai as successfully upgraded.
+	// UpgradeFn reports mr-mauroo-ai as successfully upgraded.
 	m.UpgradeFn = func(_ context.Context, _ []update.UpdateResult) upgrade.UpgradeReport {
 		return upgrade.UpgradeReport{
 			Results: []upgrade.ToolUpgradeResult{
-				{ToolName: "gentle-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
+				{ToolName: "mr-mauroo-ai", Status: upgrade.UpgradeSucceeded, NewVersion: "1.8.0"},
 			},
 		}
 	}
@@ -5473,7 +5473,7 @@ func TestAdvisoryMsg_SanitizesOnStore(t *testing.T) {
 // makeUpdateResult returns a minimal UpdateResult with the given status and release URL.
 func makeUpdateResult(status update.UpdateStatus, releaseURL string) update.UpdateResult {
 	return update.UpdateResult{
-		Tool:             update.ToolInfo{Name: "gentle-ai"},
+		Tool:             update.ToolInfo{Name: "mr-mauroo-ai"},
 		Status:           status,
 		InstalledVersion: "1.0.0",
 		LatestVersion:    "2.0.0",
@@ -6203,7 +6203,7 @@ func TestPickerFlowSlice(t *testing.T) {
 			setup: func(t *testing.T) Model {
 				withModelCacheOverride(t)
 				m := NewModel(system.DetectionResult{}, "dev")
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.Selection.Agents = allPickerAgents
 				m.Selection.Components = sddComponents
 				m.Selection.SDDMode = model.SDDModeMulti
@@ -6224,7 +6224,7 @@ func TestPickerFlowSlice(t *testing.T) {
 			name: "non-custom all agents SDDMode Single excludes ModelPicker",
 			setup: func(t *testing.T) Model {
 				m := NewModel(system.DetectionResult{}, "dev")
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.Selection.Agents = allPickerAgents
 				m.Selection.Components = sddComponents
 				m.Selection.SDDMode = model.SDDModeSingle
@@ -6245,7 +6245,7 @@ func TestPickerFlowSlice(t *testing.T) {
 			setup: func(t *testing.T) Model {
 				t.Setenv("HOME", t.TempDir()) // guarantees cache path resolves to missing file
 				m := NewModel(system.DetectionResult{}, "dev")
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.Selection.Agents = allPickerAgents
 				m.Selection.Components = sddComponents
 				m.Selection.SDDMode = model.SDDModeMulti
@@ -6265,7 +6265,7 @@ func TestPickerFlowSlice(t *testing.T) {
 			name: "non-custom Claude only includes Claude and StrictTDD anchors",
 			setup: func(t *testing.T) Model {
 				m := NewModel(system.DetectionResult{}, "dev")
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.Selection.Agents = []model.AgentID{model.AgentClaudeCode}
 				m.Selection.Components = sddComponents
 				return m
@@ -6346,7 +6346,7 @@ func TestPickerNextScreen(t *testing.T) {
 	newFullChainModel := func(t *testing.T) Model {
 		t.Helper()
 		m := NewModel(system.DetectionResult{}, "dev")
-		m.Selection.Preset = model.PresetFullGentleman
+		m.Selection.Preset = model.PresetFullMrMauroo
 		m.Selection.Agents = []model.AgentID{
 			model.AgentClaudeCode,
 			model.AgentKiroIDE,
@@ -6469,7 +6469,7 @@ func TestPickerPreviousScreen(t *testing.T) {
 	newFullChainModel := func(t *testing.T) Model {
 		t.Helper()
 		m := NewModel(system.DetectionResult{}, "dev")
-		m.Selection.Preset = model.PresetFullGentleman
+		m.Selection.Preset = model.PresetFullMrMauroo
 		m.Selection.Agents = []model.AgentID{
 			model.AgentClaudeCode,
 			model.AgentKiroIDE,
@@ -6803,7 +6803,7 @@ func TestPickerBackRowRegression(t *testing.T) {
 				m.Screen = ScreenCodexModelPicker
 				m.Selection.Agents = []model.AgentID{model.AgentCodex}
 				m.Selection.Components = sddComponents
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.CodexModelPicker = screens.NewCodexModelPickerState()
 				m.Cursor = codexBackRow
 				return m
@@ -6818,7 +6818,7 @@ func TestPickerBackRowRegression(t *testing.T) {
 				m.Screen = ScreenCodexModelPicker
 				m.Selection.Agents = []model.AgentID{model.AgentKiroIDE, model.AgentCodex}
 				m.Selection.Components = sddComponents
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.CodexModelPicker = screens.NewCodexModelPickerState()
 				m.Cursor = codexBackRow
 				return m
@@ -6850,7 +6850,7 @@ func TestPickerBackRowRegression(t *testing.T) {
 				m.Screen = ScreenStrictTDD
 				m.Selection.Agents = []model.AgentID{model.AgentCodex}
 				m.Selection.Components = sddComponents
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.CodexModelPicker = screens.NewCodexModelPickerState()
 				m.Cursor = strictTDDBackRow
 				return m
@@ -6866,7 +6866,7 @@ func TestPickerBackRowRegression(t *testing.T) {
 				m.Screen = ScreenStrictTDD
 				m.Selection.Agents = []model.AgentID{model.AgentKiroIDE}
 				m.Selection.Components = sddComponents
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.KiroModelPicker = screens.NewKiroModelPickerState()
 				m.Cursor = strictTDDBackRow
 				return m
@@ -6946,7 +6946,7 @@ func TestStrictTDDForward(t *testing.T) {
 			setup: func(t *testing.T) Model {
 				m := NewModel(system.DetectionResult{}, "dev")
 				m.Screen = ScreenStrictTDD
-				m.Selection.Preset = model.PresetFullGentleman
+				m.Selection.Preset = model.PresetFullMrMauroo
 				m.Selection.Agents = []model.AgentID{model.AgentCursor}
 				m.Selection.Components = []model.ComponentID{model.ComponentSDD}
 				m.Cursor = screens.StrictTDDOptionEnable

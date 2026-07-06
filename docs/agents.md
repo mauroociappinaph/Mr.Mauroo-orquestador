@@ -25,9 +25,9 @@
 | Pi              | `pi`             | Yes          | Yes | Full (package-managed subagents) | No            | Yes            | `~/.pi`                             |
 | Hermes          | `hermes`         | Yes          | Yes | Full (delegate_task ephemeral)   | No            | No             | `~/.hermes`                         |
 
-Most agents receive the **full SDD orchestrator** policy, plus skill files written to their skills directory. Most receive it through their system prompt; OpenCode and Kilo Code receive it through the OpenCode-compatible `opencode.json` agent overlay. Pi is the exception: Gentle AI installs Pi packages, and `gentle-pi` owns Pi skills, prompts, SDD agents, and chains at runtime. The agent handles SDD automatically when the task is large enough, or when the user explicitly asks for it — no manual setup required.
+Most agents receive the **full SDD orchestrator** policy, plus skill files written to their skills directory. Most receive it through their system prompt; OpenCode and Kilo Code receive it through the OpenCode-compatible `opencode.json` agent overlay. Pi is the exception: Mr.Mauroo AI installs Pi packages, and `gentle-pi` owns Pi skills, prompts, SDD agents, and chains at runtime. The agent handles SDD automatically when the task is large enough, or when the user explicitly asks for it — no manual setup required.
 
-`gentle-ai install --scope=workspace` is supported across selected agents for agent-scoped files, not only Claude Code. In workspace scope, Gentle AI writes system prompts, skills, SDD agents, and persona files into the current project root when the agent supports project-local configuration. Global-only integrations, such as package installs or settings that the agent only reads from its global config, remain global by design.
+`mr-mauroo-ai install --scope=workspace` is supported across selected agents for agent-scoped files, not only Claude Code. In workspace scope, Mr.Mauroo AI writes system prompts, skills, SDD agents, and persona files into the current project root when the agent supports project-local configuration. Global-only integrations, such as package installs or settings that the agent only reads from its global config, remain global by design.
 
 ---
 
@@ -41,7 +41,7 @@ Most agents receive the **full SDD orchestrator** policy, plus skill files writt
 
 ### Cursor Native Subagents
 
-Cursor uses its built-in `.cursor/agents/` system. `gentle-ai` writes 10 agent files to `~/.cursor/agents/sdd-{phase}.md` — one per SDD phase. Cursor's Agent auto-delegates to the correct subagent based on the `description` field in each file's YAML frontmatter.
+Cursor uses its built-in `.cursor/agents/` system. `mr-mauroo-ai` writes 10 agent files to `~/.cursor/agents/sdd-{phase}.md` — one per SDD phase. Cursor's Agent auto-delegates to the correct subagent based on the `description` field in each file's YAML frontmatter.
 
 - `sdd-explore` and `sdd-verify` run with `readonly: false` so they can inspect the codebase and execute verification commands
 - Each subagent gets its own context window (fresh context, no pollution)
@@ -62,11 +62,11 @@ Antigravity is an agent-first platform with built-in sub-agents (Browser, Termin
 
 ### Kiro Native Subagents
 
-Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase agents (`sdd-init` through `sdd-onboard` plus Judgment Day agents) and resolves the `model:` field during injection from Kiro model assignments (`auto|opus|sonnet|haiku|minimax|glm|deepseek|qwen`) to Kiro-native model IDs.
+Kiro uses native custom agents in `~/.kiro/agents/`. `mr-mauroo-ai` writes phase agents (`sdd-init` through `sdd-onboard` plus Judgment Day agents) and resolves the `model:` field during injection from Kiro model assignments (`auto|opus|sonnet|haiku|minimax|glm|deepseek|qwen`) to Kiro-native model IDs.
 
 - Frontmatter includes `includeMcpJson: true` for all phase agents
 - Phase-specific tools are preserved (`sdd-explore` and `sdd-verify` use read/shell/context7 as required)
-- Orchestrator remains in steering (`~/.kiro/steering/gentle-ai.md`) and delegates execution to native subagents
+- Orchestrator remains in steering (`~/.kiro/steering/mr-mauroo-ai.md`) and delegates execution to native subagents
 
 ---
 
@@ -103,12 +103,12 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 - The TUI model picker includes providers and models discovered from the local `opencode.json`, including custom providers
 - Custom models from `opencode.json` must set `tool_call: true` explicitly to appear as selectable SDD-capable options in the model picker
 - Multi-mode prerequisite: connect your AI providers first, then run `opencode models --refresh`
-- Gentle AI sets OpenCode SDD agent sharing to `disabled` by default for privacy; existing user-managed `share` values such as `manual` or `auto` are preserved.
+- Mr.Mauroo AI sets OpenCode SDD agent sharing to `disabled` by default for privacy; existing user-managed `share` values such as `manual` or `auto` are preserved.
 - OpenCode Desktop SDD commands resolve the project with `git rev-parse --show-toplevel || pwd` before acting, avoiding Electron current-working-directory drift.
 
 ### Kilo Code
 
-- **Detection**: gentle-ai detects Kilo Code from `~/.config/kilo` and checks for the `kilo` binary on `PATH`
+- **Detection**: mr-mauroo-ai detects Kilo Code from `~/.config/kilo` and checks for the `kilo` binary on `PATH`
 - Uses the OpenCode-compatible adapter: `AGENTS.md`, `skills/`, `commands/`, and `opencode.json` live under `~/.config/kilo`
 - Full SDD delegation is provided by the merged multi-agent overlay in `~/.config/kilo/opencode.json`, not by a separate native sub-agent directory
 - MCP servers are merged into `opencode.json`; Engram uses the OpenCode-style local MCP entry with `command` as an array
@@ -121,16 +121,16 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### Cursor
 
-- Native subagents via `~/.cursor/agents/sdd-{phase}.md` (10 files installed by gentle-ai)
+- Native subagents via `~/.cursor/agents/sdd-{phase}.md` (10 files installed by mr-mauroo-ai)
 - Skills at `~/.cursor/skills/`
-- System prompt in `~/.cursor/rules/gentle-ai.mdc`
+- System prompt in `~/.cursor/rules/mr-mauroo-ai.mdc`
 - MCP config in `~/.cursor/mcp.json`
 
 ### VS Code Copilot
 
 - Uses the `runSubagent` tool with support for parallel execution
 - Skills at `~/.copilot/skills/`
-- System prompt at `Code/User/prompts/gentle-ai.instructions.md`
+- System prompt at `Code/User/prompts/mr-mauroo-ai.instructions.md`
 - MCP config at `Code/User/mcp.json`
 
 ### Codex
@@ -148,7 +148,7 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
   | `sdd-mid` | `high` | spec, tasks, apply |
   | `sdd-cheap` | `low` | explore, archive, onboard |
 
-- Multi-agent SDD delegation is available as an **experimental opt-in** (default off). gentle-ai writes `features.multi_agent = false` and `agents.max_threads = 4` / `agents.max_depth = 2` into `~/.codex/config.toml`. To enable, set `multi_agent = true` in the `[features]` section. When enabled, the `sdd-orchestrator` asset uses Codex's native `spawn_agent` / `wait_agent` / `close_agent` tools to delegate SDD phases; otherwise it falls back to solo-agent inline execution.
+- Multi-agent SDD delegation is available as an **experimental opt-in** (default off). mr-mauroo-ai writes `features.multi_agent = false` and `agents.max_threads = 4` / `agents.max_depth = 2` into `~/.codex/config.toml`. To enable, set `multi_agent = true` in the `[features]` section. When enabled, the `sdd-orchestrator` asset uses Codex's native `spawn_agent` / `wait_agent` / `close_agent` tools to delegate SDD phases; otherwise it falls back to solo-agent inline execution.
 - **Delegation**: Solo-agent (multi-agent opt-in, experimental)
 
 ### Windsurf
@@ -169,15 +169,15 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 ### Kimi Code
 
 - Installation requires the `uv` Python package manager (`uv tool install kimi-cli`).
-- Root custom agent at `~/.kimi/agents/gentleman.yaml` with `system_prompt_path: ../KIMI.md`
+- Root custom agent at `~/.kimi/agents/mr-mauroo.yaml` with `system_prompt_path: ../KIMI.md`
 - `KIMI.md` is a thin Jinja template that includes modular prompt files:
   `persona.md`, `output-style.md`, `engram-protocol.md`, `sdd-orchestrator.md`
 - Built-in Kimi variables are preserved in `KIMI.md`: `${KIMI_AGENTS_MD}` and `${KIMI_SKILLS}`
 
 ### Kiro IDE
 
-- **Detection**: gentle-ai detects Kiro from the `kiro` binary on `PATH`; when the binary is present, it also reports whether `~/.kiro` already exists. A config directory alone does not mark Kiro as installed.
-- **Steering file** (all platforms): `~/.kiro/steering/gentle-ai.md` with frontmatter `inclusion: always`
+- **Detection**: mr-mauroo-ai detects Kiro from the `kiro` binary on `PATH`; when the binary is present, it also reports whether `~/.kiro` already exists. A config directory alone does not mark Kiro as installed.
+- **Steering file** (all platforms): `~/.kiro/steering/mr-mauroo-ai.md` with frontmatter `inclusion: always`
 - Native subagents at `~/.kiro/agents/sdd-{phase}.md` (10 files)
 - Skills (all platforms) at `~/.kiro/skills/`
 - **MCP config at a separate root** — always `~/.kiro/settings/mcp.json` (macOS/Linux) or `%USERPROFILE%\.kiro\settings\mcp.json` (Windows), regardless of GlobalConfigDir
@@ -187,7 +187,7 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### Qwen Code
 
-- **Detection**: gentle-ai detects Qwen Code from its config root (`~/.qwen`) and checks for `qwen` binary on `PATH`
+- **Detection**: mr-mauroo-ai detects Qwen Code from its config root (`~/.qwen`) and checks for `qwen` binary on `PATH`
 - **Config root**: `~/.qwen/` (cross-platform)
 - **System prompt**: `~/.qwen/QWEN.md` (managed via `StrategyFileReplace`)
 - **Skills**: `~/.qwen/skills/`
@@ -200,16 +200,16 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 ### OpenClaw
 
-- **Detection**: gentle-ai detects OpenClaw from the `openclaw` binary on `PATH` and its config root at `~/.openclaw`.
-- **Install**: manual only — install OpenClaw first, then run `gentle-ai install --agent openclaw`.
-- **Active workspace**: gentle-ai reads `agents.defaults.workspace` from `~/.openclaw/openclaw.json` and writes instruction files there.
+- **Detection**: mr-mauroo-ai detects OpenClaw from the `openclaw` binary on `PATH` and its config root at `~/.openclaw`.
+- **Install**: manual only — install OpenClaw first, then run `mr-mauroo-ai install --agent openclaw`.
+- **Active workspace**: mr-mauroo-ai reads `agents.defaults.workspace` from `~/.openclaw/openclaw.json` and writes instruction files there.
 - **Instructions**: Engram and SDD protocols are injected into workspace `AGENTS.md`; persona is injected into workspace `SOUL.md`.
 - **MCP config**: Engram and Context7 are merged into global `~/.openclaw/openclaw.json` under `mcp.servers`; legacy root `mcpServers` entries are migrated.
 - **Skills**: SDD phase skills are workspace-scoped at `<workspace>/.openclaw/skills/sdd-*`; portable skills remain global at `~/.openclaw/skills/`.
 
 ### Trae
 
-- **Detection**: gentle-ai detects Trae from `~/.trae` (desktop app — no binary on PATH)
+- **Detection**: mr-mauroo-ai detects Trae from `~/.trae` (desktop app — no binary on PATH)
 - **Global config root**: `~/.trae/` (cross-platform)
 - **Skills**: `~/.trae/skills/`
 - **System prompt / rules**: injected via `StrategyMarkdownSections` into the OS-specific `user_rules.md`
@@ -223,8 +223,8 @@ Kiro uses native custom agents in `~/.kiro/agents/`. `gentle-ai` writes phase ag
 
 For the full Pi command and package reference, see [Pi Agent](pi.md).
 
-- **Detection**: gentle-ai detects Pi from the `pi` binary on `PATH` and its config root at `~/.pi`.
-- **Install**: Pi must already be installed. gentle-ai then installs the full Pi support stack with:
+- **Detection**: mr-mauroo-ai detects Pi from the `pi` binary on `PATH` and its config root at `~/.pi`.
+- **Install**: Pi must already be installed. mr-mauroo-ai then installs the full Pi support stack with:
   - `pi install npm:gentle-pi`
   - `pi install npm:gentle-engram`
   - `pi install npm:pi-mcp-adapter`
@@ -235,17 +235,17 @@ For the full Pi command and package reference, see [Pi Agent](pi.md).
   - `pi install npm:pi-web-access`
   - `pi install npm:@juicesharp/rpiv-todo`
   - `pi install npm:pi-btw`
-- **`gentle-pi` package**: adds the Gentleman harness for Pi: SDD/OpenSpec workflow, strict TDD guidance, safety defaults, `/gentle-ai:*` commands, skill assets, prompts, SDD agents, and SDD chains. On normal `session_start`, it copies project assets into `.pi/agents/`, `.pi/chains/`, and `.pi/gentle-ai/support/` without overwriting local files unless the Pi recovery command uses `--force`. Starting Pi with `pi -ns` skips startup skill loading/hooks, so that automatic refresh does not run in that mode.
-- **Package metadata**: latest verified `gentle-pi` version is `0.2.6`; npm lists `alan_buscaglia` as maintainer, with source at [Gentleman-Programming/gentle-pi](https://github.com/Gentleman-Programming/gentle-pi) and package docs at [npm: gentle-pi](https://www.npmjs.com/package/gentle-pi).
-- **Persona command**: `gentle-pi` owns Pi persona switching through `/gentleman:persona` (`/gentle-ai:persona` remains a compatibility alias). It switches between `gentleman` and `neutral`, saves `.pi/gentle-ai/persona.json`, and may require `/reload` or a new Pi session for the active prompt to refresh.
-- **Model assignment command**: `gentle-pi` owns Pi model selection through `/gentleman:models` (`/gentle-ai:models` remains a compatibility alias). It opens a Pi-native modal for project, user, and built-in agents, prioritizes SDD agents, saves `.pi/gentle-ai/models.json`, and applies overrides into `.pi/agents/*.md` or `.pi/settings.json`.
+- **`gentle-pi` package**: adds the Mr.Mauroo harness for Pi: SDD/OpenSpec workflow, strict TDD guidance, safety defaults, `/mr-mauroo-ai:*` commands, skill assets, prompts, SDD agents, and SDD chains. On normal `session_start`, it copies project assets into `.pi/agents/`, `.pi/chains/`, and `.pi/mr-mauroo-ai/support/` without overwriting local files unless the Pi recovery command uses `--force`. Starting Pi with `pi -ns` skips startup skill loading/hooks, so that automatic refresh does not run in that mode.
+- **Package metadata**: latest verified `gentle-pi` version is `0.2.6`; npm lists `alan_buscaglia` as maintainer, with source at [Mr-Mauroo-Programming/gentle-pi](https://github.com/Mr-Mauroo-Programming/gentle-pi) and package docs at [npm: gentle-pi](https://www.npmjs.com/package/gentle-pi).
+- **Persona command**: `gentle-pi` owns Pi persona switching through `/mr-mauroo:persona` (`/mr-mauroo-ai:persona` remains a compatibility alias). It switches between `mr-mauroo` and `neutral`, saves `.pi/mr-mauroo-ai/persona.json`, and may require `/reload` or a new Pi session for the active prompt to refresh.
+- **Model assignment command**: `gentle-pi` owns Pi model selection through `/mr-mauroo:models` (`/mr-mauroo-ai:models` remains a compatibility alias). It opens a Pi-native modal for project, user, and built-in agents, prioritizes SDD agents, saves `.pi/mr-mauroo-ai/models.json`, and applies overrides into `.pi/agents/*.md` or `.pi/settings.json`.
 - **`gentle-engram` package**: adds persistent Engram memory for Pi. It captures sessions, exposes Engram MCP tools through `pi-mcp-adapter`, and degrades safely when the local `engram` binary is missing.
 - **MCP adapter wiring**: ComponentEngram declares `npm:pi-mcp-adapter` in `.pi/agent/settings.json` packages and adds `pi-mcp-adapter` `^2.6.0` to `.pi/npm/package.json` without removing unrelated user entries. `pi-engram init` owns the Pi Engram MCP config schema and is run during installation.
-- **`pi-subagents-j0k3r` package**: discovers and runs SDD agents from `.pi/agents/`; Gentle AI installs it directly with `pi install npm:pi-subagents-j0k3r`.
+- **`pi-subagents-j0k3r` package**: discovers and runs SDD agents from `.pi/agents/`; Mr.Mauroo AI installs it directly with `pi install npm:pi-subagents-j0k3r`.
 - **`pi-intercom` package**: lets Pi child agents ask the parent session for decisions while a chain is running.
 - **`@juicesharp/rpiv-ask-user-question` package**: lets Pi child agents ask the active user session for clarification when they need human input.
 - **Pi companion packages**: `pi-web-access`, `@juicesharp/rpiv-todo`, and `pi-btw` add web access, todo tracking, and companion workflow support.
-- **Pi-only flow**: when Pi is the only selected agent, gentle-ai skips persona, ecosystem component selection, and Strict TDD prompts because those behaviors are provided by `gentle-pi`.
+- **Pi-only flow**: when Pi is the only selected agent, mr-mauroo-ai skips persona, ecosystem component selection, and Strict TDD prompts because those behaviors are provided by `gentle-pi`.
 
 ### Hermes Ephemeral Delegation
 
@@ -270,17 +270,17 @@ Hermes uses `delegate_task` to spawn ephemeral sub-agents. Each worker starts in
 | `inherit_mcp_toolsets` | false | When true, workers inherit parent MCP toolsets automatically |
 | `subagent_auto_approve` | false | When true, workers auto-approve tool calls |
 
-The full delegation decision table lives in `~/.hermes/skills/hermes-ephemeral-delegation/SKILL.md` (installed by gentle-ai). The SDD orchestrator in `~/.hermes/SOUL.md` references this skill.
+The full delegation decision table lives in `~/.hermes/skills/hermes-ephemeral-delegation/SKILL.md` (installed by mr-mauroo-ai). The SDD orchestrator in `~/.hermes/SOUL.md` references this skill.
 
 ### Hermes
 
-- **Detection**: gentle-ai reports the `hermes` binary on `PATH` and the config root at `~/.hermes` independently; the config directory drives install detection (the binary can be absent and Hermes is still detected as configured).
-- **Install**: detect-only — gentle-ai cannot install Hermes. Install Hermes manually first, then run `gentle-ai install --agent hermes`.
+- **Detection**: mr-mauroo-ai reports the `hermes` binary on `PATH` and the config root at `~/.hermes` independently; the config directory drives install detection (the binary can be absent and Hermes is still detected as configured).
+- **Install**: detect-only — mr-mauroo-ai cannot install Hermes. Install Hermes manually first, then run `mr-mauroo-ai install --agent hermes`.
 - **Config path**: `~/.hermes/` (config.yaml, SOUL.md, skills/)
 - **MCP config**: Engram and Context7 are injected as YAML blocks under `mcp_servers:` in `~/.hermes/config.yaml` (`StrategyMergeIntoYAML`). Pre-existing top-level keys (e.g. `model:`) are preserved verbatim.
-- **System prompt**: SDD orchestrator and persona are written to `~/.hermes/SOUL.md` via markdown section markers (`<!-- gentle-ai:sdd-orchestrator -->`, `<!-- gentle-ai:persona -->`).
-- **Skills**: `~/.hermes/skills/` — gentle-ai writes SDD phase skills; the skill registry also scans this path.
-- **Permissions**: Hermes uses an undocumented permission format. gentle-ai skips permission injection for Hermes.
+- **System prompt**: SDD orchestrator and persona are written to `~/.hermes/SOUL.md` via markdown section markers (`<!-- mr-mauroo-ai:sdd-orchestrator -->`, `<!-- mr-mauroo-ai:persona -->`).
+- **Skills**: `~/.hermes/skills/` — mr-mauroo-ai writes SDD phase skills; the skill registry also scans this path.
+- **Permissions**: Hermes uses an undocumented permission format. mr-mauroo-ai skips permission injection for Hermes.
 - **Profiles**: Hermes does not support multi-mode SDD (no per-phase model routing). Single-mode only.
 - **Memory**: Hermes has a native memory and skill-learning loop. Engram complements it — Engram provides cross-agent, cross-session memory protocol so knowledge is portable across all agents, not just Hermes.
-- **Persona markers and identity behavior**: The `<!-- gentle-ai:persona -->` / `<!-- /gentle-ai:persona -->` markers in `SOUL.md` tell gentle-ai which section it manages — they delimit where the persona content is written and updated on sync. The markers alone do NOT guarantee that Hermes answers identity questions ("who are you?", "quién eres?") as Gentle AI. That guarantee comes from the explicit `## Identity` section inside the managed persona content, which instructs Hermes to identify itself as **Gentle AI running on Hermes Agent** in any language. If the user has written a manual `## Identity` section OUTSIDE the managed markers, it is preserved by gentle-ai but may conflict with the managed identity instruction — the managed block is what gentle-ai guarantees, and any manual identity section outside the markers may need cleanup to avoid contradiction.
+- **Persona markers and identity behavior**: The `<!-- mr-mauroo-ai:persona -->` / `<!-- /mr-mauroo-ai:persona -->` markers in `SOUL.md` tell mr-mauroo-ai which section it manages — they delimit where the persona content is written and updated on sync. The markers alone do NOT guarantee that Hermes answers identity questions ("who are you?", "quién eres?") as Mr.Mauroo AI. That guarantee comes from the explicit `## Identity` section inside the managed persona content, which instructs Hermes to identify itself as **Mr.Mauroo AI running on Hermes Agent** in any language. If the user has written a manual `## Identity` section OUTSIDE the managed markers, it is preserved by mr-mauroo-ai but may conflict with the managed identity instruction — the managed block is what mr-mauroo-ai guarantees, and any manual identity section outside the markers may need cleanup to avoid contradiction.

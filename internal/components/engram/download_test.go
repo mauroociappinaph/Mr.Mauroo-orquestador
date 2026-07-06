@@ -17,7 +17,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
 )
 
 // --- test helpers ---
@@ -1174,18 +1174,18 @@ func TestCanonicalEngramGoInstallPackagePreservesDeclaredModuleCasing(t *testing
 	}{
 		{
 			name: "lowercase owner is canonicalized",
-			pkg:  "github.com/gentleman-programming/engram/cmd/engram@main",
-			want: "github.com/Gentleman-Programming/engram/cmd/engram@main",
+			pkg:  "github.com/mr-mauroo-programming/engram/cmd/engram@main",
+			want: "github.com/Mr-Mauroo-Programming/engram/cmd/engram@main",
 		},
 		{
 			name: "canonical owner remains unchanged",
-			pkg:  "github.com/Gentleman-Programming/engram/cmd/engram@v1.2.3",
-			want: "github.com/Gentleman-Programming/engram/cmd/engram@v1.2.3",
+			pkg:  "github.com/Mr-Mauroo-Programming/engram/cmd/engram@v1.2.3",
+			want: "github.com/Mr-Mauroo-Programming/engram/cmd/engram@v1.2.3",
 		},
 		{
 			name: "unrelated package remains unchanged",
-			pkg:  "github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest",
-			want: "github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest",
+			pkg:  "github.com/mr-mauroo/mr-mauroo-ai/cmd/mr-mauroo-ai@latest",
+			want: "github.com/mr-mauroo/mr-mauroo-ai/cmd/mr-mauroo-ai@latest",
 		},
 	}
 
@@ -1217,12 +1217,12 @@ func TestEngramGoInstallFromMainCanonicalizesModuleCasing(t *testing.T) {
 		return map[string]string{"GOBIN": fakeInstallDir, "GOPATH": ""}, nil
 	}
 
-	_, err := engramGoInstallFromMain("github.com/gentleman-programming/engram/cmd/engram@main")
+	_, err := engramGoInstallFromMain("github.com/mr-mauroo-programming/engram/cmd/engram@main")
 	if err != nil {
 		t.Fatalf("engramGoInstallFromMain: unexpected error: %v", err)
 	}
 
-	wantPkg := "github.com/Gentleman-Programming/engram/cmd/engram@main"
+	wantPkg := "github.com/Mr-Mauroo-Programming/engram/cmd/engram@main"
 	if gotPkg != wantPkg {
 		t.Fatalf("go install package = %q, want %q", gotPkg, wantPkg)
 	}
@@ -1262,7 +1262,7 @@ func TestEngramGoInstallFromMain_UsesGoEnvForBinDir(t *testing.T) {
 	t.Cleanup(func() { engramGoInstallCmdFn = origGoInstallCmdFn })
 	engramGoInstallCmdFn = func(pkg string) error { return nil }
 
-	binaryPath, err := engramGoInstallFromMain("github.com/Gentleman-Programming/engram/cmd/engram@main")
+	binaryPath, err := engramGoInstallFromMain("github.com/Mr-Mauroo-Programming/engram/cmd/engram@main")
 	if err != nil {
 		t.Fatalf("engramGoInstallFromMain: unexpected error: %v", err)
 	}
@@ -1293,7 +1293,7 @@ func TestEngramGoInstallFromMain_BypassesPublicGoProxy(t *testing.T) {
 		return map[string]string{"GOBIN": goPath, "GOPATH": filepath.Join(t.TempDir(), "gopath")}, nil
 	}
 
-	if _, err := engramGoInstallFromMain("github.com/Gentleman-Programming/engram/cmd/engram@main"); err != nil {
+	if _, err := engramGoInstallFromMain("github.com/Mr-Mauroo-Programming/engram/cmd/engram@main"); err != nil {
 		t.Fatalf("engramGoInstallFromMain() error = %v", err)
 	}
 
@@ -1302,9 +1302,9 @@ func TestEngramGoInstallFromMain_BypassesPublicGoProxy(t *testing.T) {
 		t.Fatalf("ReadFile(%q) error = %v", recordPath, err)
 	}
 	for _, want := range []string{
-		"GONOSUMDB=github.com/Gentleman-Programming/engram",
-		"GOPRIVATE=github.com/Gentleman-Programming/engram",
-		"GONOPROXY=github.com/Gentleman-Programming/engram",
+		"GONOSUMDB=github.com/Mr-Mauroo-Programming/engram",
+		"GOPRIVATE=github.com/Mr-Mauroo-Programming/engram",
+		"GONOPROXY=github.com/Mr-Mauroo-Programming/engram",
 	} {
 		if !strings.Contains(string(recorded), want) {
 			t.Fatalf("go install env missing %q\nrecorded:\n%s", want, recorded)
@@ -1369,7 +1369,7 @@ func TestEngramStopScriptIsDefensive(t *testing.T) {
 // Related: PR #937 (PowerShell 5.1 fallback for SHA256 checksum verification)
 func TestSHA256ChecksumContract(t *testing.T) {
 	// Test data: arbitrary content to hash
-	testData := []byte("Gentle AI SHA256 contract test")
+	testData := []byte("Mr.Mauroo AI SHA256 contract test")
 
 	// Calculate hash using Go's crypto/sha256 (same as engramDownloadToFile)
 	h := sha256.Sum256(testData)

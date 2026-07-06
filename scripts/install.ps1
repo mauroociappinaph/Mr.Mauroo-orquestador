@@ -1,20 +1,20 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    Gentle-AI - Install Script for Windows
+    Mr-Mauroo-AI - Install Script for Windows
     Ecosystem, Frameworks, Workflows for AI coding agents.
 
 .DESCRIPTION
-    Downloads and installs the gentle-ai binary for Windows.
+    Downloads and installs the mr-mauroo-ai binary for Windows.
     Supports installation via Go or pre-built binary from GitHub Releases.
     Accepted channels: stable (default), beta, nightly.
 
 .EXAMPLE
     # Run directly:
-    irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex
+    irm https://raw.githubusercontent.com/Mr-Mauroo/mr-mauroo-ai/main/scripts/install.ps1 | iex
 
     # Or download and run:
-    Invoke-WebRequest -Uri https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 -OutFile install.ps1
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/Mr-Mauroo/mr-mauroo-ai/main/scripts/install.ps1 -OutFile install.ps1
     .\install.ps1
 
     # Force a specific method:
@@ -38,9 +38,9 @@ $ErrorActionPreference = "Stop"
 $null = & chcp 65001 2>$null
 try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 
-$GITHUB_OWNER = "Gentleman-Programming"
-$GITHUB_REPO = "gentle-ai"
-$BINARY_NAME = "gentle-ai"
+$GITHUB_OWNER = "Mr-Mauroo-Programming"
+$GITHUB_REPO = "mr-mauroo-ai"
+$BINARY_NAME = "mr-mauroo-ai"
 
 # ============================================================================
 # Logging helpers
@@ -70,7 +70,7 @@ function Show-Banner {
     Write-Host " | |_| |  __/ | | | |_| |  __/_____/ ___ \ | | " -ForegroundColor Cyan
     Write-Host "  \____|\___|_| |_|\__|_|\___|    /_/   \_\___|" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "  Gentle-AI - Ecosystem, Frameworks, Workflows" -ForegroundColor DarkGray
+    Write-Host "  Mr-Mauroo-AI - Ecosystem, Frameworks, Workflows" -ForegroundColor DarkGray
     Write-Host ""
 }
 
@@ -118,7 +118,7 @@ function Get-InstallMethod {
 
     if ($Channel -eq "beta") {
         if ($Forced -ne "auto" -and $Forced -ne "go") {
-            Stop-WithError "-Channel beta installs Gentle AI from main and only supports -Method go"
+            Stop-WithError "-Channel beta installs Mr.Mauroo AI from main and only supports -Method go"
         }
         Write-Info "Using beta channel - will install $BINARY_NAME from main via go install"
         return "go"
@@ -152,9 +152,9 @@ function Install-ViaGo {
     Write-Info "Running: go install $goPackage"
 
     if ($Channel -eq "beta") {
-        Add-GoEnvPattern -Name "GONOSUMDB" -Pattern "github.com/gentleman-programming/gentle-ai"
-        Add-GoEnvPattern -Name "GOPRIVATE" -Pattern "github.com/gentleman-programming/gentle-ai"
-        Add-GoEnvPattern -Name "GONOPROXY" -Pattern "github.com/gentleman-programming/gentle-ai"
+        Add-GoEnvPattern -Name "GONOSUMDB" -Pattern "github.com/mr-mauroo/mr-mauroo-ai"
+        Add-GoEnvPattern -Name "GOPRIVATE" -Pattern "github.com/mr-mauroo/mr-mauroo-ai"
+        Add-GoEnvPattern -Name "GONOPROXY" -Pattern "github.com/mr-mauroo/mr-mauroo-ai"
     }
 
     & go install $goPackage
@@ -204,7 +204,7 @@ function Get-LatestVersion {
     $url = "https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/latest"
 
     try {
-        $response = Invoke-RestMethod -Uri $url -Headers @{ "User-Agent" = "gentle-ai-installer" }
+        $response = Invoke-RestMethod -Uri $url -Headers @{ "User-Agent" = "mr-mauroo-ai-installer" }
     } catch {
         Stop-WithError "Failed to fetch latest release. Rate limited? Try again later or use -Method go"
     }
@@ -230,7 +230,7 @@ function Install-ViaBinary {
     $downloadUrl = "https://github.com/$GITHUB_OWNER/$GITHUB_REPO/releases/download/$version/$archiveName"
     $checksumsUrl = "https://github.com/$GITHUB_OWNER/$GITHUB_REPO/releases/download/$version/checksums.txt"
 
-    $tmpDir = Join-Path $env:TEMP "gentle-ai-install-$(Get-Random)"
+    $tmpDir = Join-Path $env:TEMP "mr-mauroo-ai-install-$(Get-Random)"
     New-Item -ItemType Directory -Path $tmpDir -Force | Out-Null
 
     try {
@@ -306,7 +306,7 @@ function Install-ViaBinary {
         # Determine install directory
         $installDir = $InstallDir
         if (-not $installDir) {
-            $installDir = Join-Path $env:LOCALAPPDATA "gentle-ai\bin"
+            $installDir = Join-Path $env:LOCALAPPDATA "mr-mauroo-ai\bin"
         }
 
         if (-not (Test-Path $installDir)) {
@@ -368,7 +368,7 @@ function Test-Installation {
         $gopath = & go env GOPATH 2>$null
     }
     $locations = @(
-        (Join-Path $env:LOCALAPPDATA "gentle-ai\bin\$BINARY_NAME.exe")
+        (Join-Path $env:LOCALAPPDATA "mr-mauroo-ai\bin\$BINARY_NAME.exe")
     )
     if ($gopath) {
         $locations += (Join-Path $gopath "bin\$BINARY_NAME.exe")

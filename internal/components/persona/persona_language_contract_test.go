@@ -6,13 +6,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
-func TestInjectGentlemanNeutralArtifactsUsesGentlemanConversationWithArtifactBoundary(t *testing.T) {
+func TestInjectMrMaurooNeutralArtifactsUsesMrMaurooConversationWithArtifactBoundary(t *testing.T) {
 	home := t.TempDir()
 
-	result, err := Inject(home, opencodeAdapter(), model.PersonaGentlemanNeutralArtifacts)
+	result, err := Inject(home, opencodeAdapter(), model.PersonaMrMaurooNeutralArtifacts)
 	if err != nil {
 		t.Fatalf("Inject() error = %v", err)
 	}

@@ -18,7 +18,7 @@ The default answer MUST be Y (update); pressing Enter without input MUST be trea
 #### Scenario: Default prompt shown
 
 - GIVEN an update is available
-- AND the user invokes `gentle-ai upgrade` or a CLI path that triggers `selfUpdate`
+- AND the user invokes `mr-mauroo-ai upgrade` or a CLI path that triggers `selfUpdate`
 - WHEN `selfUpdate` runs
 - THEN a `[Y/n]` prompt is displayed with the available version and release notes link
 - AND `GENTLE_AI_CONFIRM_UPDATE` is not checked
@@ -57,21 +57,21 @@ When `GENTLE_AI_CHANNEL` is unset or set to any value other than `beta`, the exe
 #### Scenario: Stable upgrade (default)
 
 - GIVEN `GENTLE_AI_CHANNEL` is unset
-- WHEN `gentle-ai upgrade` runs
+- WHEN `mr-mauroo-ai upgrade` runs
 - THEN the executor installs the latest stable release
 - AND no beta or main-branch artifacts are used
 
 #### Scenario: Beta upgrade
 
 - GIVEN `GENTLE_AI_CHANNEL=beta`
-- WHEN `gentle-ai upgrade` runs
+- WHEN `mr-mauroo-ai upgrade` runs
 - THEN the executor installs from `@main`
 - AND the installed binary reflects the main branch HEAD
 
 #### Scenario: Channel unset defaults to stable
 
 - GIVEN `GENTLE_AI_CHANNEL` is not set in the environment
-- WHEN `gentle-ai upgrade` runs
+- WHEN `mr-mauroo-ai upgrade` runs
 - THEN the behavior is identical to stable upgrade
 - AND the latest stable release tag is the install source
 

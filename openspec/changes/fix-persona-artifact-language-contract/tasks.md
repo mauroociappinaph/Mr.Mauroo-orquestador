@@ -29,7 +29,7 @@ Strict TDD is active. Use `go test ./...` as the required full test runner, with
 
 ### 1.1 Discover the persona option and supported asset matrix
 
-- [x] Verify whether `gentleman-neutral-artifacts` already exists in `internal/model/types.go`, `internal/cli/validate.go`, `internal/tui/screens/persona.go`, `internal/components/persona/inject.go`, `internal/assets/`, `internal/catalog/agents.go`, and existing install/sync tests.
+- [x] Verify whether `mr-mauroo-neutral-artifacts` already exists in `internal/model/types.go`, `internal/cli/validate.go`, `internal/tui/screens/persona.go`, `internal/components/persona/inject.go`, `internal/assets/`, `internal/catalog/agents.go`, and existing install/sync tests.
 - [x] Record the discovered state in apply notes. Initial planning scan found only a mention in `context.md`, so apply should assume missing until re-verified.
 - [x] If missing, execute the conditional implementation and verification tasks for model enum, CLI, TUI, install, and sync support below.
 
@@ -38,7 +38,7 @@ Strict TDD is active. Use `go test ./...` as the required full test runner, with
 - [x] Add tests in `internal/assets/assets_test.go` or `internal/assets/language_contract_test.go` that enumerate every supported SDD orchestrator asset: Claude, OpenCode, Kilocode via OpenCode, Kimi, Codex, Gemini, Qwen, Cursor, Windsurf, Antigravity, Kiro, generic fallback, OpenClaw, Pi, Trae, and any newly discovered supported agent-specific asset.
 - [x] Assert persona-agnostic SDD assets include the three-domain contract: direct conversation follows persona, technical artifacts default to English, comments follow target context language.
 - [x] Assert persona-agnostic SDD assets reject known leaks: `elegí`, `Respondé`, and `¿Querés ajustar algo o continuamos?`.
-- [x] Keep explicit allowlists for Gentleman direct-conversation persona/output-style assets.
+- [x] Keep explicit allowlists for Mr.Mauroo direct-conversation persona/output-style assets.
 - [x] RED evidence: run targeted asset tests and capture expected failures before editing assets.
 
 ### 1.3 RED: Add root and embedded `comment-writer` consistency tests
@@ -68,7 +68,7 @@ Strict TDD is active. Use `go test ./...` as the required full test runner, with
 - [x] Cover native subagents, dynamic subagents, inline phase contexts, OpenCode shared prompt files, and overlay placeholder references where they exist.
 - [x] RED evidence: capture failing delegation-forwarding assertions before asset edits.
 
-### 1.7 RED: If missing, add `gentleman-neutral-artifacts` support tests
+### 1.7 RED: If missing, add `mr-mauroo-neutral-artifacts` support tests
 
 - [x] Add failing tests for enum and validation support in `internal/model/types.go` and `internal/cli/validate.go`.
 - [x] Add failing TUI option/label tests in `internal/tui/screens/persona.go`, `internal/tui/screens/review.go`, and existing `internal/tui/model_test.go` coverage.
@@ -81,7 +81,7 @@ Strict TDD is active. Use `go test ./...` as the required full test runner, with
 
 - [x] Update `internal/assets/opencode/sdd-orchestrator.md`, `internal/assets/claude/sdd-orchestrator.md`, `internal/assets/kimi/sdd-orchestrator.md`, `internal/assets/codex/sdd-orchestrator.md`, `internal/assets/gemini/sdd-orchestrator.md`, `internal/assets/qwen/sdd-orchestrator.md`, `internal/assets/cursor/sdd-orchestrator.md`, `internal/assets/windsurf/sdd-orchestrator.md`, `internal/assets/antigravity/sdd-orchestrator.md`, `internal/assets/kiro/sdd-orchestrator.md`, and `internal/assets/generic/sdd-orchestrator.md`.
 - [x] Replace persona-agnostic voseo examples with neutral/professional or language-neutral wording.
-- [x] Add clear artifact/comment language-boundary wording without weakening Gentleman direct conversation.
+- [x] Add clear artifact/comment language-boundary wording without weakening Mr.Mauroo direct conversation.
 - [x] GREEN evidence: targeted all-agent asset language-contract tests pass.
 
 ### 2.2 GREEN: Fix OpenCode/Kilocode migration, overlays, and shared prompts
@@ -99,8 +99,8 @@ Strict TDD is active. Use `go test ./...` as the required full test runner, with
 
 ### 2.4 GREEN: Preserve persona boundaries
 
-- [x] Inspect `internal/assets/*/persona-gentleman.md`, `internal/assets/generic/persona-neutral.md`, `internal/assets/claude/output-style-gentleman.md`, and `internal/assets/kimi/output-style-gentleman.md`.
-- [x] Add artifact-boundary wording only if needed, while preserving Gentleman direct-conversation Rioplatense teaching voice.
+- [x] Inspect `internal/assets/*/persona-mr-mauroo.md`, `internal/assets/generic/persona-neutral.md`, `internal/assets/claude/output-style-mr-mauroo.md`, and `internal/assets/kimi/output-style-mr-mauroo.md`.
+- [x] Add artifact-boundary wording only if needed, while preserving Mr.Mauroo direct-conversation Rioplatense teaching voice.
 - [x] GREEN evidence: persona allowlist tests pass and no persona-agnostic artifact tests regress.
 
 ### 2.5 GREEN: Forward the contract through delegation/subagent prompts
@@ -109,7 +109,7 @@ Strict TDD is active. Use `go test ./...` as the required full test runner, with
 - [x] Ensure direct conversation persona rules are not forwarded as artifact language defaults.
 - [x] GREEN evidence: delegation-forwarding tests pass across native, dynamic, inline, and OpenCode shared prompt paths.
 
-### 2.6 GREEN: If missing, implement `gentleman-neutral-artifacts` model, CLI, and TUI support
+### 2.6 GREEN: If missing, implement `mr-mauroo-neutral-artifacts` model, CLI, and TUI support
 
 - [x] Add the persona ID in `internal/model/types.go`.
 - [x] Accept and validate the value in `internal/cli/validate.go`.
@@ -117,7 +117,7 @@ Strict TDD is active. Use `go test ./...` as the required full test runner, with
 - [x] Update `internal/tui/model.go` preset/component behavior only if the new persona changes component selection.
 - [x] GREEN evidence: enum, CLI validation, and TUI tests for the new option pass.
 
-### 2.7 GREEN: If missing, implement `gentleman-neutral-artifacts` install and sync support
+### 2.7 GREEN: If missing, implement `mr-mauroo-neutral-artifacts` install and sync support
 
 - [x] Add the required persona asset source(s) under `internal/assets/` using existing persona asset conventions.
 - [x] Route the new persona in `internal/components/persona/inject.go` and cover it in `internal/components/persona/inject_test.go`.

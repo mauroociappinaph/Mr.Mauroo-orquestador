@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 // RenderTriggerRules renders a TriggerRuleSet as a short, scannable Markdown
@@ -20,7 +20,7 @@ func RenderTriggerRules(set model.TriggerRuleSet) string {
 
 	sb.WriteString("## Agent Trigger Rules\n\n")
 	sb.WriteString("These are organic recommendations, not enforced checkpoints. ")
-	sb.WriteString("gentle-ai only renders this text; the AI orchestrator decides when to act on it.\n\n")
+	sb.WriteString("mr-mauroo-ai only renders this text; the AI orchestrator decides when to act on it.\n\n")
 
 	for _, b := range set.Bindings {
 		whenPhrase := renderWhen(b.When)

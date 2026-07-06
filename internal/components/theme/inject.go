@@ -6,9 +6,9 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gentleman-programming/gentle-ai/internal/agents"
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
-	"github.com/gentleman-programming/gentle-ai/internal/model"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/agents"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/model"
 )
 
 type InjectionResult struct {
@@ -16,7 +16,7 @@ type InjectionResult struct {
 	Files   []string
 }
 
-var themeOverlayJSON = []byte("{\n  \"theme\": \"gentleman-kanagawa\"\n}\n")
+var themeOverlayJSON = []byte("{\n  \"theme\": \"mr-mauroo-kanagawa\"\n}\n")
 
 type claudeTheme struct {
 	Name      string            `json:"name"`
@@ -24,8 +24,8 @@ type claudeTheme struct {
 	Overrides map[string]string `json:"overrides"`
 }
 
-var gentlemanClaudeTheme = claudeTheme{
-	Name: "Gentleman",
+var mrMaurooClaudeTheme = claudeTheme{
+	Name: "Mr.Mauroo",
 	Base: "dark",
 	Overrides: map[string]string{
 		"diffAdded":                 "#3F4A2D",
@@ -58,8 +58,8 @@ func InjectClaudeTheme(homeDir string, adapter agents.Adapter) (InjectionResult,
 		return InjectionResult{}, nil
 	}
 
-	themePath := filepath.Join(homeDir, ".claude", "themes", "gentleman.json")
-	content, err := json.MarshalIndent(gentlemanClaudeTheme, "", "  ")
+	themePath := filepath.Join(homeDir, ".claude", "themes", "mr-mauroo.json")
+	content, err := json.MarshalIndent(mrMaurooClaudeTheme, "", "  ")
 	if err != nil {
 		return InjectionResult{}, err
 	}

@@ -1,9 +1,9 @@
 # Test script to verify .NET SHA256 fallback works correctly
 # This ensures the fallback path produces valid SHA256 hashes even when Get-FileHash is unavailable
 
-$testFile = "$env:TEMP\gentle-ai-hash-test.txt"
+$testFile = "$env:TEMP\mr-mauroo-ai-hash-test.txt"
 # Use fixed content for deterministic testing
-$testContent = "Gentle AI SHA256 fallback test"
+$testContent = "Mr.Mauroo AI SHA256 fallback test"
 
 try {
     # Create test file with UTF-8 encoding (no BOM)

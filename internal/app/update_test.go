@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gentleman-programming/gentle-ai/internal/system"
-	"github.com/gentleman-programming/gentle-ai/internal/update"
-	"github.com/gentleman-programming/gentle-ai/internal/update/upgrade"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/update/upgrade"
 )
 
 func TestRunUpdate_ReturnsErrorWhenChecksFail(t *testing.T) {
@@ -96,8 +96,8 @@ func TestRunUpgrade_ReturnsErrorBeforeExecutingWhenChecksFail(t *testing.T) {
 	}
 }
 
-// TestRunUpgrade_RestartsAfterGentleAIUpgrade verifies that `gentle-ai upgrade`
-// prints the restart guidance message after a successful gentle-ai upgrade.
+// TestRunUpgrade_RestartsAfterGentleAIUpgrade verifies that `mr-mauroo-ai upgrade`
+// prints the restart guidance message after a successful mr-mauroo-ai upgrade.
 // After task 4.6, no re-exec occurs on any OS — the message is always printed.
 func TestRunUpgrade_RestartsAfterGentleAIUpgrade(t *testing.T) {
 	unsetEnv(t, envSelfUpdateDone)
@@ -111,7 +111,7 @@ func TestRunUpgrade_RestartsAfterGentleAIUpgrade(t *testing.T) {
 
 	updateCheckFiltered = func(context.Context, string, system.PlatformProfile, []string) []update.UpdateResult {
 		return []update.UpdateResult{{
-			Tool:             update.ToolInfo{Name: "gentle-ai", InstallMethod: update.InstallBinary},
+			Tool:             update.ToolInfo{Name: "mr-mauroo-ai", InstallMethod: update.InstallBinary},
 			InstalledVersion: "1.36.1",
 			LatestVersion:    "1.36.2",
 			Status:           update.UpdateAvailable,
@@ -119,7 +119,7 @@ func TestRunUpgrade_RestartsAfterGentleAIUpgrade(t *testing.T) {
 	}
 	upgradeExecuteWithOptions = func(context.Context, []update.UpdateResult, system.PlatformProfile, string, bool, upgrade.ExecuteOptions) upgrade.UpgradeReport {
 		return upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{{
-			ToolName:   "gentle-ai",
+			ToolName:   "mr-mauroo-ai",
 			OldVersion: "1.36.1",
 			NewVersion: "1.36.2",
 			Status:     upgrade.UpgradeSucceeded,
@@ -132,7 +132,7 @@ func TestRunUpgrade_RestartsAfterGentleAIUpgrade(t *testing.T) {
 		t.Fatalf("runUpgrade() error = %v", err)
 	}
 	// After task 4.6: restart message printed, no re-exec.
-	if !strings.Contains(buf.String(), "restart gentle-ai") {
+	if !strings.Contains(buf.String(), "restart mr-mauroo-ai") {
 		t.Fatalf("runUpgrade() output missing restart notice:\n%s", buf.String())
 	}
 }
@@ -180,10 +180,10 @@ func TestRunUpgrade_DryRunDoesNotRestartAfterGentleAIUpgrade(t *testing.T) {
 	})
 
 	updateCheckFiltered = func(context.Context, string, system.PlatformProfile, []string) []update.UpdateResult {
-		return []update.UpdateResult{{Tool: update.ToolInfo{Name: "gentle-ai"}, Status: update.UpdateAvailable}}
+		return []update.UpdateResult{{Tool: update.ToolInfo{Name: "mr-mauroo-ai"}, Status: update.UpdateAvailable}}
 	}
 	upgradeExecuteWithOptions = func(context.Context, []update.UpdateResult, system.PlatformProfile, string, bool, upgrade.ExecuteOptions) upgrade.UpgradeReport {
-		return upgrade.UpgradeReport{DryRun: true, Results: []upgrade.ToolUpgradeResult{{ToolName: "gentle-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
+		return upgrade.UpgradeReport{DryRun: true, Results: []upgrade.ToolUpgradeResult{{ToolName: "mr-mauroo-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
 	}
 
 	var buf bytes.Buffer
@@ -207,11 +207,11 @@ func TestTUIUpgrade_DoesNotRestartBeforeModelCanRenderReport(t *testing.T) {
 	})
 
 	upgradeExecute = func(context.Context, []update.UpdateResult, system.PlatformProfile, string, bool, ...io.Writer) upgrade.UpgradeReport {
-		return upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{{ToolName: "gentle-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
+		return upgrade.UpgradeReport{Results: []upgrade.ToolUpgradeResult{{ToolName: "mr-mauroo-ai", NewVersion: "1.36.2", Status: upgrade.UpgradeSucceeded}}}
 	}
 
 	report := tuiUpgrade(system.PlatformProfile{OS: "darwin", PackageManager: "brew"}, os.TempDir())(context.Background(), nil)
-	if len(report.Results) != 1 || report.Results[0].ToolName != "gentle-ai" {
+	if len(report.Results) != 1 || report.Results[0].ToolName != "mr-mauroo-ai" {
 		t.Fatalf("tuiUpgrade() report = %#v", report)
 	}
 }

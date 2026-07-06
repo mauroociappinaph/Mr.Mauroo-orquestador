@@ -29,7 +29,7 @@ Meta-commands are handled by the orchestrator directly and do not appear in auto
 
 ### Native SDD Dispatcher Guard
 
-Before routing, continuing, applying, verifying, or archiving an SDD change, first determine this session's artifact store. The native dispatcher (`gentle-ai sdd-continue [change] --cwd <repo>` or `gentle-ai sdd-status [change] --cwd <repo> --json --instructions`) reads only OpenSpec file artifacts and always emits `artifactStore: openspec`; it cannot observe Engram-backed changes.
+Before routing, continuing, applying, verifying, or archiving an SDD change, first determine this session's artifact store. The native dispatcher (`mr-mauroo-ai sdd-continue [change] --cwd <repo>` or `mr-mauroo-ai sdd-status [change] --cwd <repo> --json --instructions`) reads only OpenSpec file artifacts and always emits `artifactStore: openspec`; it cannot observe Engram-backed changes.
 
 - For `engram`, do NOT invoke the dispatcher. Resolve status from Engram topic keys with `mem_search` followed by `mem_get_observation`.
 - For `openspec` or `hybrid`, use the dispatcher when available and treat its JSON as authoritative over prompt inference.
@@ -101,7 +101,7 @@ When delivery planning yields chained PRs, ask once for chain strategy and cache
 - `stacked-to-main` — each PR targets the previous PR branch or main in sequence.
 - `feature-branch-chain` — PR #1 targets the tracker branch; child PRs target the immediate previous PR branch; only the tracker merges to main.
 
-When chained PRs are selected, treat `chained-pr` (registry skill `gentle-ai-chained-pr`) as a required skill match. Resolve and forward it by registry path to `sdd-tasks` and `sdd-apply`; do not hardcode its path.
+When chained PRs are selected, treat `chained-pr` (registry skill `mr-mauroo-ai-chained-pr`) as a required skill match. Resolve and forward it by registry path to `sdd-tasks` and `sdd-apply`; do not hardcode its path.
 
 Pass it as `chain_strategy` to `sdd-tasks` and `sdd-apply` prompts alongside `delivery_strategy`.
 
@@ -133,13 +133,13 @@ Always pass the resolved `delivery_strategy`, `chain_strategy`, and PR boundary/
 
 When launching `sdd-apply`, always include the resolved `delivery_strategy`, `chain_strategy`, and any chosen PR boundary/exception in the prompt.
 
-<!-- gentle-ai:sdd-model-assignments -->
+<!-- mr-mauroo-ai:sdd-model-assignments -->
 
 ## Model Assignments
 
 Read this table before the first SDD/Judgment-Day delegation in a session, cache it, and use the mapped alias only for SDD/Judgment-Day phase agents. If a phase is missing, use `default`. If the assigned model is unavailable, substitute `sonnet` and continue.
 
-The Claude Code session model is controlled by Claude Code itself; Gentle AI does not configure the main orchestrator model. This table applies only to Agent tool calls for SDD/Judgment-Day phase sub-agents, not generic delegation.
+The Claude Code session model is controlled by Claude Code itself; Mr.Mauroo AI does not configure the main orchestrator model. This table applies only to Agent tool calls for SDD/Judgment-Day phase sub-agents, not generic delegation.
 
 **Mandatory phase model gate:** Agent tool calls for SDD/Judgment-Day phase agents MUST include `model`. Generic/non-SDD delegation MUST NOT use this table; omit `model` unless the user explicitly requested an override.
 
@@ -155,7 +155,7 @@ The Claude Code session model is controlled by Claude Code itself; Gentle AI doe
 | sdd-archive | haiku         | default | Copy and close                             |
 | default     | sonnet        | default | SDD/JD phase fallback                      |
 
-<!-- /gentle-ai:sdd-model-assignments -->
+<!-- /mr-mauroo-ai:sdd-model-assignments -->
 
 ### Sub-Agent Launch Deduplication (MANDATORY)
 

@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/gentleman-programming/gentle-ai/internal/state"
-	"github.com/gentleman-programming/gentle-ai/internal/system"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/state"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/system"
 )
 
 // UpdateCheckTTL is the minimum time between remote update checks. Launches

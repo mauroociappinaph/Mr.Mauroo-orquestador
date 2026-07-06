@@ -6,11 +6,11 @@
 
 Direct user and orchestrator conversation MUST be governed by the active persona. Persona rules MUST apply to conversational replies, clarification prompts, and user-facing orchestration status, but MUST NOT be treated as the default language or regional style for generated technical artifacts.
 
-#### Scenario: Gentleman governs direct conversation
+#### Scenario: Mr.Mauroo governs direct conversation
 
-- GIVEN the active persona is `gentleman`
+- GIVEN the active persona is `mr-mauroo`
 - WHEN the agent replies directly to the user or orchestrator
-- THEN the reply MUST preserve the Gentleman teaching voice
+- THEN the reply MUST preserve the Mr.Mauroo teaching voice
 - AND the reply MUST use the expected Rioplatense senior-architect style when Spanish is used
 - AND the reply MAY use voseo, warm/direct phrasing, and concept-before-code explanations
 
@@ -44,10 +44,10 @@ Generated technical artifacts MUST default to English regardless of active perso
 
 #### Scenario: Persona-specific voice is excluded from generated technical files
 
-- GIVEN the active persona is `gentleman`
+- GIVEN the active persona is `mr-mauroo`
 - WHEN the agent writes specs, designs, tasks, generated code comments, UI copy, tests, fixtures, or prompt-generated technical files
 - THEN those files MUST default to English
-- AND they MUST NOT use voseo or regional Spanish terms from the Gentleman persona unless explicitly requested for that artifact
+- AND they MUST NOT use voseo or regional Spanish terms from the Mr.Mauroo persona unless explicitly requested for that artifact
 
 #### Scenario: Project convention can require a non-English artifact
 
@@ -175,7 +175,7 @@ Every supported SDD orchestrator asset MUST codify the persona/artifact/comment 
 #### Scenario: Persona-specific direct conversation assets remain allowed
 
 - GIVEN asset language guards inspect supported assets
-- WHEN Gentleman direct-conversation persona assets are inspected
+- WHEN Mr.Mauroo direct-conversation persona assets are inspected
 - THEN tests MAY allow intentional Rioplatense direct-conversation wording in those persona assets
 - AND tests MUST still prevent those persona rules from becoming the default for technical artifacts or comments
 

@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gentleman-programming/gentle-ai/internal/components/filemerge"
+	"github.com/mr-mauroo/mr-mauroo-ai/internal/components/filemerge"
 )
 
 type jsonPath []string
@@ -36,7 +36,7 @@ func removeMarkdownSections(content string, sectionIDs ...string) (string, bool)
 
 func removeManagedPersonaPreamble(content string) (string, bool) {
 	normalized := strings.ReplaceAll(content, "\r\n", "\n")
-	markerIdx := strings.Index(normalized, "<!-- gentle-ai:")
+	markerIdx := strings.Index(normalized, "<!-- mr-mauroo-ai:")
 
 	prefix := normalized
 	suffix := ""
@@ -58,7 +58,7 @@ func removeManagedPersonaPreamble(content string) (string, bool) {
 }
 
 func looksLikeManagedPersonaPrefix(prefix string) bool {
-	if strings.Contains(prefix, "name: Gentle AI Persona") && strings.Contains(prefix, "description: Teaching-oriented persona") {
+	if strings.Contains(prefix, "name: Mr.Mauroo AI Persona") && strings.Contains(prefix, "description: Teaching-oriented persona") {
 		return true
 	}
 

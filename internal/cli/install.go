@@ -19,11 +19,11 @@ type InstallFlags struct {
 	DryRun     bool
 }
 
-const installChannelHelp = "Gentle AI channel: stable (default), beta, or nightly (alias for beta) — env: GENTLE_AI_CHANNEL"
+const installChannelHelp = "Mr.Mauroo AI channel: stable (default), beta, or nightly (alias for beta) — env: GENTLE_AI_CHANNEL"
 
 func PrintInstallHelp(w io.Writer) {
 	fmt.Fprint(w, `USAGE
-  gentle-ai install [flags]
+  mr-mauroo-ai install [flags]
 
 FLAGS
   --agent, --agents <list>           Agents to install
