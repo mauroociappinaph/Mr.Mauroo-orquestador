@@ -1,2 +1,2 @@
-// V0 stub — gateway adapter types (no gateway)
-export type StudioGatewayAdapterType = "openclaw" | "hermes" | "custom" | "demo";
+// Stub — gateway adapter has been stripped from this fork.
+export type StudioGatewayAdapterType = "none";

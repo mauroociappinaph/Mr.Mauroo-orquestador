@@ -13,8 +13,9 @@ const isImagePath = (value: string): boolean => {
   return false;
 };
 
-const toMediaUrl = (path: string): string => {
-  return `/api/gateway/media?path=${encodeURIComponent(path)}`;
+const toMediaUrl = (_path: string): string => {
+  // Gateway media endpoint was stripped — path is unresolvable.
+  return "";
 };
 
 /**

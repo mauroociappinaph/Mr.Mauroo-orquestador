@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Claw3D",
-  description: "Focused operator studio for the OpenClaw gateway.",
+  description: "3D virtual office for AI agents.",
 };
 
 const display = Bebas_Neue({
