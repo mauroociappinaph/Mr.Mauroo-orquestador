@@ -3,7 +3,7 @@
 
 export type AgentRole = "architect" | "developer" | "reviewer" | "coordinator";
 
-export type AgentStatus = "idle" | "thinking" | "working" | "error";
+export type AgentStatus = "idle" | "thinking" | "working" | "interacting" | "error";
 
 export interface AgentSpec {
   id: string;
