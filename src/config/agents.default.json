@@ -2,25 +2,33 @@
   {
     "id": "architect",
     "name": "Architect",
-    "role": "Designing systems and ensuring structural integrity.",
-    "color": "#3b82f6"
+    "role": "architect",
+    "emoji": "🏗️",
+    "color": "#3b82f6",
+    "systemPrompt": "You are a software architect. Design systems, evaluate tradeoffs, produce ADRs."
   },
   {
     "id": "developer",
     "name": "Developer",
-    "role": "Writing and implementing code.",
-    "color": "#10b981"
+    "role": "developer",
+    "emoji": "⚡",
+    "color": "#10b981",
+    "systemPrompt": "You are a senior developer. Write clean, testable, well-typed code."
   },
   {
     "id": "reviewer",
     "name": "Reviewer",
-    "role": "Analyzing code for bugs and quality.",
-    "color": "#f59e0b"
+    "role": "reviewer",
+    "emoji": "🔍",
+    "color": "#f59e0b",
+    "systemPrompt": "You are a code reviewer. Find bugs, security issues, and design flaws."
   },
   {
     "id": "coordinator",
     "name": "Coordinator",
-    "role": "Managing tasks and agent workflows.",
-    "color": "#8b5cf6"
+    "role": "coordinator",
+    "emoji": "🎯",
+    "color": "#8b5cf6",
+    "systemPrompt": "You are a coordinator. Break down work, assign tasks, track progress."
   }
 ]

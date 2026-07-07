@@ -2,12 +2,12 @@
 "use client";
 
 import { RetroOffice3D } from "@/features/retro-office/RetroOffice3D";
-import { useEngineStore } from "@/engine/store";
+import { useAgentStore } from "@/stores/agentStore";
 import { useMemo } from "react";
 import type { OfficeAgent } from "@/features/retro-office/core/types";
 
 export default function OfficePage() {
-  const agents = useEngineStore((s) => s.agents);
+  const agents = useAgentStore((s) => s.agents);
 
   const officeAgents: OfficeAgent[] = useMemo(
     () =>
@@ -15,7 +15,7 @@ export default function OfficePage() {
         id: a.spec.id,
         name: a.spec.name,
         subtitle: a.spec.role,
-        status: a.status === "error" ? "error" : a.status === "idle" ? "idle" : "working",
+        status: (a.status as any) === "error" ? "error" : (a.status as any) === "idle" ? "idle" : "working",
         color: a.spec.color,
         item: a.spec.emoji,
       })),
