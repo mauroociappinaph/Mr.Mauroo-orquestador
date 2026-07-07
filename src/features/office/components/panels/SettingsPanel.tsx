@@ -22,13 +22,13 @@ type SettingsPanelProps = {
   onOfficeTitleChange?: (title: string) => void;
   onClose?: () => void;
   remoteOfficeEnabled?: boolean;
-  remoteOfficeSourceKind?: "presence_endpoint" | "openclaw_gateway";
+  remoteOfficeSourceKind?: "presence_endpoint";
   remoteOfficeLabel?: string;
   remoteOfficePresenceUrl?: string;
   remoteOfficeGatewayUrl?: string;
   remoteOfficeTokenConfigured?: boolean;
   onRemoteOfficeEnabledChange?: (enabled: boolean) => void;
-  onRemoteOfficeSourceKindChange?: (kind: "presence_endpoint" | "openclaw_gateway") => void;
+  onRemoteOfficeSourceKindChange?: (kind: "presence_endpoint") => void;
   onRemoteOfficeLabelChange?: (label: string) => void;
   onRemoteOfficePresenceUrlChange?: (url: string) => void;
   onRemoteOfficeGatewayUrlChange?: (url: string) => void;

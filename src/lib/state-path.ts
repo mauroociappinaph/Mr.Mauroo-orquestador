@@ -2,13 +2,13 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-const DIRNAME = ".openclaw";
+const DIRNAME = ".oficina3d";
 
 export const resolveStateDir = (
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = os.homedir,
 ): string => {
-  const override = env.OPENCLAW_STATE_DIR?.trim();
+  const override = env.OFICINA3D_STATE_DIR?.trim();
   if (override) return path.resolve(override.replace(/^~(?=$|[\\/])/, homedir()));
   const home = homedir();
   const dir = path.join(home, DIRNAME);

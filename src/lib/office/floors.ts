@@ -1,19 +1,15 @@
 export type FloorProvider =
-  | "openclaw"
-  | "hermes"
   | "paperclip"
   | "custom"
   | "demo"
   | "local"
-  | "claw3d";
+  | "oficina3d";
 export type FloorZone = "building" | "outside";
 
 export type FloorId =
   | "lobby"
-  | "openclaw-ground"
-  | "hermes-first"
   | "local-runtime"
-  | "claw3d-runtime"
+  | "oficina3d-runtime"
   | "custom-second"
   | "training"
   | "traders-floor"
@@ -46,28 +42,6 @@ export const OFFICE_FLOORS: readonly FloorDefinition[] = [
     runtimeProfileId: null,
   },
   {
-    id: "openclaw-ground",
-    label: "OpenClaw Floor",
-    shortLabel: "OpenClaw",
-    provider: "openclaw",
-    kind: "runtime",
-    zone: "building",
-    enabled: true,
-    sortOrder: 10,
-    runtimeProfileId: "openclaw-default",
-  },
-  {
-    id: "hermes-first",
-    label: "Hermes Floor",
-    shortLabel: "Hermes",
-    provider: "hermes",
-    kind: "runtime",
-    zone: "building",
-    enabled: true,
-    sortOrder: 20,
-    runtimeProfileId: "hermes-default",
-  },
-  {
     id: "local-runtime",
     label: "Local Runtime Floor",
     shortLabel: "Local",
@@ -79,15 +53,15 @@ export const OFFICE_FLOORS: readonly FloorDefinition[] = [
     runtimeProfileId: "local-default",
   },
   {
-    id: "claw3d-runtime",
-    label: "Claw3D Runtime Floor",
-    shortLabel: "Claw3D",
-    provider: "claw3d",
+    id: "oficina3d-runtime",
+    label: "Oficina 3D Runtime Floor",
+    shortLabel: "Oficina 3D",
+    provider: "oficina3d",
     kind: "runtime",
     zone: "building",
     enabled: true,
     sortOrder: 28,
-    runtimeProfileId: "claw3d-default",
+    runtimeProfileId: "oficina3d-default",
   },
   {
     id: "custom-second",

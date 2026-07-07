@@ -1,5 +1,5 @@
 // V0 stub — task board types
-export type TaskBoardSource = "local" | "github" | "gitlab" | "jira" | "linear" | "claw3d_manual";
+export type TaskBoardSource = "local" | "github" | "gitlab" | "jira" | "linear";
 export type TaskBoardStatus = "todo" | "in_progress" | "blocked" | "review" | "done";
 export type TaskBoardCard = {
   id: string;
@@ -10,7 +10,7 @@ export type TaskBoardCard = {
 };
 
 export function isTaskBoardSource(v: unknown): v is TaskBoardSource {
-  return typeof v === "string" && ["local", "github", "gitlab", "jira", "linear", "claw3d_manual"].includes(v);
+  return typeof v === "string" && ["local", "github", "gitlab", "jira", "linear"].includes(v);
 }
 
 export function isTaskBoardStatus(v: unknown): v is TaskBoardStatus {

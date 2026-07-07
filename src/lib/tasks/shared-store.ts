@@ -39,7 +39,7 @@ type SharedTaskStore = {
   tasks: SharedTaskRecord[];
 };
 
-const STORE_DIR = path.join("claw3d", "task-manager");
+const STORE_DIR = path.join("oficina3d", "task-manager");
 const STORE_FILE = "tasks.json";
 
 const ensureDirectory = (dirPath: string) => {
@@ -94,7 +94,7 @@ const normalizeTaskRecord = (value: unknown): SharedTaskRecord | null => {
     title,
     description: trimString(record.description),
     status: isTaskBoardStatus(record.status) ? record.status : "todo",
-    source: isTaskBoardSource(record.source) ? record.source : "claw3d_manual",
+    source: isTaskBoardSource(record.source) ? record.source : "local",
     sourceEventId: trimString(record.sourceEventId) || null,
     assignedAgentId: trimString(record.assignedAgentId) || null,
     createdAt,
@@ -240,7 +240,7 @@ export const upsertSharedTask = (
   const existing = store.tasks.find((entry) => entry.id === task.id) ?? null;
   const nowIso = task.updatedAt?.trim() || new Date().toISOString();
   const rawStatus = task.status ?? existing?.status ?? "todo";
-  const rawSource = (task.source as TaskBoardSource | undefined) ?? existing?.source ?? "claw3d_manual";
+  const rawSource = (task.source as TaskBoardSource | undefined) ?? existing?.source ?? "local";
   const notes = (task.notes ? [...task.notes] : [...(existing?.notes ?? [])])
     .slice(0, MAX_NOTES_COUNT)
     .map((n) => truncateField(n, MAX_NOTE_LENGTH));
@@ -250,7 +250,7 @@ export const upsertSharedTask = (
     title: truncateField(task.title.trim() || existing?.title || "Untitled task", MAX_TITLE_LENGTH),
     description: truncateField(task.description?.trim() ?? existing?.description ?? "", MAX_DESCRIPTION_LENGTH),
     status: isTaskBoardStatus(rawStatus) ? rawStatus : "todo",
-    source: isTaskBoardSource(rawSource) ? rawSource : "claw3d_manual",
+    source: isTaskBoardSource(rawSource) ? rawSource : "local",
     sourceEventId: task.sourceEventId ?? existing?.sourceEventId ?? null,
     assignedAgentId: task.assignedAgentId ?? existing?.assignedAgentId ?? null,
     createdAt: task.createdAt?.trim() || existing?.createdAt || nowIso,
