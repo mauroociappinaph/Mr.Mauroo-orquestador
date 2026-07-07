@@ -1,0 +1,26 @@
+[
+  {
+    "id": "architect",
+    "name": "Architect",
+    "role": "Designing systems and ensuring structural integrity.",
+    "color": "#3b82f6"
+  },
+  {
+    "id": "developer",
+    "name": "Developer",
+    "role": "Writing and implementing code.",
+    "color": "#10b981"
+  },
+  {
+    "id": "reviewer",
+    "name": "Reviewer",
+    "role": "Analyzing code for bugs and quality.",
+    "color": "#f59e0b"
+  },
+  {
+    "id": "coordinator",
+    "name": "Coordinator",
+    "role": "Managing tasks and agent workflows.",
+    "color": "#8b5cf6"
+  }
+]
