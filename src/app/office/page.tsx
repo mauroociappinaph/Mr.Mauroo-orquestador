@@ -3,11 +3,15 @@
 
 import { RetroOffice3D } from "@/features/retro-office/RetroOffice3D";
 import { useAgentStore } from "@/stores/agentStore";
+import { useBehaviorScheduler } from "@/engine/agents/useBehaviorScheduler";
 import { useMemo } from "react";
 import type { OfficeAgent } from "@/features/retro-office/core/types";
 
 export default function OfficePage() {
   const agents = useAgentStore((s) => s.agents);
+
+  // V0 — starts the agent autonomy loop (proximity interactions, work scheduling)
+  useBehaviorScheduler();
 
   const officeAgents: OfficeAgent[] = useMemo(
     () =>
