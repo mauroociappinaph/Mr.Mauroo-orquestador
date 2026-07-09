@@ -39,17 +39,21 @@ export default function OfficePage() {
   const onInteraction = useCallback((event: InteractionEvent) => {
     const ws = wsRef.current;
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
-    ws.send(
-      JSON.stringify({
-        type: "broadcast",
-        payload: {
-          type: "interaction",
-          from: event.from,
-          to: event.to,
-          kind: event.type,
-        },
-      }),
-    );
+    try {
+      ws.send(
+        JSON.stringify({
+          type: "broadcast",
+          payload: {
+            type: "interaction",
+            from: event.from,
+            to: event.to,
+            kind: event.type,
+          },
+        }),
+      );
+    } catch {
+      // WS connection likely dropped between the readyState check and send
+    }
   }, []);
 
   // V0 — starts the agent autonomy loop (proximity interactions, work scheduling)

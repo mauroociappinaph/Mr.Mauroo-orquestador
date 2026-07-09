@@ -46,6 +46,8 @@ export class BehaviorScheduler {
   private config: SchedulerConfig;
   private timer: ReturnType<typeof setInterval> | null = null;
   private interactingTimers: Map<string, ReturnType<typeof setTimeout>> = new Map();
+  /** Timestamp (ms) of when each agent last finished an interaction — prevents immediate re-trigger */
+  private lastInteractionTimestamps: Map<string, number> = new Map();
   private onInteraction?: (event: InteractionEvent) => void;
 
   constructor(
@@ -118,8 +120,10 @@ export class BehaviorScheduler {
       position: { x: point.x, z: point.z },
     });
 
-    // After travel time, trigger interaction
-    const travelMs = 3000;
+    // Estimate travel time from the furthest agent (Manhattan distance / walk speed)
+    const dist1 = Math.abs(a1.position.x - point.x) + Math.abs(a1.position.z - point.z);
+    const dist2 = Math.abs(a2.position.x - point.x) + Math.abs(a2.position.z - point.z);
+    const travelMs = Math.max(500, Math.ceil(Math.max(dist1, dist2) / 2 * 1000));
     setTimeout(() => {
       const laterStore = useAgentStore.getState();
       const a1Later = laterStore.agents.find((a) => a.spec.id === agentId1);
@@ -142,6 +146,10 @@ export class BehaviorScheduler {
         const s = useAgentStore.getState();
         s.setAgentStatus(agentId1, "idle");
         s.setAgentStatus(agentId2, "idle");
+        this.interactingTimers.delete(agentId1);
+        this.interactingTimers.delete(agentId2);
+        this.lastInteractionTimestamps.set(agentId1, Date.now());
+        this.lastInteractionTimestamps.set(agentId2, Date.now());
         this.onInteraction?.({ from: agentId1, to: agentId2, type: "end" });
       }, this.config.interactionDurationMs);
 
@@ -158,6 +166,13 @@ export class BehaviorScheduler {
     const store = useAgentStore.getState();
     const agents = store.agents;
     if (agents.length < 2) return;
+
+    // Prune stale cooldown entries (only keep within twice the interval)
+    const now = Date.now();
+    const pruneAfter = this.config.tickIntervalMs * 2;
+    for (const [id, ts] of this.lastInteractionTimestamps) {
+      if (now - ts > pruneAfter) this.lastInteractionTimestamps.delete(id);
+    }
 
     this.checkProximityInteractions(agents, store);
     this.scheduleIdleWork(agents, store);
@@ -193,8 +208,12 @@ export class BehaviorScheduler {
     a2: AgentInstance,
     store: ReturnType<typeof useAgentStore.getState>,
   ): void {
-    // Guard: prevent double-triggering
+    // Guard: prevent double-triggering and cooldown
     if (this.interactingTimers.has(a1.spec.id) || this.interactingTimers.has(a2.spec.id)) return;
+    const now = Date.now();
+    const cooldown = this.config.tickIntervalMs;
+    if (now - (this.lastInteractionTimestamps.get(a1.spec.id) ?? 0) < cooldown) return;
+    if (now - (this.lastInteractionTimestamps.get(a2.spec.id) ?? 0) < cooldown) return;
 
     console.info(
       `[BehaviorScheduler] Proximity interaction: ${a1.spec.name} <-> ${a2.spec.name}`,
@@ -221,6 +240,8 @@ export class BehaviorScheduler {
       s.setAgentStatus(a2.spec.id, "idle");
       this.interactingTimers.delete(a1.spec.id);
       this.interactingTimers.delete(a2.spec.id);
+      this.lastInteractionTimestamps.set(a1.spec.id, Date.now());
+      this.lastInteractionTimestamps.set(a2.spec.id, Date.now());
       this.onInteraction?.({ from: a1.spec.id, to: a2.spec.id, type: "end" });
     }, this.config.interactionDurationMs);
 

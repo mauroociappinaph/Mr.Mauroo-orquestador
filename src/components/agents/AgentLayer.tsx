@@ -41,6 +41,16 @@ export const AgentLayer: React.FC = () => {
 
   // ── Per-frame animation loop ─────────────────────────────────
   useFrame((_, delta) => {
+    // Prune maps for agents removed from store
+    const activeIds = new Set(agents.map((a) => a.spec.id));
+    for (const id of groupRefs.current.keys()) {
+      if (!activeIds.has(id)) {
+        groupRefs.current.delete(id);
+        animStates.current.delete(id);
+        lastPositions.current.delete(id);
+      }
+    }
+
     for (const agent of agents) {
       const group = groupRefs.current.get(agent.spec.id);
       if (!group) continue;
@@ -102,10 +112,15 @@ export const AgentLayer: React.FC = () => {
         <group
           key={agent.spec.id}
           ref={(ref) => {
-            // Initialize position on first render only
-            if (ref && !groupRefs.current.has(agent.spec.id)) {
-              ref.position.set(agent.position.x, 0, agent.position.z);
-              groupRefs.current.set(agent.spec.id, ref);
+            if (ref) {
+              // Initialize position on first render only
+              if (!groupRefs.current.has(agent.spec.id)) {
+                ref.position.set(agent.position.x, 0, agent.position.z);
+                groupRefs.current.set(agent.spec.id, ref);
+              }
+            } else {
+              // Clean up on unmount — guards against Strict Mode double-fire
+              groupRefs.current.delete(agent.spec.id);
             }
           }}
         >
