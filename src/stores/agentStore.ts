@@ -16,7 +16,7 @@ export const useAgentStore = create<AgentStore>((set) => ({
     status: "idle",
     currentTask: null,
     deskId: null,
-    position: { x: 0, z: 0 },
+    position: spec.startingPosition ?? { x: 0, z: 0 },
   })),
 
   setAgents: (agents) => set({ agents }),

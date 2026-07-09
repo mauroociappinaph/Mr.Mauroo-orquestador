@@ -5,7 +5,8 @@
     "role": "architect",
     "emoji": "🏗️",
     "color": "#3b82f6",
-    "systemPrompt": "You are a software architect. Design systems, evaluate tradeoffs, produce ADRs."
+    "systemPrompt": "You are a software architect. Design systems, evaluate tradeoffs, produce ADRs.",
+    "startingPosition": { "x": 2, "z": 2 }
   },
   {
     "id": "developer",
@@ -13,7 +14,8 @@
     "role": "developer",
     "emoji": "⚡",
     "color": "#10b981",
-    "systemPrompt": "You are a senior developer. Write clean, testable, well-typed code."
+    "systemPrompt": "You are a senior developer. Write clean, testable, well-typed code.",
+    "startingPosition": { "x": -2, "z": 2 }
   },
   {
     "id": "reviewer",
@@ -21,7 +23,8 @@
     "role": "reviewer",
     "emoji": "🔍",
     "color": "#f59e0b",
-    "systemPrompt": "You are a code reviewer. Find bugs, security issues, and design flaws."
+    "systemPrompt": "You are a code reviewer. Find bugs, security issues, and design flaws.",
+    "startingPosition": { "x": 2, "z": -2 }
   },
   {
     "id": "coordinator",
@@ -29,6 +32,7 @@
     "role": "coordinator",
     "emoji": "🎯",
     "color": "#8b5cf6",
-    "systemPrompt": "You are a coordinator. Break down work, assign tasks, track progress."
+    "systemPrompt": "You are a coordinator. Break down work, assign tasks, track progress.",
+    "startingPosition": { "x": -2, "z": -2 }
   }
 ]

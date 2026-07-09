@@ -12,6 +12,7 @@ export interface AgentSpec {
   emoji: string;
   color: string;
   systemPrompt: string;
+  startingPosition?: { x: number; z: number };
 }
 
 export interface AgentInstance {

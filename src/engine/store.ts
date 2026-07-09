@@ -12,6 +12,7 @@ const DEFAULT_AGENTS: AgentSpec[] = [
     emoji: "🏗️",
     color: "#60a5fa",
     systemPrompt: "You are a software architect. Design systems, evaluate tradeoffs, produce ADRs.",
+    startingPosition: { x: 2, z: 2 },
   },
   {
     id: "dev-1",
@@ -20,6 +21,7 @@ const DEFAULT_AGENTS: AgentSpec[] = [
     emoji: "⚡",
     color: "#34d399",
     systemPrompt: "You are a senior developer. Write clean, testable, well-typed code.",
+    startingPosition: { x: -2, z: 2 },
   },
   {
     id: "rev-1",
@@ -28,6 +30,7 @@ const DEFAULT_AGENTS: AgentSpec[] = [
     emoji: "🔍",
     color: "#fbbf24",
     systemPrompt: "You are a code reviewer. Find bugs, security issues, and design flaws.",
+    startingPosition: { x: 2, z: -2 },
   },
   {
     id: "coor-1",
@@ -36,6 +39,7 @@ const DEFAULT_AGENTS: AgentSpec[] = [
     emoji: "🎯",
     color: "#f472b6",
     systemPrompt: "You are a coordinator. Break down work, assign tasks, track progress.",
+    startingPosition: { x: -2, z: -2 },
   },
 ];
 
@@ -57,7 +61,7 @@ export const useEngineStore = create<EngineState>((set) => ({
     status: "idle" as AgentStatus,
     currentTask: null,
     deskId: null,
-    position: { x: 0, z: 0 },
+    position: spec.startingPosition ?? { x: 0, z: 0 },
   })),
 
   messages: [],
@@ -79,6 +83,11 @@ export const useEngineStore = create<EngineState>((set) => ({
 
   resetAgents: () =>
     set((s) => ({
-      agents: s.agents.map((a) => ({ ...a, status: "idle" as AgentStatus, currentTask: null })),
+      agents: s.agents.map((a) => ({
+        ...a,
+        status: "idle" as AgentStatus,
+        currentTask: null,
+        position: a.spec.startingPosition ?? { x: 0, z: 0 },
+      })),
     })),
 }));
