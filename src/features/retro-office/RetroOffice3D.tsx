@@ -31,6 +31,7 @@ import { SettingsPanel } from "@/features/office/components/panels/SettingsPanel
 import { AtmImmersiveScreen } from "@/features/office/screens/AtmImmersiveScreen";
 import { GithubImmersiveScreen } from "@/features/office/screens/GithubImmersiveScreen";
 import { KanbanImmersiveScreen } from "@/features/office/screens/KanbanImmersiveScreen";
+import { AgentLayer } from "@/components/agents/AgentLayer";
 import {
   PhoneBoothImmersiveScreen,
   type PhoneCallStep,
@@ -5827,6 +5828,7 @@ export function RetroOffice3D({
               onMove={handleFloorMove}
               onClick={handleFloorClick}
             />
+            <AgentLayer />
           </Canvas>
         ) : null}
       </div>

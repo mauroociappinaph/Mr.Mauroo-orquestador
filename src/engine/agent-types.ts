@@ -3,7 +3,7 @@
 
 export type AgentRole = "architect" | "developer" | "reviewer" | "coordinator";
 
-export type AgentStatus = "idle" | "thinking" | "working" | "error";
+export type AgentStatus = "idle" | "thinking" | "working" | "interacting" | "error";
 
 export interface AgentSpec {
   id: string;
@@ -12,6 +12,7 @@ export interface AgentSpec {
   emoji: string;
   color: string;
   systemPrompt: string;
+  startingPosition?: { x: number; z: number };
 }
 
 export interface AgentInstance {
@@ -19,6 +20,7 @@ export interface AgentInstance {
   status: AgentStatus;
   currentTask: string | null;
   deskId: string | null;
+  position: { x: number; z: number };
 }
 
 export interface EngineMessage {
