@@ -10,6 +10,7 @@ export class AgentRegistry {
         status: "idle",
         currentTask: null,
         deskId: null,
+        position: { x: 0, z: 0 },
       });
     });
   }

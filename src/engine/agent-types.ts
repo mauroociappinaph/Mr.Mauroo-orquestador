@@ -19,6 +19,7 @@ export interface AgentInstance {
   status: AgentStatus;
   currentTask: string | null;
   deskId: string | null;
+  position: { x: number; z: number };
 }
 
 export interface EngineMessage {

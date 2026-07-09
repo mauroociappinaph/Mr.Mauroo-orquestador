@@ -8,7 +8,7 @@ export const AgentLayer: React.FC = () => {
   return (
     <group>
       {agents.map((agent) => (
-        <group key={agent.spec.id} position={[agent.deskId ? 0 : 0, 0, 0] /* TODO: Actual desk position */}>
+        <group key={agent.spec.id} position={[agent.position.x, 0, agent.position.z]}>
            <AgentAvatar agent={agent} status={agent.status} />
         </group>
       ))}

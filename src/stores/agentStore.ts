@@ -1,40 +1,8 @@
 import { create } from 'zustand';
+import defaultAgents from '@/config/agents.default.json';
 import { AgentInstance, AgentSpec } from '@/engine/agent-types';
 
-const DEFAULT_AGENTS: AgentSpec[] = [
-  {
-    id: "architect",
-    name: "Architect",
-    role: "architect",
-    emoji: "🏗️",
-    color: "#3b82f6",
-    systemPrompt: "You are a software architect. Design systems, evaluate tradeoffs, produce ADRs.",
-  },
-  {
-    id: "developer",
-    name: "Developer",
-    role: "developer",
-    emoji: "⚡",
-    color: "#10b981",
-    systemPrompt: "You are a senior developer. Write clean, testable, well-typed code.",
-  },
-  {
-    id: "reviewer",
-    name: "Reviewer",
-    role: "reviewer",
-    emoji: "🔍",
-    color: "#f59e0b",
-    systemPrompt: "You are a code reviewer. Find bugs, security issues, and design flaws.",
-  },
-  {
-    id: "coordinator",
-    name: "Coordinator",
-    role: "coordinator",
-    emoji: "🎯",
-    color: "#8b5cf6",
-    systemPrompt: "You are a coordinator. Break down work, assign tasks, track progress.",
-  },
-];
+const DEFAULT_AGENTS = defaultAgents as AgentSpec[];
 
 interface AgentStore {
   agents: AgentInstance[];
@@ -48,6 +16,7 @@ export const useAgentStore = create<AgentStore>((set) => ({
     status: "idle",
     currentTask: null,
     deskId: null,
+    position: { x: 0, z: 0 },
   })),
 
   setAgents: (agents) => set({ agents }),

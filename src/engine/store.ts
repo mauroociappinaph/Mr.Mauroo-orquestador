@@ -57,6 +57,7 @@ export const useEngineStore = create<EngineState>((set) => ({
     status: "idle" as AgentStatus,
     currentTask: null,
     deskId: null,
+    position: { x: 0, z: 0 },
   })),
 
   messages: [],

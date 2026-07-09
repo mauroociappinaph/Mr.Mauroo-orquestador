@@ -15,7 +15,7 @@ export default function OfficePage() {
         id: a.spec.id,
         name: a.spec.name,
         subtitle: a.spec.role,
-        status: (a.status as any) === "error" ? "error" : (a.status as any) === "idle" ? "idle" : "working",
+        status: a.status === "error" ? "error" : a.status === "idle" ? "idle" : "working",
         color: a.spec.color,
         item: a.spec.emoji,
       })),

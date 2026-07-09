@@ -5828,7 +5828,7 @@ export function RetroOffice3D({
               onMove={handleFloorMove}
               onClick={handleFloorClick}
             />
-              <AgentLayer />
+            <AgentLayer />
           </Canvas>
         ) : null}
       </div>
