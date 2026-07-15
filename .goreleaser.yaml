@@ -7,7 +7,7 @@ before:
     - go mod tidy
 
 builds:
-  - main: ./cmd/mr-mauroo-ai
+  - main: ./cmd/gentle-ai
     binary: mr-mauroo-ai
     env:
       - CGO_ENABLED=0
